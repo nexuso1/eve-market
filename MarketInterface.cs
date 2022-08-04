@@ -3,6 +3,7 @@ using ESI.NET.Models.SSO;
 using System.Collections.Generic;
 using System.Text;
 using System.IO;
+using ESI.NET.Enumerations;
 
 namespace eve_market
 {
@@ -46,19 +47,28 @@ namespace eve_market
         }
         public void HandleOrders(string[] tokens)
         {
-            return;
+            if (!mainInterface.CheckAuthorization()) return;
+
+            var data = mainInterface.Client.Market.CharacterOrders().Result.Data;
+            var buyOrders = new List<ESI.NET.Models.Market.Order>;
+            foreach (var order in data)
+            {
+                if (order.IsBuyOrder) {
+                    buyOrders.Add(order);
+                    continue;
+                }
+
+                // TODO: Implement this
+                // typeName = mainInterface.universeInterface.SearchId(order.TypeId, SearchCategory.InventoryType);
+            }
         }
 
         public void HandleWallet(string[] tokens)
         {
-            if (!mainInterface.IsAuthorized)
-            {
-                output.WriteLine("No character authorized. Please use command \"authorize\" to authorize one of your characters.");
-                return;
-            }
+            if (!mainInterface.CheckAuthorization()) return;
 
-            var response = mainInterface.Client.Wallet.CharacterWallet().Result.Data;
-            output.WriteLine($"Your current personal account balance is {response} ISK.");
+            var data = mainInterface.Client.Wallet.CharacterWallet().Result.Data;
+            output.WriteLine($"Your current personal account balance is {data} ISK.");
             return;
         }
     }

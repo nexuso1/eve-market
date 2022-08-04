@@ -77,6 +77,17 @@ namespace eve_market
             return;
         }
 
+        public bool CheckAuthorization()
+        {
+            if (!IsAuthorized)
+            {
+                Output.WriteLine("No character authorized. Please use command \"authorize\" to authorize one of your characters.");
+                return false;
+            }
+
+            return true;
+        }
+
         async public void HandleAuthorize(string[] tokens)
         {
             // OAuth code challeneg
