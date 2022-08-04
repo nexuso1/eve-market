@@ -57,7 +57,9 @@ namespace eve_market
                 return;
             }
 
-            var response = mainInterface.Client.Wallet.CharacterWallet();
+            var response = mainInterface.Client.Wallet.CharacterWallet().Result.Data;
+            output.WriteLine($"Your current personal account balance is {response} ISK.");
+            return;
         }
     }
 }

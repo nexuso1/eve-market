@@ -35,8 +35,9 @@ namespace eve_market
                         apiInterface.HandleSetDefault(tokens);
                         break;
 
-                    case "search":
-
+                    case "wallet":
+                        apiInterface.marketInterface.HandleWallet(tokens);
+                        break;
 
                     case "exit":
                         return;
