@@ -35,6 +35,9 @@ namespace eve_market
                         apiInterface.HandleSetDefault(tokens);
                         break;
 
+                    case "search":
+
+
                     case "exit":
                         return;
 

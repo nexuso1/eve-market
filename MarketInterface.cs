@@ -20,6 +20,7 @@ namespace eve_market
             mainInterface = @interface;
         }
 
+
         public void HandleDefaults(string[] tokens)
         {
             if (tokens.Length < 3)
@@ -28,7 +29,8 @@ namespace eve_market
             }
 
             // Slice out the rest of the tokens, make them into an array and join them with ' '.
-            var name = string.Join(' ', new ArraySegment<string>(tokens, 2, tokens.Length - 2).ToArray());
+            var name = mainInterface.StringFromSlice(tokens, 2, tokens.Length - 2);
+
             switch (tokens[1])
             {
                 case "region":
@@ -38,9 +40,24 @@ namespace eve_market
                     defaultStation = name;
                     return;
                 default:
-                    output.WriteLine("invalid name of a default setting");
+                    output.WriteLine("Invalid name of a default setting");
                     return;
             }
+        }
+        public void HandleOrders(string[] tokens)
+        {
+            return;
+        }
+
+        public void HandleWallet(string[] tokens)
+        {
+            if (!mainInterface.IsAuthorized)
+            {
+                output.WriteLine("No character authorized. Please use command \"authorize\" to authorize one of your characters.");
+                return;
+            }
+
+            var response = mainInterface.Client.Wallet.CharacterWallet();
         }
     }
 }

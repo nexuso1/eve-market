@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.IO;
+using System.Net;
 using ESI.NET.Models.SSO;
 using ESI.NET;
 using ESI.NET.Enumerations;
@@ -14,9 +15,8 @@ namespace eve_market
         public TextWriter Output; // Stream to which output will be written
 
         private SsoToken authToken;
-
-        private bool authorized = false;
-
+        private AuthorizedCharacterData authData;
+        public bool IsAuthorized { get; private set; }
         public SsoToken AuthToken
         {
             private get { return authToken; }
@@ -24,7 +24,18 @@ namespace eve_market
             set
             {
                 authToken = value;
-                authorized = true;
+                IsAuthorized = true;
+                Output.WriteLine("Succesfully authorized.");
+            }
+        }
+
+        public AuthorizedCharacterData AuthData
+        {
+            get { return authData; }
+            set
+            {
+                authData = value;
+                Output.WriteLine($"Welcome, {authData.CharacterName}.");
             }
         }
 
@@ -36,6 +47,10 @@ namespace eve_market
         {
             Client = client;
             Output = writer;
+
+            // Create interfaces
+            marketInterface = new MarketInterface(this, Output);
+            universeInterface = new UniverseInterface(this, Output);
         }
 
         public string GenerateStateString(int length = 10)
@@ -49,6 +64,11 @@ namespace eve_market
             }
 
             return temp_string.ToString();
+        }
+
+        public string StringFromSlice(string[] tokens, int offset, int size, char sep = ' ')
+        {
+            return string.Join(' ', new ArraySegment<string>(tokens, offset, size).ToArray());
         }
 
         public void HandleSetDefault(string[] tokens)
@@ -83,17 +103,19 @@ namespace eve_market
             // Reterned url query string
             var queryString = context.Request.QueryString;
             var code = queryString["code"];
-            var receivedChallenge = queryString["challenge"];
+            var receivedState = queryString["state"];
 
             // Tampered challenge
-            if (challenge != receivedChallenge)
+            if (state != receivedState)
             {
-                Output.WriteLine("Invalid challenge code received. Please check your network and try again.");
+                Output.WriteLine("Invalid state received. Please check your network and try again.");
                 return;
             }
 
             // Obtain the authorization token
             AuthToken = await Client.SSO.GetToken(GrantType.AuthorizationCode, code, challenge);
+            var authData = await Client.SSO.Verify(AuthToken);
+            Client.SetCharacterData(authData);
 
             // Prepare a response after authorization
             var response = context.Response;
