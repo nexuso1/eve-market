@@ -125,8 +125,8 @@ namespace eve_market
 
             // Obtain the authorization token
             AuthToken = await Client.SSO.GetToken(GrantType.AuthorizationCode, code, challenge);
-            var authData = await Client.SSO.Verify(AuthToken);
-            Client.SetCharacterData(authData);
+            AuthData = await Client.SSO.Verify(AuthToken);
+            Client.SetCharacterData(AuthData);
 
             // Prepare a response after authorization
             var response = context.Response;

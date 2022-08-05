@@ -50,7 +50,8 @@ namespace eve_market
             if (!mainInterface.CheckAuthorization()) return;
 
             var data = mainInterface.Client.Market.CharacterOrders().Result.Data;
-            var buyOrders = new List<ESI.NET.Models.Market.Order>;
+            var buyOrders = new List<ESI.NET.Models.Market.Order>();
+            var sellOrders = new List<ESI.NET.Models.Market.Order>();
             foreach (var order in data)
             {
                 if (order.IsBuyOrder) {
@@ -58,17 +59,20 @@ namespace eve_market
                     continue;
                 }
 
+                sellOrders.Add(order);
+
                 // TODO: Implement this
                 // typeName = mainInterface.universeInterface.SearchId(order.TypeId, SearchCategory.InventoryType);
             }
         }
 
-        public void HandleWallet(string[] tokens)
+        async public void HandleWallet(string[] tokens)
         {
             if (!mainInterface.CheckAuthorization()) return;
 
-            var data = mainInterface.Client.Wallet.CharacterWallet().Result.Data;
-            output.WriteLine($"Your current personal account balance is {data} ISK.");
+            var response = await mainInterface.Client.Wallet.CharacterWallet();
+            var balance = response.Message;
+            output.WriteLine($"Your current personal account balance is {balance} ISK.");
             return;
         }
     }
