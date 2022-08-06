@@ -82,5 +82,20 @@ namespace eve_market
         }
 
 
+        public string IdToName(long id)
+        {
+            if (idToNameCache.ContainsKey(id))
+            {
+                return idToNameCache[id];
+            }
+
+            var result = mainInterface.Client.Universe.Names(new List<long> { id }).Result.Data;
+            string name = result[0].Name;
+
+            idToNameCache[id] = name;
+            nameToIdCache[name] = id;
+
+            return name;
+        }
     };
 }

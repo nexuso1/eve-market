@@ -60,9 +60,6 @@ namespace eve_market
                 }
 
                 sellOrders.Add(order);
-
-                // TODO: Implement this
-                // typeName = mainInterface.universeInterface.SearchId(order.TypeId, SearchCategory.InventoryType);
             }
         }
 
