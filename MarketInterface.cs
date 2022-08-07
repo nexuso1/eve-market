@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.IO;
 using ESI.NET.Enumerations;
+using ESI.NET.Models.Market;
 
 namespace eve_market
 {
@@ -50,8 +51,8 @@ namespace eve_market
             if (!mainInterface.CheckAuthorization()) return;
 
             var data = mainInterface.Client.Market.CharacterOrders().Result.Data;
-            var buyOrders = new List<ESI.NET.Models.Market.Order>();
-            var sellOrders = new List<ESI.NET.Models.Market.Order>();
+            var buyOrders = new List<Order>();
+            var sellOrders = new List<Order>();
             foreach (var order in data)
             {
                 if (order.IsBuyOrder) {
@@ -61,6 +62,7 @@ namespace eve_market
 
                 sellOrders.Add(order);
             }
+            
         }
 
         async public void HandleWallet(string[] tokens)

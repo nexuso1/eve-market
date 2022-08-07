@@ -21,16 +21,29 @@ namespace eve_market
             output = textWriter;
             mainInterface = @interface;
         }
-
+        /// <summary>
+        /// Find names of types/objects which containg a given string query and returns the API response
+        /// as a JOBject
+        /// </summary>
+        /// <param name="query"></param>
+        /// <param name="category"></param>
+        /// <returns>A JObject containing the matches</returns>
         public JObject SearchName(string query, SearchCategory category)
         {
-
+            
             var queryResult = mainInterface.Client.Search.Query(SearchType.Public, query, category).Result;
             var data = queryResult.Data.ToString();
 
             return JObject.Parse(data);
         }
 
+        /// <summary>
+        /// For a given name of object and it's type, finds its ID. 
+        /// Doesn't require exact names, will find the closest match and returns its ID
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="category"></param>
+        /// <returns>ID of the given query type/object</returns>
         public long NameToId(string name, SearchCategory category)
         {
             if (nameToIdCache.ContainsKey(name))
@@ -44,14 +57,17 @@ namespace eve_market
                 var result = mainInterface.Client.Universe.IDs(new List<string> { name }).Result.Data;
                 long typeId = result.InventoryTypes[0].Id;
 
+                // Save the result to cache
                 nameToIdCache[name] = typeId;
                 idToNameCache[typeId] = name;
 
                 return typeId;
             }
-
+            // Otherwise find the closest full name
             var matches = SearchName(name, category);
             var categoryKey = "";
+
+            // Find the correct key for this category
             switch (category)
             {
                 case SearchCategory.Station:
@@ -71,27 +87,38 @@ namespace eve_market
             }
 
             var closestMatch = matches[categoryKey][0].ToString();
+
+            // Query the server
             var response = mainInterface.Client.Universe.IDs(new List<string> { name }).Result.Data;
+            // Turn it into a JSON object to make working with it easier
             var resJson = JObject.Parse(response.ToString());
             long id = (long) resJson[categoryKey][0]["id"];
 
+            // Save the result to cache
             nameToIdCache[name] = id;
             idToNameCache[id] = closestMatch;
            
             return id;
         }
 
-
+        /// <summary>
+        /// Finds the name corresponding to this ID, caches it and returns it
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>Name corresponding to the given ID</returns>
         public string IdToName(long id)
         {
+            // Check the cache
             if (idToNameCache.ContainsKey(id))
             {
                 return idToNameCache[id];
             }
 
+            // Query the server
             var result = mainInterface.Client.Universe.Names(new List<long> { id }).Result.Data;
             string name = result[0].Name;
 
+            // Save the result to cache
             idToNameCache[id] = name;
             nameToIdCache[name] = id;
 

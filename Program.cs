@@ -38,7 +38,9 @@ namespace eve_market
                     case "wallet":
                         apiInterface.marketInterface.HandleWallet(tokens);
                         break;
-
+                    case "orders":
+                        apiInterface.marketInterface.HandleOrders(tokens);
+                        break;
                     case "exit":
                         return;
 

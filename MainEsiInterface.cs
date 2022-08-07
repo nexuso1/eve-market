@@ -29,6 +29,11 @@ namespace eve_market
             }
         }
 
+        public bool IsIdField(string field)
+        {
+            var idFields = 
+        }
+
         public AuthorizedCharacterData AuthData
         {
             get { return authData; }
