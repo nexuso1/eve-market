@@ -15,13 +15,14 @@ namespace eve_market
         public MainEsiInterface mainInterface;
         public string defaultStation = "Jita 4 4";
         public string defaultRegion = "The Forge";
+        public enum SortOrder { Ascending, Descending };
+        public enum SortBy { Price, Date, Volume, Region, Station };
 
         public MarketInterface(MainEsiInterface @interface, TextWriter textWriter)
         {
             output = textWriter;
             mainInterface = @interface;
         }
-
 
         public void HandleDefaults(string[] tokens)
         {
@@ -46,7 +47,7 @@ namespace eve_market
                     return;
             }
         }
-        public void HandleOrders(string[] tokens)
+        public void HandleOrders(string[] tokens, SortBy sortByType = SortBy.Price, SortOrder sortOrder = SortOrder.Descending)
         {
             if (!mainInterface.CheckAuthorization()) return;
 
@@ -62,7 +63,29 @@ namespace eve_market
 
                 sellOrders.Add(order);
             }
-            
+
+            switch (sortByType)
+            {
+                case SortBy.Price:
+                    sellOrders.Sort((x, y) => x.Price.CompareTo(y.Price));
+                    buyOrders.Sort((x, y) => x.Price.CompareTo(y.Price));
+                    break;
+                case SortBy.Date:
+                    sellOrders.Sort((x, y) => x.Issued.CompareTo(y.Issued));
+                    buyOrders.Sort((x, y) => x.Issued.CompareTo(y.Issued));
+                    break;
+                case SortBy.Volume:
+                    sellOrders.Sort((x, y) => x.VolumeRemain.CompareTo(y.VolumeRemain));
+                    buyOrders.Sort((x, y) => x.VolumeRemain.CompareTo(y.VolumeRemain));
+                    break;
+            }
+
+            if (sortOrder == SortOrder.Descending)
+            {
+                buyOrders.Reverse();
+                sellOrders.Reverse();
+            }
+
         }
 
         async public void HandleWallet(string[] tokens)

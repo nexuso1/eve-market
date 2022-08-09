@@ -6,6 +6,7 @@ using System.Net;
 using ESI.NET.Models.SSO;
 using ESI.NET;
 using ESI.NET.Enumerations;
+using Newtonsoft.Json.Converters;
 
 namespace eve_market
 {
@@ -31,7 +32,7 @@ namespace eve_market
 
         public bool IsIdField(string field)
         {
-            var idFields = 
+            return false;
         }
 
         public AuthorizedCharacterData AuthData
@@ -48,6 +49,7 @@ namespace eve_market
 
         public MarketInterface marketInterface;
         public UniverseInterface universeInterface;
+        public Printer printer;
         public MainEsiInterface(EsiClient client, TextWriter writer)
         {
             Client = client;
@@ -56,6 +58,9 @@ namespace eve_market
             // Create interfaces
             marketInterface = new MarketInterface(this, Output);
             universeInterface = new UniverseInterface(this, Output);
+            printer = new Printer(this, Output);
+
+            if (File.Exists("refresh.token")) LoadAuthToken();
         }
 
         public string GenerateStateString(int length = 10)
@@ -91,6 +96,26 @@ namespace eve_market
             }
 
             return true;
+        }
+
+        async private void LoadAuthToken(string path = "refresh.token")
+        {
+            using (var reader = new StreamReader(File.OpenRead(path)))
+            {
+                var refreshToken = reader.ReadLine();
+                var token = await Client.SSO.GetToken(GrantType.RefreshToken, refreshToken);
+
+                AuthToken = token;
+                AuthData = await Client.SSO.Verify(token);
+            }
+        }
+
+        private void SaveRefreshToken(SsoToken token)
+        {
+            using (var writer = new StreamWriter("refresh.token"))
+            {
+                writer.Write(token.RefreshToken);
+            }
         }
 
         async public void HandleAuthorize(string[] tokens)
@@ -132,6 +157,7 @@ namespace eve_market
             AuthToken = await Client.SSO.GetToken(GrantType.AuthorizationCode, code, challenge);
             AuthData = await Client.SSO.Verify(AuthToken);
             Client.SetCharacterData(AuthData);
+            SaveRefreshToken(AuthToken);
 
             // Prepare a response after authorization
             var response = context.Response;

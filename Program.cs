@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Net;
-using System.Net.Sockets;
 using System.IO;
 using ESI.NET;
 using ESI.NET.Enumerations;
