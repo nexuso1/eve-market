@@ -3,9 +3,6 @@ using System.IO;
 using ESI.NET;
 using ESI.NET.Enumerations;
 using Microsoft.Extensions.Options;
-using System.Text;
-using System.Collections.Generic;
-using ESI.NET.Models.SSO;
 
 namespace eve_market
 {
@@ -36,9 +33,22 @@ namespace eve_market
                     case "wallet":
                         apiInterface.marketInterface.HandleWallet(tokens);
                         break;
+                    case "my_orders":
+                        apiInterface.marketInterface.HandleMyOrders(tokens);
+                        break;
+
+                    case "my_order_history":
+                        apiInterface.marketInterface.HandleOrderHistory(tokens);
+                        break;
+
+                    case "info":
+                        apiInterface.universeInterface.HandleInfo(tokens);
+                        break;
+
                     case "orders":
                         apiInterface.marketInterface.HandleOrders(tokens);
                         break;
+
                     case "exit":
                         return;
 
@@ -59,18 +69,7 @@ namespace eve_market
         static void Main(string[] args)
         {
             System.Console.WriteLine("----- ESI Market Interface -----");
-            IOptions<EsiConfig> config = Options.Create(new EsiConfig()
-            {
-                EsiUrl = "https://esi.evetech.net/",
-                DataSource = DataSource.Tranquility,
-                ClientId = "0ae5b0cb1d754a2f87bf2d4fc8e23f50",
-                SecretKey = "ibhqopm0Kr4Bediz7PvppNuu3tiGbjnTQsHVHf3r", // Definitely should be somewhere secure, however this is just a project demo
-                CallbackUrl = $"http://localhost:8080/",
-                UserAgent = "Market-Interface"
-            });
-
-            EsiClient client = new EsiClient(config);
-            MainEsiInterface apiInterface = new MainEsiInterface(client, Console.Out);
+            MainEsiInterface apiInterface = new MainEsiInterface(Console.Out);
             InputParser parser = new InputParser(apiInterface);
 
             parser.ParseInput(Console.In, Console.Out);

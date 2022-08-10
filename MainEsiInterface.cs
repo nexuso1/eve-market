@@ -6,7 +6,7 @@ using System.Net;
 using ESI.NET.Models.SSO;
 using ESI.NET;
 using ESI.NET.Enumerations;
-using Newtonsoft.Json.Converters;
+using Microsoft.Extensions.Options;
 
 namespace eve_market
 {
@@ -30,11 +30,6 @@ namespace eve_market
             }
         }
 
-        public bool IsIdField(string field)
-        {
-            return false;
-        }
-
         public AuthorizedCharacterData AuthData
         {
             get { return authData; }
@@ -50,9 +45,9 @@ namespace eve_market
         public MarketInterface marketInterface;
         public UniverseInterface universeInterface;
         public Printer printer;
-        public MainEsiInterface(EsiClient client, TextWriter writer)
+        public MainEsiInterface(TextWriter writer)
         {
-            Client = client;
+            Client = createClient();
             Output = writer;
 
             // Create interfaces
@@ -60,7 +55,30 @@ namespace eve_market
             universeInterface = new UniverseInterface(this, Output);
             printer = new Printer(this, Output);
 
+            // Check if there is an existing authorization token
             if (File.Exists("refresh.token")) LoadAuthToken();
+
+        }
+
+        private EsiClient createClient()
+        {
+            IOptions<EsiConfig> config = Options.Create(new EsiConfig()
+            {
+                EsiUrl = "https://esi.evetech.net/",
+                DataSource = DataSource.Tranquility,
+                ClientId = "0ae5b0cb1d754a2f87bf2d4fc8e23f50",
+                SecretKey = "ibhqopm0Kr4Bediz7PvppNuu3tiGbjnTQsHVHf3r", // Definitely should be somewhere secure, however this is just a project demo
+                CallbackUrl = $"http://localhost:8080/",
+                UserAgent = "Market-Interface"
+            });
+
+            return new EsiClient(config);
+        }
+
+        public bool IsIdField(string field)
+        {
+            var id_fields = new HashSet<string> { "location_id", "region_id", "type_id" };
+            return id_fields.Contains(field);
         }
 
         public string GenerateStateString(int length = 10)
@@ -103,10 +121,20 @@ namespace eve_market
             using (var reader = new StreamReader(File.OpenRead(path)))
             {
                 var refreshToken = reader.ReadLine();
-                var token = await Client.SSO.GetToken(GrantType.RefreshToken, refreshToken);
+                try
+                {
+                    var token = await Client.SSO.GetToken(GrantType.RefreshToken, refreshToken);
+                    AuthToken = token;
+                    AuthData = await Client.SSO.Verify(token);
+                }
 
-                AuthToken = token;
-                AuthData = await Client.SSO.Verify(token);
+                catch (ArgumentException e)
+                {
+                    Output.WriteLine("Previous authorization is invalid. Please authorize a character again.");
+
+                    // Reload the client (some weird OAuth bug, if it's not reloaded the requests contain multiple copies of same headers)
+                    Client = createClient();
+                }
             }
         }
 
@@ -120,6 +148,11 @@ namespace eve_market
 
         async public void HandleAuthorize(string[] tokens)
         {
+            if (IsAuthorized)
+            {
+                await Client.SSO.RevokeToken(AuthData.Token);
+            }
+
             // OAuth code challeneg
             var challenge = Client.SSO.GenerateChallengeCode();
             // Random string for state parameter in ouath

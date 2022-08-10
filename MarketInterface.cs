@@ -24,6 +24,10 @@ namespace eve_market
             mainInterface = @interface;
         }
 
+        /// <summary>
+        /// Sets default values for region or station used when displaying market listings.
+        /// </summary>
+        /// <param name="tokens">Tokens from the input, including the original command</param>
         public void HandleDefaults(string[] tokens)
         {
             if (tokens.Length < 3)
@@ -47,11 +51,95 @@ namespace eve_market
                     return;
             }
         }
+
+        /// <summary>
+        /// Sorts orders based on various fields defined by SortBy enum and in ascending or descending order
+        /// </summary>
+        /// <param name="orders"></param>
+        /// <param name="sortByType"></param>
+        /// <param name="sortOrder"></param>
+        public void SortOrders(List<Order> orders, SortBy sortByType, SortOrder sortOrder)
+        {
+            switch (sortByType)
+            {
+                case SortBy.Price:
+                    orders.Sort((x, y) => x.Price.CompareTo(y.Price));
+                    break;
+                case SortBy.Date:
+                    orders.Sort((x, y) => x.Issued.CompareTo(y.Issued));
+                    break;
+                case SortBy.Volume:
+                    orders.Sort((x, y) => x.VolumeRemain.CompareTo(y.VolumeRemain));
+                    break;
+            }
+
+            if (sortOrder == SortOrder.Descending)
+            {
+                orders.Reverse();
+            }
+        }
+
         public void HandleOrders(string[] tokens, SortBy sortByType = SortBy.Price, SortOrder sortOrder = SortOrder.Descending)
         {
             if (!mainInterface.CheckAuthorization()) return;
 
+            // Gather the orders
             var data = mainInterface.Client.Market.CharacterOrders().Result.Data;
+            if (data.Count == 0)
+            {
+                output.WriteLine("No orders to print.");
+                return;
+            }
+
+            // Split them into buy and sell orders
+            var buyOrders = new List<Order>();
+            var sellOrders = new List<Order>();
+            foreach (var order in data)
+            {
+                if (order.IsBuyOrder)
+                {
+                    buyOrders.Add(order);
+                    continue;
+                }
+
+                sellOrders.Add(order);
+            }
+
+            // Sort as desired
+            SortOrders(sellOrders, sortByType, sortOrder);
+            SortOrders(buyOrders, sortByType, sortOrder);
+
+            var fields = new List<string> { "issued", "price", "type_id", "location_id", "region_id", "volume_remain", "volume_total" };
+
+            // Print to output
+            output.WriteLine("Sell Orders");
+            output.WriteLine();
+            mainInterface.printer.PrintJsonList<Order>(sellOrders, 20, 20, fields);
+            output.WriteLine();
+            output.WriteLine("Buy Orders");
+            output.WriteLine();
+            mainInterface.printer.PrintJsonList<Order>(sellOrders, 20, 20, fields);
+        }
+
+        /// <summary>
+        /// Gathers orders from the API, sorts them and prints them out to output
+        /// </summary>
+        /// <param name="tokens">Contains tokens from the command line.</param>
+        /// <param name="sortByType">Enum which determines the field by which to sort the orders</param>
+        /// <param name="sortOrder">Enum for ascending/descending sort order</param>
+        public void HandleMyOrders(string[] tokens, SortBy sortByType = SortBy.Date, SortOrder sortOrder = SortOrder.Descending)
+        {
+            if (!mainInterface.CheckAuthorization()) return;
+
+            // Gather the orders
+            var data = mainInterface.Client.Market.CharacterOrders().Result.Data;
+            if (data.Count == 0) 
+            { 
+                output.WriteLine("No orders to print."); 
+                return;
+            }
+
+            // Split them into buy and sell orders
             var buyOrders = new List<Order>();
             var sellOrders = new List<Order>();
             foreach (var order in data)
@@ -64,30 +152,134 @@ namespace eve_market
                 sellOrders.Add(order);
             }
 
-            switch (sortByType)
+            // Check for parameters
+            if (tokens.Length > 1)
             {
-                case SortBy.Price:
-                    sellOrders.Sort((x, y) => x.Price.CompareTo(y.Price));
-                    buyOrders.Sort((x, y) => x.Price.CompareTo(y.Price));
-                    break;
-                case SortBy.Date:
-                    sellOrders.Sort((x, y) => x.Issued.CompareTo(y.Issued));
-                    buyOrders.Sort((x, y) => x.Issued.CompareTo(y.Issued));
-                    break;
-                case SortBy.Volume:
-                    sellOrders.Sort((x, y) => x.VolumeRemain.CompareTo(y.VolumeRemain));
-                    buyOrders.Sort((x, y) => x.VolumeRemain.CompareTo(y.VolumeRemain));
-                    break;
-            }
+                var tokenSet = new HashSet<string>(tokens);
 
-            if (sortOrder == SortOrder.Descending)
-            {
-                buyOrders.Reverse();
-                sellOrders.Reverse();
-            }
+                // Check for different sort order
+                if (tokenSet.Contains("-a"))
+                {
+                    sortOrder = SortOrder.Ascending;
+                }
 
+                // Check for field determination
+                if (tokenSet.Contains("-d"))
+                {
+                    sortByType = SortBy.Date;
+                }
+
+                if (tokenSet.Contains("-r"))
+                {
+                    sortByType = SortBy.Region;
+                }
+
+                else if (tokenSet.Contains("-s"))
+                {
+                    sortByType = SortBy.Station;
+                }
+
+                else if (tokenSet.Contains("-v"))
+                {
+                    sortByType = SortBy.Volume;
+                }
+
+                else if (tokenSet.Contains("-p"))
+                {
+                    sortByType = SortBy.Price;
+                }
+                else if (tokenSet.Contains("-s"))
+                {
+                    sortByType = SortBy.Station;
+                }
+            }
+                // Sort as desired
+            SortOrders(sellOrders, sortByType, sortOrder);
+            SortOrders(buyOrders, sortByType, sortOrder);
+
+            var fields = new List<string> { "issued", "price", "type_id", "location_id", "region_id", "volume_remain", "volume_total" };
+
+            // Print to output
+            output.WriteLine("Sell Orders");
+            output.WriteLine();
+            mainInterface.printer.PrintJsonList<Order>(sellOrders, 20, 20, fields);
+            output.WriteLine();
+            output.WriteLine("Buy Orders");
+            output.WriteLine();
+            mainInterface.printer.PrintJsonList<Order>(sellOrders, 20, 20, fields);
         }
 
+        public void HandleOrderHistory(string[] tokens, SortBy sortByType = SortBy.Date, SortOrder sortOrder = SortOrder.Descending)
+        {
+            if (!mainInterface.CheckAuthorization()) return;
+
+            // Gather the orders
+            var orders = mainInterface.Client.Market.CharacterOrderHistory().Result.Data;
+            if (orders.Count == 0)
+            {
+                output.WriteLine("No orders to print.");
+                return;
+            }
+
+            // Check for parameters
+            if (tokens.Length > 1)
+            {
+                var tokenSet = new HashSet<string>(tokens);
+
+                // Check for different sort order
+                if (tokenSet.Contains("-a"))
+                {
+                    sortOrder = SortOrder.Ascending;
+                }
+
+                // Check for field determination
+                if (tokenSet.Contains("-d"))
+                {
+                    sortByType = SortBy.Date;
+                }
+
+                if (tokenSet.Contains("-r"))
+                {
+                    sortByType = SortBy.Region;
+                }
+
+                else if (tokenSet.Contains("-s"))
+                {
+                    sortByType = SortBy.Station;
+                }
+
+                else if (tokenSet.Contains("-v"))
+                {
+                    sortByType = SortBy.Volume;
+                }
+
+                else if (tokenSet.Contains("-p"))
+                {
+                    sortByType = SortBy.Price;
+                }
+                else if (tokenSet.Contains("-s"))
+                {
+                    sortByType = SortBy.Station;
+                }
+            }
+
+            // Sort as desired
+            SortOrders(orders, sortByType, sortOrder);
+
+            var fields = new List<string> { "issued", "price", "type_id", "location_id", "region_id", "volume_remain", "volume_total" };
+
+            // Print to output
+            output.WriteLine("Order History");
+            output.WriteLine();
+            mainInterface.printer.PrintJsonList<Order>(orders, 20, 20, fields);
+            output.WriteLine();
+        }
+
+
+        /// <summary>
+        /// Gathers information about the authorized characters' wallet and prints it out to output
+        /// </summary>
+        /// <param name="tokens">Included for the uniformity of API, not used</param>
         async public void HandleWallet(string[] tokens)
         {
             if (!mainInterface.CheckAuthorization()) return;

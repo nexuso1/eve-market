@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.IO;
 using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
 namespace eve_market
 {
     public class Printer
@@ -51,7 +52,7 @@ namespace eve_market
             output.WriteLine();
         }
 
-        public void PrintJsonList(List<JObject> jsonList, int width, int rows, List<string> fields)
+        public void PrintJsonList<T>(List<T> jsonList, int width, int rows, List<string> fields)
         {
             int counter = 0;
             var buffer = new StringBuilder();
@@ -62,7 +63,7 @@ namespace eve_market
                 {
                     break;
                 }
-                var json = jsonList[i];
+                var json = JObject.FromObject(jsonList[i]);
                 var fieldString = "";
                 for (int j = 0; j < fields.Count; j++)
                 {

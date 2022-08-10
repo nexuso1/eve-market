@@ -21,12 +21,26 @@ namespace eve_market
             output = textWriter;
             mainInterface = @interface;
         }
+
+        public void HandleInfo(string[] tokens)
+        {
+            var itemName = mainInterface.StringFromSlice(tokens, 1, tokens.Length - 1);
+            var itemId = NameToId(itemName, SearchCategory.InventoryType);
+            var itemDesc = mainInterface.Client.Universe.Type((int)itemId).Result.Data;
+            var itemCategory = mainInterface.Client.Market.Group(itemDesc.MarketGroupId).Result.Data;
+            output.WriteLine(itemDesc.Name);
+            output.Write($"Category: {itemCategory.Name}");
+            output.WriteLine($"Volume: {itemDesc.Volume}");
+            output.WriteLine($"Mass: {itemDesc.Mass}");
+            output.WriteLine(itemDesc.Description);
+        }
+
         /// <summary>
         /// Find names of types/objects which containg a given string query and returns the API response
         /// as a JOBject
         /// </summary>
         /// <param name="query"></param>
-        /// <param name="category"></param>
+        /// <param name="category">Enum describing the category of the object</param>
         /// <returns>A JObject containing the matches</returns>
         public JObject SearchName(string query, SearchCategory category)
         {
@@ -41,8 +55,8 @@ namespace eve_market
         /// For a given name of object and it's type, finds its ID. 
         /// Doesn't require exact names, will find the closest match and returns its ID
         /// </summary>
-        /// <param name="name"></param>
-        /// <param name="category"></param>
+        /// <param name="name">Name of the object</param>
+        /// <param name="category">Enum describing the category of the object</param>
         /// <returns>ID of the given query type/object</returns>
         public long NameToId(string name, SearchCategory category)
         {
