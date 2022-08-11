@@ -14,6 +14,7 @@ namespace eve_market
     {
         public EsiClient Client; // ESI API Client instance
         public TextWriter Output; // Stream to which output will be written
+        public HashSet<string> idFields = new HashSet<string> { "location_id", "region_id", "type_id", "item_id", "client_id" };
 
         private SsoToken authToken;
         private AuthorizedCharacterData authData;
@@ -77,7 +78,7 @@ namespace eve_market
 
         public bool IsIdField(string field)
         {
-            var id_fields = new HashSet<string> { "location_id", "region_id", "type_id" };
+            var id_fields = new HashSet<string> { "location_id", "region_id", "type_id", "item_id"};
             return id_fields.Contains(field);
         }
 
@@ -126,6 +127,7 @@ namespace eve_market
                     var token = await Client.SSO.GetToken(GrantType.RefreshToken, refreshToken);
                     AuthToken = token;
                     AuthData = await Client.SSO.Verify(token);
+                    Client.SetCharacterData(AuthData);
                 }
 
                 catch (ArgumentException e)
@@ -158,7 +160,7 @@ namespace eve_market
             // Random string for state parameter in ouath
             var state = GenerateStateString();
             // API scopes required for this app
-            var scopes = new List<string>("publicData esi-wallet.read_character_wallet.v1 esi-assets.read_assets.v1 esi-markets.structure_markets.v1 esi-markets.read_character_orders.v1 esi-contracts.read_character_contracts.v1".Split(" "));
+            var scopes = new List<string>("publicData esi-wallet.read_character_wallet.v1 esi-search.search_structures.v1 esi-assets.read_assets.v1 esi-markets.structure_markets.v1 esi-markets.read_character_orders.v1 esi-contracts.read_character_contracts.v1".Split(" "));
             var auth_url = Client.SSO.CreateAuthenticationUrl(scopes, state, challenge);
 
             Output.WriteLine("Please follow this link for authorization: " + auth_url);

@@ -49,6 +49,14 @@ namespace eve_market
                         apiInterface.marketInterface.HandleOrders(tokens);
                         break;
 
+                    case "assets":
+                        apiInterface.marketInterface.HandleAssets(tokens);
+                        break;
+
+                    case "transactions":
+                        apiInterface.marketInterface.HandleTransactions(tokens);
+                        break;
+
                     case "exit":
                         return;
 

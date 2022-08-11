@@ -9,7 +9,6 @@ namespace eve_market
 {
     public class UniverseInterface
     {
-        public enum IdType { System, Region, Station};
         public TextWriter output;
         public MainEsiInterface mainInterface;
 
@@ -22,17 +21,35 @@ namespace eve_market
             mainInterface = @interface;
         }
 
-        public void HandleInfo(string[] tokens)
+        /// <summary>
+        /// Finds the closest matching item and prints its description
+        /// </summary>
+        /// <param name="itemName">Command line tokens</param>
+        public void PrintItemInfo(string itemName)
         {
-            var itemName = mainInterface.StringFromSlice(tokens, 1, tokens.Length - 1);
             var itemId = NameToId(itemName, SearchCategory.InventoryType);
+
+            if (itemId == -1)
+            {
+                output.WriteLine("No matching item found.");
+                return;
+            }
+
             var itemDesc = mainInterface.Client.Universe.Type((int)itemId).Result.Data;
             var itemCategory = mainInterface.Client.Market.Group(itemDesc.MarketGroupId).Result.Data;
             output.WriteLine(itemDesc.Name);
-            output.Write($"Category: {itemCategory.Name}");
-            output.WriteLine($"Volume: {itemDesc.Volume}");
-            output.WriteLine($"Mass: {itemDesc.Mass}");
+            mainInterface.printer.PrintLine(itemDesc.Name.Length);
+            output.WriteLine($"Category description: {itemCategory.Description}");
+            output.WriteLine($"Volume: {itemDesc.Volume} m^3");
+            output.WriteLine($"Mass: {itemDesc.Mass} kg");
+            output.WriteLine("Description:");
             output.WriteLine(itemDesc.Description);
+        }
+
+        public void HandleInfo(string[] tokens)
+        {
+            var itemName = mainInterface.StringFromSlice(tokens, 1, tokens.Length - 1);
+            PrintItemInfo(itemName);
         }
 
         /// <summary>
@@ -65,10 +82,21 @@ namespace eve_market
                 return nameToIdCache[name];
             }
             
+            if (name.Length == 0)
+            {
+                output.WriteLine("Please input an item name.");
+            }
+
             if (category == SearchCategory.InventoryType)
             {
                 // Search only for exact name matches for inventory types
                 var result = mainInterface.Client.Universe.IDs(new List<string> { name }).Result.Data;
+
+                if(result is null || result.InventoryTypes.Count == 0)
+                {
+                    return -1;
+                }
+
                 long typeId = result.InventoryTypes[0].Id;
 
                 // Save the result to cache
@@ -116,27 +144,102 @@ namespace eve_market
         }
 
         /// <summary>
-        /// Finds the name corresponding to this ID, caches it and returns it
+        /// Finds the names corresponding to these IDs, caches them and returns them as a list. 
+        /// Make sure all IDs are unique and of the same type. It is better to later query 
+        /// the IdToName(long id) method for results, instead of using this list.
         /// </summary>
         /// <param name="id"></param>
         /// <returns>Name corresponding to the given ID</returns>
-        public string IdToName(long id)
+        public List<string> IdToName(List<long> ids)
         {
+            List<long> toResolve = new List<long>();
+            List<long> longToResolve = new List<long>();
             // Check the cache
-            if (idToNameCache.ContainsKey(id))
+            foreach (var id in ids)
             {
-                return idToNameCache[id];
+                if (!idToNameCache.ContainsKey(id))
+                {
+                    if (id > Int32.MaxValue)
+                    {
+                        longToResolve.Add(id);
+                    }
+                    else
+                    {
+                        toResolve.Add(id);
+                    }
+                }
             }
 
-            // Query the server
-            var result = mainInterface.Client.Universe.Names(new List<long> { id }).Result.Data;
-            string name = result[0].Name;
+            if(toResolve.Count > 0)
+            {
+                // Query the server
+                var uniResult = mainInterface.Client.Universe.Names(toResolve).Result.Data;
+                // Save the results to cache
+                foreach (var resolved in uniResult)
+                {
+                    idToNameCache[resolved.Id] = resolved.Name;
+                    nameToIdCache[resolved.Name] = resolved.Id;
+                }
+            }
 
-            // Save the result to cache
-            idToNameCache[id] = name;
-            nameToIdCache[name] = id;
+            if (longToResolve.Count > 0)
+            {
+                var uniResult = mainInterface.Client.Universe.Names(longToResolve).Result.Data;
+                var itemResult = mainInterface.Client.Assets.NamesForCharacter(longToResolve).Result.Data;
+                var locResult = mainInterface.Client.Assets.LocationsForCharacter(longToResolve).Result.Data;
 
-            return name;
+                if (uniResult is not null)
+                {
+                    foreach (var resolved in uniResult)
+                    {
+                        idToNameCache[resolved.Id] = resolved.Name;
+                        nameToIdCache[resolved.Name] = resolved.Id;
+                    }
+                }
+
+                else if (itemResult is not null)
+                {
+                    // Save the results to cache
+                    foreach (var resolved in itemResult)
+                    {
+                        idToNameCache[resolved.ItemId] = resolved.Name;
+                        nameToIdCache[resolved.Name] = resolved.ItemId;
+                    }
+                }
+                else if (locResult is not null)
+                {
+                    // Save results to cache, if its (0,0,0), its in a station/hangar
+                    foreach (var location in locResult)
+                    {
+                        if (location.X == 0 && location.Y == 0 && location.Z == 0) idToNameCache[location.ItemId] = "In hangar or station";
+                        else idToNameCache[location.ItemId] = $"({location.X}, {location.Y}, {location.Z})";
+                    }
+                }
+
+                else
+                {
+                    // The IDs are invalid
+                    foreach (var id in longToResolve)
+                    {
+                        idToNameCache[id] = "Invalid loc. ID";
+                    }
+                }
+            }
+
+            var res = new List<string>();
+            foreach (var id in ids)
+            {
+                res.Add(idToNameCache[id]);
+            }
+
+            return res;
         }
-    };
+
+        public string IdToName(long id)
+        {
+            // Check cache
+            if (idToNameCache.ContainsKey(id)) return idToNameCache[id];
+            return IdToName(new List<long> { id })[0];
+        }
+    }
 }
