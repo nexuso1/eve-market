@@ -10,15 +10,32 @@ using Microsoft.Extensions.Options;
 
 namespace eve_market
 {
+    /// <summary>
+    /// Main interface for communicating with the ESI API. Holds references
+    /// to specialized interfaces, has some helper functions and takes care of
+    /// authentication of the user.
+    /// </summary>
     public class MainEsiInterface
     {
-        public EsiClient Client; // ESI API Client instance
-        public TextWriter Output; // Stream to which output will be written
-        public HashSet<string> idFields = new HashSet<string> { "location_id", "region_id", "type_id", "item_id", "client_id" };
+        /// <summary>
+        /// ESI API Client instance
+        /// </summary>
+        public EsiClient Client;
 
+        /// <summary>
+        /// Stream to which output will be written
+        /// </summary>
+        public TextWriter Output;
         private SsoToken authToken;
         private AuthorizedCharacterData authData;
+
+        /// <summary>
+        /// Bool which is set to true if a character is authorized
+        /// </summary>
         public bool IsAuthorized { get; private set; }
+        /// <summary>
+        /// Auth Token obtained from the server
+        /// </summary>
         public SsoToken AuthToken
         {
             private get { return authToken; }
@@ -31,6 +48,9 @@ namespace eve_market
             }
         }
 
+        /// <summary>
+        /// Information about the authorized character
+        /// </summary>
         public AuthorizedCharacterData AuthData
         {
             get { return authData; }
@@ -43,9 +63,36 @@ namespace eve_market
 
         private readonly Random random = new Random();
 
+        /// <summary>
+        /// MarketInterface instance, used for accessing the 
+        /// Market portion of ESI
+        /// </summary>
         public MarketInterface marketInterface;
+
+        /// <summary>
+        /// UniverseInterface instance, used for accessing the 
+        /// Universe portoin of ESI
+        /// </summary>
         public UniverseInterface universeInterface;
+
+        /// <summary>
+        /// ContractInterface instance, used for accessing the 
+        /// Universe portion of ESI
+        /// </summary>
+        public ContractInterface contractInterface;
+
+        /// <summary>
+        /// Printer instance, used for nice printing of various 
+        /// data gathered from ESI
+        /// </summary>
         public Printer printer;
+
+        /// <summary>
+        /// Basic contstructor, creates the instances of other interfaces and the 
+        /// Printer, and also creates the EsiClient used for communication with ESI.
+        /// If there is an auth token from a previous session, uses it again.
+        /// </summary>
+        /// <param name="writer">Output text stream</param>
         public MainEsiInterface(TextWriter writer)
         {
             Client = createClient();
@@ -54,6 +101,7 @@ namespace eve_market
             // Create interfaces
             marketInterface = new MarketInterface(this, Output);
             universeInterface = new UniverseInterface(this, Output);
+            contractInterface = new ContractInterface(this, Output);
             printer = new Printer(this, Output);
 
             // Check if there is an existing authorization token
@@ -76,12 +124,24 @@ namespace eve_market
             return new EsiClient(config);
         }
 
+        /// <summary>
+        /// Helper function which returns true if a given json field is an ID, and thus
+        /// the corresponding name has to be resolved.
+        /// </summary>
+        /// <param name="field">Name of the field</param>
+        /// <returns>True if  </returns>
         public bool IsIdField(string field)
         {
-            var id_fields = new HashSet<string> { "location_id", "region_id", "type_id", "item_id"};
+            var id_fields = new HashSet<string> { "location_id", "region_id", "type_id", "item_id",
+            "acceptor_id", "assignee_id", "issuer_corporation_id", "issuer_id", "end_location_id", "start_location_id" };
             return id_fields.Contains(field);
         }
 
+        /// <summary>
+        /// Generates a state string of given length, used for OAuth.
+        /// </summary>
+        /// <param name="length">length of the state string</param>
+        /// <returns>State string</returns>
         public string GenerateStateString(int length = 10)
         {
             var temp_string = new StringBuilder(length);
@@ -95,28 +155,41 @@ namespace eve_market
             return temp_string.ToString();
         }
 
+        /// <summary>
+        /// Helper function which creates a string from a given slice
+        /// of the "tokens" string array.
+        /// </summary>
+        /// <param name="tokens">Array of strings</param>
+        /// <param name="offset">Beginning of the slice</param>
+        /// <param name="size">Length of the slice</param>
+        /// <param name="sep">Separator to be added between tokens</param>
+        /// <returns>String of joined tokens starting at "offset" with a length of "size", separated by "sep"</returns>
         public string StringFromSlice(string[] tokens, int offset, int size, char sep = ' ')
         {
-            return string.Join(' ', new ArraySegment<string>(tokens, offset, size).ToArray());
+            return string.Join(sep, new ArraySegment<string>(tokens, offset, size).ToArray());
         }
 
-        public void HandleSetDefault(string[] tokens)
-        {
-            marketInterface.HandleDefaults(tokens);
-            return;
-        }
-
+        /// <summary>
+        /// Checks whether a character is authorized. Returns the value
+        /// of IsAuthorized an
+        /// </summary>
+        /// <returns></returns>
         public bool CheckAuthorization()
         {
             if (!IsAuthorized)
             {
                 Output.WriteLine("No character authorized. Please use command \"authorize\" to authorize one of your characters.");
-                return false;
             }
 
-            return true;
+            return IsAuthorized;
         }
 
+        /// <summary>
+        /// Loads the auth token from the save file if it exists, and
+        /// authorizes the user. Has to recreate the Client for it to
+        /// work properly.
+        /// </summary>
+        /// <param name="path">Path of the token save file</param>
         async private void LoadAuthToken(string path = "refresh.token")
         {
             using (var reader = new StreamReader(File.OpenRead(path)))
@@ -140,6 +213,10 @@ namespace eve_market
             }
         }
 
+        /// <summary>
+        /// Saves the refresh token in a file.
+        /// </summary>
+        /// <param name="token">Save file path</param>
         private void SaveRefreshToken(SsoToken token)
         {
             using (var writer = new StreamWriter("refresh.token"))
@@ -148,11 +225,18 @@ namespace eve_market
             }
         }
 
+        /// <summary>
+        /// Handles the authorization of a user. Takes 
+        /// care of the OAuth authorization process, and
+        /// refers the end-user to the auth page.
+        /// </summary>
+        /// <param name="tokens">Command line tokens. Included for the uniformity of API</param>
         async public void HandleAuthorize(string[] tokens)
         {
             if (IsAuthorized)
             {
                 await Client.SSO.RevokeToken(AuthData.Token);
+                Client = createClient();
             }
 
             // OAuth code challeneg
@@ -160,7 +244,7 @@ namespace eve_market
             // Random string for state parameter in ouath
             var state = GenerateStateString();
             // API scopes required for this app
-            var scopes = new List<string>("publicData esi-wallet.read_character_wallet.v1 esi-search.search_structures.v1 esi-assets.read_assets.v1 esi-markets.structure_markets.v1 esi-markets.read_character_orders.v1 esi-contracts.read_character_contracts.v1".Split(" "));
+            var scopes = new List<string>("publicData esi-wallet.read_character_wallet.v1 esi-search.search_structures.v1 esi-universe.read_structures.v1 esi-assets.read_assets.v1 esi-markets.structure_markets.v1 esi-markets.read_character_orders.v1 esi-contracts.read_character_contracts.v1".Split(" "));
             var auth_url = Client.SSO.CreateAuthenticationUrl(scopes, state, challenge);
 
             Output.WriteLine("Please follow this link for authorization: " + auth_url);

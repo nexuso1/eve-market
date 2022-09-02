@@ -1,7 +1,6 @@
 ﻿using System;
-using ESI.NET.Models.SSO;
 using System.Collections.Generic;
-using System.Text;
+using System.Text.RegularExpressions;
 using System.IO;
 using ESI.NET.Enumerations;
 using ESI.NET.Models.Market;
@@ -14,8 +13,8 @@ namespace eve_market
 
         public TextWriter output;
         public MainEsiInterface mainInterface;
-        public string defaultStation = "Jita 4 4";
-        public string defaultRegion = "The Forge";
+        public long defaultRegionId = 10000002;
+        public long defaultStationId = 60003760;
         public enum SortOrder { Ascending, Descending };
         public enum SortBy { Price, Date, Volume, Region, Station, CustomName, TypeName };
 
@@ -42,49 +41,62 @@ namespace eve_market
             switch (tokens[1])
             {
                 case "region":
-                    defaultRegion = name;
+                    defaultRegionId = mainInterface.universeInterface.NameToId(name, SearchCategory.Region);
                     return;
                 case "station":
-                    defaultStation = name;
+                    defaultStationId = mainInterface.universeInterface.NameToId(name, SearchCategory.Station);
                     return;
                 default:
                     output.WriteLine("Invalid name of a default setting");
                     return;
             }
         }
-
-        public void HandleMyContracts(string[] tokens)
+        /// <summary>
+        /// Extracts type and potentially location from the tokens. If both are found, returns
+        /// them as a List { typeName, locationName }
+        /// </summary>
+        /// <param name="tokens">command line tokens</param>
+        /// <param name="specifiedLocation">Bool if location was found</param>
+        /// <returns></returns>
+        private List<long> GetTypeAndLocationId(string[] tokens, ref bool specifiedLocation)
         {
-            if (!mainInterface.CheckAuthorization()) return;
+            var pattern = '"' + @"([\w ]+)" + '"';
+            var matches = Regex.Matches(String.Join(' ', tokens), pattern);
+            bool specifiedRegion = false;
+            var regionName = "";
+            var typeName = "";
+            var regionId = defaultRegionId;
 
-            int page = 1;
-            var contracts = new List<ESI.NET.Models.Contracts.Contract>();
-            while (true)
+            if (matches.Count == 2)
             {
-                try
-                {
-                    var response = mainInterface.Client.Contracts.CharacterContracts(page).Result;
-                    var data = response.Data;
-                    if (data.Count == 0)
-                    {
-                        output.WriteLine("No contracts to display");
-                        break;
-                    }
+                specifiedRegion = true;
+                regionName = matches[1].Groups[1].Value;
+            }
 
-                    contracts.AddRange(data);
-                    page++;
-                }
+            typeName = matches[0].Groups[1].Value;
 
-                catch (ArgumentException)
+            var typeId = mainInterface.universeInterface.NameToId(typeName, SearchCategory.InventoryType);
+            if (typeId == -1)
+            {
+                throw new ArgumentException("Couldnt find the type specified.");
+            }
+
+            if (specifiedRegion)
+            {
+                regionId = mainInterface.universeInterface.NameToId(regionName, SearchCategory.Region);
+                if (regionId == -1)
                 {
-                    break;
+                    throw new ArgumentException("Couldnt find the region specified.");
                 }
             }
 
-            mainInterface.printer.PrintContracts(contracts);
-            
+            return new List<long> { typeId, regionId };
         }
-
+        
+        /// <summary>
+        /// Displays all of the recent transactions of the authorized characters
+        /// </summary>
+        /// <param name="tokens">Command line tokens (included for uniformity of API, not used)</param>
         public void HandleTransactions(string[] tokens)
         {
             if (!mainInterface.CheckAuthorization()) return;
@@ -99,6 +111,10 @@ namespace eve_market
                     var temp = mainInterface.Client.Wallet.CharacterTransactions(page).Result.Data;
                     if (temp.Count == 0) break;
                     transactions.AddRange(temp);
+
+                    // There is a bug in ESI it seems, every page returns the same transactions...
+                    // so just break out of the loop after the first one
+                    break;
                     page++;
                 }
                 catch (ArgumentException)
@@ -148,7 +164,12 @@ namespace eve_market
                 orders.Reverse();
             }
         }
-
+        /// <summary>
+        /// Sorts a list of items according to the given field in the given order
+        /// </summary>
+        /// <param name="items">List of items to sort</param>
+        /// <param name="sortByType">Field to sort by</param>
+        /// <param name="sortOrder">Order to sort by</param>
         public void SortItems(List<Item> items, SortBy sortByType, SortOrder sortOrder)
         {
             switch (sortByType)
@@ -171,6 +192,67 @@ namespace eve_market
             }
         }
 
+        /// <summary>
+        /// Prints type history in a given region.
+        /// </summary>
+        /// <param name="tokens">Command line tokens</param>
+        public void HandleHistory(string[] tokens)
+        {
+            var pattern = '"' + @"([\w ]+)" + '"';
+            var matches = Regex.Matches(String.Join(' ', tokens), pattern);
+            bool specifiedRegion = false;
+            var regionName = "";
+            var typeName = "";
+            var regionId = defaultRegionId;
+
+            if (matches.Count == 2)
+            {
+                specifiedRegion = true;
+                regionName = matches[1].Groups[1].Value;
+            }
+
+            typeName = matches[0].Groups[1].Value;
+
+            var typeId = mainInterface.universeInterface.NameToId(typeName, SearchCategory.InventoryType);
+            if (typeId == -1)
+            {
+                output.WriteLine("Couldn't find the item specified.");
+                return;
+            }
+
+            if (specifiedRegion)
+            {
+                regionId = mainInterface.universeInterface.NameToId(regionName, SearchCategory.Region);
+                if (regionId == -1)
+                {
+                    output.WriteLine("Invalid region name given.");
+                    return;
+                }
+            }
+
+            var history = mainInterface.Client.Market.TypeHistoryInRegion((int)regionId, (int)typeId).Result.Data;
+            if (history.Count == 0)
+            {
+                output.WriteLine("No history to display.");
+            }
+
+            history.Sort((x, y) => x.Date.CompareTo(y.Date));
+            history.Reverse();
+
+            var fields = new List<string> { "date", "average", "highest", "lowest", "order_count", "volume" };
+            var fieldDesc = new List<string> { "Date", "Average", "Highest", "Lowest", "Order Count", "Volume" };
+
+            mainInterface.printer.PrintTableHeader(fieldDesc, 20);
+            mainInterface.printer.PrintJsonList(history, 20, 60, fields);
+
+        }
+
+        /// <summary>
+        /// Displays all assets of the authorized character as a table.
+        /// </summary>
+        /// <param name="tokens">Command line tokens</param>
+        /// <param name="sortByType">Which field to sort by</param>
+        /// <param name="sortOrder">Ascending/Descending</param>
         public void HandleAssets(string[] tokens, SortBy sortByType = SortBy.Station, SortOrder sortOrder = SortOrder.Descending)
         {
             if (!mainInterface.CheckAuthorization()) return;
@@ -230,37 +312,163 @@ namespace eve_market
             mainInterface.printer.PrintJsonList(assets, 20, assets.Count, fields);
         }
 
+        private bool GetLocIdAndType(string locationName, ref long regionId, ref long locationId, ref bool stationSpecified)
+        {
+            var res = mainInterface.universeInterface.NameToId(locationName, SearchCategory.Region);
+            if (res == -1)
+            {
+                res = mainInterface.universeInterface.NameToId(locationName, SearchCategory.Station);
+                if (res == -1)
+                {
+                    res = mainInterface.universeInterface.NameToId(locationName, SearchCategory.Structure);
+                    if (res == -1)
+                    {
+                        return false;
+                    }
 
-        // TODO: Finish this
+                    locationId = res;
+                    regionId = mainInterface.universeInterface.FindRegion(locationId, SearchCategory.Structure);
+                    stationSpecified = true;
+                    return true;
+                }
+                locationId = res;
+                regionId = mainInterface.universeInterface.FindRegion(locationId, SearchCategory.Station);
+                stationSpecified = true;
+                return true;
+            }
+            // Location was a region
+            regionId = (int)res;
+            return true;
+        }
+        
+
+        /// <summary>
+        /// Finds all orders of the given type in the given location. If not location is given, the default region will be used
+        /// </summary>
+        /// <param name="tokens"></param>
+        /// <param name="sortByType"></param>
+        /// <param name="sortOrder"></param>
         public void HandleOrders(string[] tokens, SortBy sortByType = SortBy.Price, SortOrder sortOrder = SortOrder.Descending)
         {
-            if (!mainInterface.CheckAuthorization()) return;
-
-            // Gather the orders
-            var data = mainInterface.Client.Market.CharacterOrders().Result.Data;
-            if (data.Count == 0)
+            bool specifiedLocation = false;
+            string locationName = "";
+            string itemName = "";
+            var pattern = '"' + @"([\w ]+)" + '"';
+            var matches = Regex.Matches(String.Join(' ', tokens), pattern);
+            if (matches.Count == 2)
             {
-                output.WriteLine("No orders to print.");
-                return;
+                specifiedLocation = true;
+                locationName = matches[1].Groups[1].Value;
             }
 
-            // Split them into buy and sell orders
+            itemName = matches[0].Groups[1].Value;
+            if (tokens.Length == 1)
+            {
+                output.WriteLine("No item name provided");
+            }
+
+            var typeId = mainInterface.universeInterface.NameToId(itemName, SearchCategory.InventoryType);
+            if (typeId == -1)
+            {
+                output.Write("Invalid item name.");
+                return;
+            }
+            long regionId = defaultRegionId;
+            long locationId = defaultStationId;
+            bool stationSpecified = false;
+
+            // Find the id of the location and its type
+            if (specifiedLocation)
+            {
+                // Sets the corresponding variables aswell
+                if (!GetLocIdAndType(locationName, ref regionId, ref locationId, ref stationSpecified))
+                {
+                    output.WriteLine("Couldn't find the location specified. Please check if you have written the location name correctly");
+                    return;
+                }
+            }
+
+            // Gather the orders
+            var allOrders = new List<Order>();
+            int page = 1;
+
+            while (true)
+            {
+                try
+                {
+                    var tempOrders = new List<Order>();
+                    tempOrders = mainInterface.Client.Market.RegionOrders((int)regionId, page: page, type_id: (int)typeId).Result.Data;
+                    if (tempOrders is null || tempOrders.Count == 0)
+                    {
+                        break;
+                    }
+                    allOrders.AddRange(tempOrders);
+                    page++;
+                }
+                catch (ArgumentException)
+                {
+                    break;
+                }
+            }
+
+            // Split them to buy and sell orders
             var buyOrders = new List<Order>();
             var sellOrders = new List<Order>();
-            foreach (var order in data)
+            foreach (var order in allOrders)
             {
                 if (order.IsBuyOrder)
                 {
                     buyOrders.Add(order);
-                    continue;
                 }
+                else
+                {
+                    sellOrders.Add(order);
+                }
+            }
 
-                sellOrders.Add(order);
+            var tokenSet = new HashSet<string>(tokens);
+
+            // Check for different sort order
+            if (tokenSet.Contains("-a"))
+            {
+                sortOrder = SortOrder.Ascending;
+            }
+
+            // Check for field determination
+            if (tokenSet.Contains("-d"))
+            {
+                sortByType = SortBy.Date;
+            }
+
+            if (tokenSet.Contains("-r"))
+            {
+                sortByType = SortBy.Region;
+            }
+
+            else if (tokenSet.Contains("-s"))
+            {
+                sortByType = SortBy.Station;
+            }
+
+            else if (tokenSet.Contains("-v"))
+            {
+                sortByType = SortBy.Volume;
+            }
+
+            else if (tokenSet.Contains("-p"))
+            {
+                sortByType = SortBy.Price;
             }
 
             // Sort as desired
             SortOrders(sellOrders, sortByType, sortOrder);
             SortOrders(buyOrders, sortByType, sortOrder);
+
+            if (stationSpecified)
+            {
+                sellOrders = sellOrders.FindAll((x) => x.LocationId == locationId);
+                buyOrders = buyOrders.FindAll((x) => x.LocationId == locationId);
+            }
 
             var fields = new List<string> { "issued", "price", "type_id", "location_id", "region_id", "volume_remain", "volume_total" };
             var fieldDescriptions = new List<string> { "Date Issued", "Price", "Item Name", "Station", "Region", "Vol. Remain", "Total Volume" };
@@ -268,13 +476,29 @@ namespace eve_market
             // Print to output
             output.WriteLine("Sell Orders");
             output.WriteLine();
-            mainInterface.printer.PrintTableHeader(fieldDescriptions, 20);
-            mainInterface.printer.PrintJsonList<Order>(sellOrders, 20, 20, fields);
+            if(sellOrders.Count > 0)
+            {
+                mainInterface.printer.PrintTableHeader(fieldDescriptions, 20);
+                mainInterface.printer.PrintJsonList<Order>(sellOrders, 20, 20, fields);
+            }
+            else
+            {
+                output.WriteLine("\tNo orders to print");
+            }
+            
             output.WriteLine();
             output.WriteLine("Buy Orders");
             output.WriteLine();
-            mainInterface.printer.PrintTableHeader(fieldDescriptions, 20);
-            mainInterface.printer.PrintJsonList<Order>(sellOrders, 20, 20, fields);
+            if(buyOrders.Count > 0)
+            {
+                mainInterface.printer.PrintTableHeader(fieldDescriptions, 20);
+                mainInterface.printer.PrintJsonList<Order>(sellOrders, 20, 20, fields);
+            }
+
+            else
+            {
+                output.WriteLine("\tNo orders to print");
+            }
         }
 
         /// <summary>

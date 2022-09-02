@@ -1,22 +1,40 @@
-﻿using System;
+﻿
 using System.Collections.Generic;
 using System.Text;
 using System.IO;
 using Newtonsoft.Json.Linq;
-using Newtonsoft.Json;
 using ESI.NET.Enumerations;
 namespace eve_market
 {
+    /// <summary>
+    /// Class that handles printing of various data.
+    /// </summary>
     public class Printer
     {
+        /// <summary>
+        /// Text output stream
+        /// </summary>
         public TextWriter output;
+        /// <summary>
+        /// Reference to a MainIntreface instance.
+        /// </summary>
         public MainEsiInterface mainEsiInterface;
+
+        /// <summary>
+        /// Basic constructor. Only assigns the instances from arguments to fields.
+        /// </summary>
+        /// <param name="interface">Reference to an (already created) MainInterface instance</param>
+        /// <param name="textWriter">Text output stream</param>
         public Printer( MainEsiInterface esiInterface,TextWriter writer)
         {
             output = writer;
             mainEsiInterface = esiInterface;
         }
 
+        /// <summary>
+        /// Prints a line of a given length to the output stream.
+        /// </summary>
+        /// <param name="length">Length of the line</param>
         public void PrintLine(int length)
         {
             for (int i = 0; i < length; i++)
@@ -26,6 +44,12 @@ namespace eve_market
             output.WriteLine();
         }
 
+        /// <summary>
+        /// Prints a line that adapts to the number of fields, 
+        /// and the width corresponding to one field.
+        /// </summary>
+        /// <param name="fields">List of fields</param>
+        /// <param name="width">Width for one field</param>
         public void PrintLine(List<string> fields, int width)
         {
             var sb = new StringBuilder();
@@ -37,6 +61,12 @@ namespace eve_market
             output.WriteLine(sb.ToString());
         }
 
+        /// <summary>
+        /// Prints the header of a table, which contains the given fields, 
+        /// with a cell width of "width".
+        /// </summary>
+        /// <param name="fields">List of field names</param>
+        /// <param name="width">Width of a cell in the table</param>
         public void PrintTableHeader(List<string> fields, int width)
         {
             for (int i = 0; i < fields.Count; i++)
@@ -54,88 +84,17 @@ namespace eve_market
             output.WriteLine();
         }
 
-        private List<List<string>> getContractItemString(long contractId)
-        {
-            var contractItems = new List<ESI.NET.Models.Contracts.ContractItem>();
-            var included = new List<string>();
-            var asking = new List<string>();
-            int page = 1;
-            while (true)
-            {
-                try
-                {
-                    var response = mainEsiInterface.Client.Contracts.ContractItems((int)contractId, page).Result.Data;
-                    if (response.Count == 0) break;
-                    contractItems.AddRange(response);
-                    page++;
-                }
-                catch (ArgumentException)
-                {
-                    break;
-                }
-            }
-
-            var idsToResolve = new HashSet<long>();
-            
-            foreach(var item in contractItems)
-            {
-                idsToResolve.Add(item.TypeId);
-            }
-
-            var idBuffer = new long[idsToResolve.Count];
-            idsToResolve.CopyTo(idBuffer);
-            mainEsiInterface.universeInterface.IdToName(new List<long>(idBuffer));
-
-            var buffer = new StringBuilder();
-            foreach (var contractItem in contractItems)
-            {
-                buffer.Append(mainEsiInterface.universeInterface.IdToName(contractItem.TypeId));
-                buffer.Append(' ');
-                if(contractItem.IsBlueprintCopy)
-                {
-                    buffer.Append($"BPC, [ME: {contractItem.MaterialEfficiency}, TE: {contractItem.TimeEfficiency}, Runs: {contractItem.Runs}] ");
-                }
-                buffer.Append($"x {contractItem.Quantity}");
-
-                if (contractItem.IsIncluded)
-                {
-                    included.Add(buffer.ToString());
-                }
-
-                else
-                {
-                    asking.Add(buffer.ToString());
-                }
-
-                buffer = buffer.Clear();
-            }
-
-            return new List<List<string>> { included, asking };
-            
-        }
-
-        private List<string> GetBidStrings(int contractId)
-        {
-            var bids = mainEsiInterface.Client.Contracts.ContractBids(contractId).Result.Data;
-            var res = new List<string>();
-
-            foreach (var bid in bids)
-            {
-                res.Add($"{bid.Amount} ISK from {bid.BidderId}, date: {bid.DateBid}");
-            }
-
-            return res;
-        }
-
         /// <summary>
-        /// Prints the contracts from arguments
+        /// Prints the contracts from arguments. Warning, contracts have a lot 
+        /// of variations and this function is quite extensive in its printing.
+        /// Use listPublic if you're trying to print public contracts.
         /// </summary>
         /// <param name="contracts">List of contracts to print</param>
-        public void PrintContracts(List<ESI.NET.Models.Contracts.Contract> contracts)
+        public void PrintContracts(List<ESI.NET.Models.Contracts.Contract> contracts, bool listPublic = false)
         {
             // Prepare dict of id fields to resolve
             var idFields = new List<string> { "acceptor_id", "assignee_id", "issuer_corporation_id", "issuer_id", "end_location_id", "start_location_id" };
-            var ids = new Dictionary<string, HashSet<long>>();
+            var ids = new Dictionary<string, HashSet<long>>(); // Holds ids to resolved, grouped by field
             foreach (var field in idFields)
             {
                 ids.Add(field, new HashSet<long>());
@@ -164,7 +123,7 @@ namespace eve_market
                 pair.Value.CopyTo(temp);
 
                 // This will cache the results, and they can later be accessed by IdToName(long id)
-                mainEsiInterface.universeInterface.IdToName(new List<long>(temp));
+                mainEsiInterface.universeInterface.ContractIdToName(new List<long>(temp), pair.Key);
             }
             var buffer = new StringBuilder();
             var contractTypeNames = new Dictionary<ContractType, string>
@@ -176,6 +135,7 @@ namespace eve_market
                 { ContractType.Unknown, "Unkown" }
             };
 
+            // Print the contracts
             foreach (var contract in contracts)
             {
                 // Print important info at the begininng
@@ -186,10 +146,11 @@ namespace eve_market
                 buffer.AppendLine($"Expiration Date: {contract.DateExpired}");
                 buffer.AppendLine($"Issuance Date: {contract.DateIssued}");
 
-                // If it's completed, print the completion date
+                // If it's completed, print the completion date and acceptor
                 if(contract.Status != "outstanding" || contract.Status != "in_progress")
                 {
                     buffer.AppendLine($"Date Completed: {contract.DateCompleted}");
+                    buffer.AppendLine($"Acceptor: {mainEsiInterface.universeInterface.IdToName(contract.AcceptorId)}");
                 }
 
                 // Print issuer info
@@ -207,7 +168,7 @@ namespace eve_market
                 if (contract.Type != ContractType.Loan)
                 {
                     buffer.AppendLine("Items:");
-                    var items = getContractItemString(contract.ContractId);
+                    var items = mainEsiInterface.contractInterface.getContractItemString(contract.ContractId, listPublic);
                     buffer.AppendLine("\tOffering:");
 
                     if (items[0].Count == 0)
@@ -230,7 +191,7 @@ namespace eve_market
                         buffer.AppendLine("\tAsking");
                         if (items[1].Count == 0)
                         {
-                            buffer.Append("\t\tNo items");
+                            buffer.AppendLine("\t\tNo items");
                         }
                         else
                         {
@@ -244,7 +205,6 @@ namespace eve_market
                         
                         buffer.AppendLine($"Total Volume: {contract.Volume} m^3");
                     }
-                    
                 }
 
                 // If it's a courier contract, print collateral and reward
@@ -270,7 +230,7 @@ namespace eve_market
                 if(contract.Type == ContractType.Auction)
                 {
                     buffer.AppendLine("Bids:");
-                    var bids = GetBidStrings(contract.ContractId);
+                    var bids = mainEsiInterface.contractInterface.GetBidStrings(contract.ContractId);
                     if (bids.Count == 0) buffer.AppendLine("\t\tNo bids to show");
                     else
                     {
@@ -280,10 +240,23 @@ namespace eve_market
                         }
                     }
                 }
-
+                output.WriteLine(buffer.ToString());
+                buffer = buffer.Clear();
             }
         }
 
+        /// <summary>
+        /// Prints a list of json-convertible objects as a table, with a given
+        /// cell width and number of rows. Only prints the fields named in the 
+        /// "fields". If a field is an ID field, also resolves it's name before
+        /// printing.
+        /// </summary>
+        /// <typeparam name="T">JObject-convertible type</typeparam>
+        /// <param name="objList">List of items to print</param>
+        /// <param name="width">Table cell width</param>
+        /// <param name="rows">Number of rows. If it's less than the length of "objList", prints only the first
+        /// "rows" items.</param>
+        /// <param name="fields">Keys of the fields to print.</param>
         public void PrintJsonList<T>(List<T> objList, int width, int rows, List<string> fields)
         {
             int counter = 0;

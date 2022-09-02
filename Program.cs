@@ -1,8 +1,5 @@
 ﻿using System;
 using System.IO;
-using ESI.NET;
-using ESI.NET.Enumerations;
-using Microsoft.Extensions.Options;
 
 namespace eve_market
 {
@@ -27,7 +24,7 @@ namespace eve_market
                         break;
 
                     case "set":
-                        apiInterface.HandleSetDefault(tokens);
+                        apiInterface.marketInterface.HandleDefaults(tokens);
                         break;
 
                     case "wallet":
@@ -55,6 +52,16 @@ namespace eve_market
 
                     case "transactions":
                         apiInterface.marketInterface.HandleTransactions(tokens);
+                        break;
+                    case "history":
+                        apiInterface.marketInterface.HandleHistory(tokens);
+                        break;
+
+                    case "contracts":
+                        apiInterface.contractInterface.HandleContracts(tokens);
+                        break;
+                    case "my_contracts":
+                        apiInterface.contractInterface.HandleMyContracts(tokens);
                         break;
 
                     case "exit":
