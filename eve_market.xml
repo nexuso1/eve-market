@@ -1,0 +1,517 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>eve_market</name>
+    </assembly>
+    <members>
+        <member name="T:eve_market.ContractInterface">
+            <summary>
+            Main interaction point for the Contract part of ESI.
+            </summary>
+        </member>
+        <member name="F:eve_market.ContractInterface.output">
+            <summary>
+            Text output stream
+            </summary>
+        </member>
+        <member name="F:eve_market.ContractInterface.mainInterface">
+            <summary>
+            Reference to a MainInterface instance
+            </summary>
+        </member>
+        <member name="M:eve_market.ContractInterface.#ctor(eve_market.MainEsiInterface,System.IO.TextWriter)">
+            <summary>
+            Basic constructor. Only assigns the instances from arguments to fields.
+            </summary>
+            <param name="interface">Reference to an (already created) MainEsiInterface instance</param>
+            <param name="textWriter">Text output stream</param>
+        </member>
+        <member name="M:eve_market.ContractInterface.HandleContracts(System.String[])">
+            <summary>
+            Handles the "contracts" command. Displays
+            a given page of contracts in the input 
+            region. If no region is given, the default 
+            region is used.
+            </summary>
+            <param name="tokens">Command line tokens</param>
+        </member>
+        <member name="M:eve_market.ContractInterface.HandleMyContracts(System.String[])">
+            <summary>
+            Handles the "my_contracts" command. Displays all contracts of the authorized character.
+            </summary>
+            <param name="tokens">Command line tokens (included for uniformity of API, not used)</param>
+        </member>
+        <member name="M:eve_market.ContractInterface.getContractItemString(System.Int64,System.Boolean)">
+            <summary>
+            Helper function. For a given contract, constructs a string of
+            the items in the given contract, with a specific formatting.
+            If listPublic is false, it is assumed that the contract is part
+            of the authorized characters contracts, otherwise it's public.
+            </summary>
+            <param name="contractId">ID of the contract</param>
+            <param name="isPublic">Whether the contract is a public or character one</param>
+            <returns>List of item info strings</returns>
+        </member>
+        <member name="M:eve_market.ContractInterface.GetBidStrings(System.Int32)">
+            <summary>
+            Helper function. Constructs a string containing 
+            all the bids from of the given auction contract.
+            Returns an empty lists if no bids are found.
+            </summary>
+            <param name="contractId">Auction contract ID</param>
+            <returns>List of bid strings</returns>
+        </member>
+        <member name="T:eve_market.MainEsiInterface">
+            <summary>
+            Main interface for communicating with the ESI API. Holds references
+            to specialized interfaces, has some helper functions and takes care of
+            authentication of the user.
+            </summary>
+        </member>
+        <member name="F:eve_market.MainEsiInterface.Client">
+            <summary>
+            ESI API Client instance
+            </summary>
+        </member>
+        <member name="F:eve_market.MainEsiInterface.Output">
+            <summary>
+            Stream to which output will be written
+            </summary>
+        </member>
+        <member name="P:eve_market.MainEsiInterface.IsAuthorized">
+            <summary>
+            Bool which is set to true if a character is authorized
+            </summary>
+        </member>
+        <member name="P:eve_market.MainEsiInterface.AuthToken">
+            <summary>
+            Auth Token obtained from the server
+            </summary>
+        </member>
+        <member name="P:eve_market.MainEsiInterface.AuthData">
+            <summary>
+            Information about the authorized character
+            </summary>
+        </member>
+        <member name="F:eve_market.MainEsiInterface.marketInterface">
+            <summary>
+            MarketInterface instance, used for accessing the 
+            Market portion of ESI
+            </summary>
+        </member>
+        <member name="F:eve_market.MainEsiInterface.universeInterface">
+            <summary>
+            UniverseInterface instance, used for accessing the 
+            Universe portoin of ESI
+            </summary>
+        </member>
+        <member name="F:eve_market.MainEsiInterface.contractInterface">
+            <summary>
+            ContractInterface instance, used for accessing the 
+            Universe portion of ESI
+            </summary>
+        </member>
+        <member name="F:eve_market.MainEsiInterface.printer">
+            <summary>
+            Printer instance, used for nice printing of various 
+            data gathered from ESI
+            </summary>
+        </member>
+        <member name="M:eve_market.MainEsiInterface.#ctor(System.IO.TextWriter)">
+            <summary>
+            Basic contstructor, creates the instances of other interfaces and the 
+            Printer, and also creates the EsiClient used for communication with ESI.
+            If there is an auth token from a previous session, uses it again.
+            </summary>
+            <param name="writer">Output text stream</param>
+        </member>
+        <member name="M:eve_market.MainEsiInterface.createClient">
+            <summary>
+            Helper function. Creates a new instance of EsiClient with the correct configuration
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:eve_market.MainEsiInterface.IsIdField(System.String)">
+            <summary>
+            Helper function which returns true if a given json field is an ID, and thus
+            the corresponding name has to be resolved.
+            </summary>
+            <param name="field">Name of the field</param>
+            <returns>True if  </returns>
+        </member>
+        <member name="M:eve_market.MainEsiInterface.GenerateStateString(System.Int32)">
+            <summary>
+            Generates a state string of given length, used for OAuth.
+            </summary>
+            <param name="length">length of the state string</param>
+            <returns>State string</returns>
+        </member>
+        <member name="M:eve_market.MainEsiInterface.HandleHelp(System.String[])">
+            <summary>
+            Handles the "help" command. Prints the
+            text inside the help.txt file.
+            </summary>
+            <param name="tokens">Command line tokens. Only included for uniformity of API</param>
+        </member>
+        <member name="M:eve_market.MainEsiInterface.StringFromSlice(System.String[],System.Int32,System.Int32,System.Char)">
+            <summary>
+            Helper function which creates a string from a given slice
+            of the "tokens" string array.
+            </summary>
+            <param name="tokens">Array of strings</param>
+            <param name="offset">Beginning of the slice</param>
+            <param name="size">Length of the slice</param>
+            <param name="sep">Separator to be added between tokens</param>
+            <returns>String of joined tokens starting at "offset" with a length of "size", separated by "sep"</returns>
+        </member>
+        <member name="M:eve_market.MainEsiInterface.CheckAuthorization">
+            <summary>
+            Checks whether a character is authorized. Returns the value
+            of IsAuthorized an
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:eve_market.MainEsiInterface.LoadAuthToken(System.String)">
+            <summary>
+            Loads the auth token from the save file if it exists, and
+            authorizes the user. Has to recreate the Client for it to
+            work properly.
+            </summary>
+            <param name="path">Path of the token save file</param>
+        </member>
+        <member name="M:eve_market.MainEsiInterface.SaveRefreshToken(ESI.NET.Models.SSO.SsoToken)">
+            <summary>
+            Saves the refresh token in a file.
+            </summary>
+            <param name="token">Save file path</param>
+        </member>
+        <member name="M:eve_market.MainEsiInterface.HandleLogout(System.String[])">
+            <summary>
+            Logs the authorized character out (if there is any)
+            </summary>
+            <param name="tokens">Command line tokens. Only included for the uniformity of API</param>
+        </member>
+        <member name="M:eve_market.MainEsiInterface.HandleAuthorize(System.String[])">
+            <summary>
+            Handles the authorization of a user. Takes 
+            care of the OAuth authorization process, and
+            refers the end-user to the auth page.
+            </summary>
+            <param name="tokens">Command line tokens. Included for the uniformity of API</param>
+        </member>
+        <member name="T:eve_market.MarketInterface">
+            <summary>
+            Class that handles the interaction with the Market part of ESI,
+            as well ass the handling of assets.
+            </summary>
+        </member>
+        <member name="F:eve_market.MarketInterface.output">
+            <summary>
+            Text output stream
+            </summary>
+        </member>
+        <member name="F:eve_market.MarketInterface.mainInterface">
+            <summary>
+            Reference to a MainEsiInterface instance
+            </summary>
+        </member>
+        <member name="F:eve_market.MarketInterface.defaultRegionId">
+            <summary>
+            Id of the default region ("The Forge" currently)
+            </summary>
+        </member>
+        <member name="F:eve_market.MarketInterface.defaultStationId">
+            <summary>
+            Id of the default station ("Jita IV - Moon 4 - Caldari Navy Assembly Plant")
+            </summary>
+        </member>
+        <member name="T:eve_market.MarketInterface.SortOrder">
+            <summary>
+            Enum choosing the sort order of various items
+            </summary>
+        </member>
+        <member name="T:eve_market.MarketInterface.SortBy">
+            <summary>
+            Enum for choosing the field by which orders should be sorted.
+            </summary>
+        </member>
+        <member name="M:eve_market.MarketInterface.#ctor(eve_market.MainEsiInterface,System.IO.TextWriter)">
+            <summary>
+            Basic constructor. Only assigns the instances from arguments to fields.
+            </summary>
+            <param name="interface">Reference to an (already created) MainEsiInterface instance</param>
+            <param name="textWriter">Text output stream</param>
+        </member>
+        <member name="M:eve_market.MarketInterface.HandleDefaults(System.String[])">
+            <summary>
+            Handles the "set" command.
+            Sets default values for region or station used when displaying market listings.
+            </summary>
+            <param name="tokens">Tokens from the input, including the original command</param>
+        </member>
+        <member name="M:eve_market.MarketInterface.HandleTransactions(System.String[])">
+            <summary>
+            Handles the "transactions" command.
+            Displays all of the recent transactions of the authorized characters
+            </summary>
+            <param name="tokens">Command line tokens (included for uniformity of API, not used)</param>
+        </member>
+        <member name="M:eve_market.MarketInterface.SortOrders(System.Collections.Generic.List{ESI.NET.Models.Market.Order},eve_market.MarketInterface.SortBy,eve_market.MarketInterface.SortOrder)">
+            <summary>
+            Sorts orders based on various fields defined by SortBy enum and in ascending or descending order
+            </summary>
+            <param name="orders"></param>
+            <param name="sortByType"></param>
+            <param name="sortOrder"></param>
+        </member>
+        <member name="M:eve_market.MarketInterface.SortItems(System.Collections.Generic.List{ESI.NET.Models.Assets.Item},eve_market.MarketInterface.SortBy,eve_market.MarketInterface.SortOrder)">
+            <summary>
+            Sorts a list of items according to the given field in the given order
+            </summary>
+            <param name="items">List of items to sort</param>
+            <param name="sortByType">Field to sort by</param>
+            <param name="sortOrder">Order to sort by</param>
+        </member>
+        <member name="M:eve_market.MarketInterface.HandleHistory(System.String[])">
+            <summary>
+            Prints type history in a given region.
+            </summary>
+            <param name="tokens">Command line tokens</param>
+        </member>
+        <member name="M:eve_market.MarketInterface.HandleAssets(System.String[],eve_market.MarketInterface.SortBy,eve_market.MarketInterface.SortOrder)">
+            <summary>
+            Handles the "assets" command.
+            Displays all assets of the authorized character as a table.
+            </summary>
+            <param name="tokens">Command line tokens</param>
+            <param name="sortByType">Which field to sort by</param>
+            <param name="sortOrder">Ascending/Descending</param>
+        </member>
+        <member name="M:eve_market.MarketInterface.GetLocIdAndType(System.String,System.Int64@,System.Int64@,System.Boolean@)">
+            <summary>
+            Helper function that resolves the location and type id and determines their type.
+            </summary>
+            <param name="locationName"></param>
+            <param name="regionId"></param>
+            <param name="locationId"></param>
+            <param name="stationSpecified"></param>
+            <returns></returns>
+        </member>
+        <member name="M:eve_market.MarketInterface.HandleOrders(System.String[],eve_market.MarketInterface.SortBy,eve_market.MarketInterface.SortOrder)">
+            <summary>
+            Handles the "orders" command.
+            Finds all orders of the given type in the given location. If not location is given, the default region will be used
+            </summary>
+            <param name="tokens"></param>
+            <param name="sortByType"></param>
+            <param name="sortOrder"></param>
+        </member>
+        <member name="M:eve_market.MarketInterface.HandleMyOrders(System.String[],eve_market.MarketInterface.SortBy,eve_market.MarketInterface.SortOrder)">
+            <summary>
+            Handles the "my_orders" command.
+            Gathers orders from the API, sorts them and prints them out to output
+            </summary>
+            <param name="tokens">Contains tokens from the command line.</param>
+            <param name="sortByType">Enum which determines the field by which to sort the orders</param>
+            <param name="sortOrder">Enum for ascending/descending sort order</param>
+        </member>
+        <member name="M:eve_market.MarketInterface.HandleOrderHistory(System.String[],eve_market.MarketInterface.SortBy,eve_market.MarketInterface.SortOrder)">
+            <summary>
+            Handles the "my_order_history" command. Gathers the order history of a given 
+            character, potentially sorts it and prints it out.
+            </summary>
+            <param name="tokens"></param>
+            <param name="sortByType"></param>
+            <param name="sortOrder"></param>
+        </member>
+        <member name="M:eve_market.MarketInterface.HandleWallet(System.String[])">
+            <summary>
+            Gathers information about the authorized characters' wallet and prints it out to output
+            </summary>
+            <param name="tokens">Included for the uniformity of API, not used</param>
+        </member>
+        <member name="T:eve_market.Printer">
+            <summary>
+            Class that handles printing of various data.
+            </summary>
+        </member>
+        <member name="F:eve_market.Printer.output">
+            <summary>
+            Text output stream
+            </summary>
+        </member>
+        <member name="F:eve_market.Printer.mainEsiInterface">
+            <summary>
+            Reference to a MainIntreface instance.
+            </summary>
+        </member>
+        <member name="M:eve_market.Printer.#ctor(eve_market.MainEsiInterface,System.IO.TextWriter)">
+            <summary>
+            Basic constructor. Only assigns the instances from arguments to fields.
+            </summary>
+            <param name="esiInterface">Reference to an (already created) MainEsiInterface instance</param>
+            <param name="writer">Text output stream</param>
+        </member>
+        <member name="M:eve_market.Printer.PrintLine(System.Int32)">
+            <summary>
+            Prints a line of a given length to the output stream.
+            </summary>
+            <param name="length">Length of the line</param>
+        </member>
+        <member name="M:eve_market.Printer.PrintLine(System.Collections.Generic.List{System.String},System.Int32)">
+            <summary>
+            Prints a line that adapts to the number of fields, 
+            and the width corresponding to one field.
+            </summary>
+            <param name="fields">List of fields</param>
+            <param name="width">Width for one field</param>
+        </member>
+        <member name="M:eve_market.Printer.PrintTableHeader(System.Collections.Generic.List{System.String},System.Int32)">
+            <summary>
+            Prints the header of a table, which contains the given fields, 
+            with a cell width of "width".
+            </summary>
+            <param name="fields">List of field names</param>
+            <param name="width">Width of a cell in the table</param>
+        </member>
+        <member name="M:eve_market.Printer.PrintContracts(System.Collections.Generic.List{ESI.NET.Models.Contracts.Contract},System.Boolean)">
+            <summary>
+            Prints the contracts from arguments. Warning, contracts have a lot 
+            of variations and this function is quite extensive in its printing.
+            Use listPublic if you're trying to print public contracts.
+            </summary>
+            <param name="contracts">List of contracts to print</param>
+            <param name="listPublic">Whether public contract is being printed</param>
+        </member>
+        <member name="M:eve_market.Printer.PrintObjList``1(System.Collections.Generic.List{``0},System.Int32,System.Int32,System.Collections.Generic.List{System.String},System.Collections.Generic.List{System.String})">
+            <summary>
+            Prints a list of json-convertible objects as a table, with a given
+            cell width and number of rows. Only prints the fields named in the 
+            "fields". If a field is an ID field, also resolves it's name before
+            printing.
+            </summary>
+            <typeparam name="T">JObject-convertible type</typeparam>
+            <param name="objList">List of items to print</param>
+            <param name="width">Table cell width</param>
+            <param name="rows">Number of rows. If it's less than the length of "objList", prints only the first
+            "rows" items.</param>
+            <param name="fields">Keys of the fields to print.</param>
+        </member>
+        <member name="M:eve_market.Program.ParseInput(System.IO.TextReader,System.IO.TextWriter,eve_market.MainEsiInterface)">
+            <summary>
+            Simple entry point function to the program. Turns the command line input into tokens
+            and calls a function based on the value of the first token.
+            </summary>
+            <param name="streamReader">Input stream</param>
+            <param name="writer">Output stream</param>
+            <param name="apiInterface">MainEsiInterface instance</param>
+        </member>
+        <member name="T:eve_market.UniverseInterface">
+            <summary>
+            Class that handles the interaction with the Universe part of ESI,
+            and provides various helpful functions to other parts of the program.
+            </summary>
+        </member>
+        <member name="F:eve_market.UniverseInterface.output">
+            <summary>
+            Text output stream
+            </summary>
+        </member>
+        <member name="F:eve_market.UniverseInterface.mainInterface">
+            <summary>
+            Reference to a MainEsiInterface instance
+            </summary>
+        </member>
+        <member name="F:eve_market.UniverseInterface.nameToIdCache">
+            <summary>
+            Used for caching requests for name resolution.
+            </summary>
+        </member>
+        <member name="F:eve_market.UniverseInterface.idToNameCache">
+            <summary>
+            Used for caching requests for ID resolution.
+            </summary>
+        </member>
+        <member name="M:eve_market.UniverseInterface.#ctor(eve_market.MainEsiInterface,System.IO.TextWriter)">
+            <summary>
+            Basic constructor. Only assigns the instances from arguments to fields.
+            </summary>
+            <param name="interface">Reference to an (already created) MainEsiInterface instance</param>
+            <param name="textWriter">Text output stream</param>
+        </member>
+        <member name="M:eve_market.UniverseInterface.PrintItemInfo(System.String)">
+            <summary>
+            Finds the closest matching item and prints its description
+            </summary>
+            <param name="itemName">Command line tokens</param>
+        </member>
+        <member name="M:eve_market.UniverseInterface.HandleInfo(System.String[])">
+            <summary>
+            HAndles the "info" command. 
+            </summary>
+            <param name="tokens"></param>
+        </member>
+        <member name="M:eve_market.UniverseInterface.SearchName(System.String,ESI.NET.Enumerations.SearchCategory)">
+            <summary>
+            Find names of types/objects which containg a given string query and returns the list of matching ids
+            </summary>
+            <param name="query"></param>
+            <param name="category">Enum describing the category of the object</param>
+            <returns>A list of ids of the matches</returns>
+        </member>
+        <member name="M:eve_market.UniverseInterface.FindRegion(System.Int64,ESI.NET.Enumerations.SearchCategory)">
+            <summary>
+            Finds the region of a given object lower in the hierarchy
+            </summary>
+            <param name="id">ID of the object</param>
+            <param name="type">Type of the object</param>
+            <returns>ID of the region to which this object belongs</returns>
+        </member>
+        <member name="M:eve_market.UniverseInterface.NameToId(System.String,ESI.NET.Enumerations.SearchCategory)">
+            <summary>
+            For a given name of object and it's type, finds its ID. 
+            Doesn't require exact names, will find the closest match and returns its ID
+            If no matches are found, returns -1
+            </summary>
+            <param name="name">Name of the object</param>
+            <param name="category">Enum describing the category of the object</param>
+            <returns>ID of the given query type/object</returns>
+        </member>
+        <member name="M:eve_market.UniverseInterface.ContractIdToName(System.Collections.Generic.List{System.Int64},System.String)">
+            <summary>
+            Function that resolves the ids in a given contract, categories
+            are determined based on the name of the field to which these
+            ids belong. Results are cached and are available later from
+            the IdToName() function.
+            </summary>
+            <param name="ids">List of ids to resolve</param>
+            <param name="fieldName">Name of the field to which these ids belong</param>
+        </member>
+        <member name="M:eve_market.UniverseInterface.ResolveContractIds(System.Collections.Generic.List{System.Int64},ESI.NET.Enumerations.SearchCategory)">
+            <summary>
+            Function which does the actual resolving of the contract ids. 
+            Results are cached and later available through IdToName() function.
+            </summary>
+            <param name="ids">List of ids to resolve</param>
+            <param name="category">Enum denoting the category of the ids</param>
+        </member>
+        <member name="M:eve_market.UniverseInterface.IdToName(System.Collections.Generic.List{System.Int64})">
+            <summary>
+            Finds the names corresponding to these IDs, caches them and returns them as a list.
+            Make sure all IDs are unique and of the same type.It is better to later query 
+            the IdToName(long id) method for the results, instead of using this list.
+            </summary>
+            <param name = "ids">List of ids to resolve</param >
+            <returns> Name corresponding to the given ID</returns>
+        </member>
+        <member name="M:eve_market.UniverseInterface.IdToName(System.Int64)">
+            <summary>
+            Overload for singular ids. If id is in the 
+            cache, returns it's cached value. Otherwise calls
+            IdToName() with a List of length 1 containing this id.
+            </summary>
+            <param name="id">Id to resolve</param>
+            <returns>Resolved name</returns>
+        </member>
+    </members>
+</doc>

@@ -1,0 +1,786 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Class MainEsiInterface
+   </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Class MainEsiInterface
+   ">
+    <meta name="generator" content="docfx 2.59.3.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="eve_market.MainEsiInterface">
+  
+  
+  <h1 id="eve_market_MainEsiInterface" data-uid="eve_market.MainEsiInterface" class="text-break">Class MainEsiInterface
+  </h1>
+  <div class="markdown level0 summary"><p>Main interface for communicating with the ESI API. Holds references
+to specialized interfaces, has some helper functions and takes care of
+authentication of the user.</p>
+</div>
+  <div class="markdown level0 conceptual"></div>
+  <div class="inheritance">
+    <h5>Inheritance</h5>
+    <div class="level0"><span class="xref">System.Object</span></div>
+    <div class="level1"><span class="xref">MainEsiInterface</span></div>
+  </div>
+  <div class="inheritedMembers">
+    <h5>Inherited Members</h5>
+    <div>
+      <span class="xref">System.Object.Equals(System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.Equals(System.Object, System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.GetHashCode()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.GetType()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.MemberwiseClone()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.ReferenceEquals(System.Object, System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.ToString()</span>
+    </div>
+  </div>
+  <h6><strong>Namespace</strong>: <a class="xref" href="eve_market.html">eve_market</a></h6>
+  <h6><strong>Assembly</strong>: eve_market.dll</h6>
+  <h5 id="eve_market_MainEsiInterface_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public class MainEsiInterface</code></pre>
+  </div>
+  <h3 id="constructors">Constructors
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/nexuso1/eve-market/new/master/apiSpec/new?filename=eve_market_MainEsiInterface__ctor_System_IO_TextWriter_.md&amp;value=---%0Auid%3A%20eve_market.MainEsiInterface.%23ctor(System.IO.TextWriter)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/nexuso1/eve-market/blob/master/MainEsiInterface.cs/#L96">View Source</a>
+  </span>
+  <a id="eve_market_MainEsiInterface__ctor_" data-uid="eve_market.MainEsiInterface.#ctor*"></a>
+  <h4 id="eve_market_MainEsiInterface__ctor_System_IO_TextWriter_" data-uid="eve_market.MainEsiInterface.#ctor(System.IO.TextWriter)">MainEsiInterface(TextWriter)</h4>
+  <div class="markdown level1 summary"><p>Basic contstructor, creates the instances of other interfaces and the
+Printer, and also creates the EsiClient used for communication with ESI.
+If there is an auth token from a previous session, uses it again.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public MainEsiInterface(TextWriter writer)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.IO.TextWriter</span></td>
+        <td><span class="parametername">writer</span></td>
+        <td><p>Output text stream</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="fields">Fields
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/nexuso1/eve-market/new/master/apiSpec/new?filename=eve_market_MainEsiInterface_Client.md&amp;value=---%0Auid%3A%20eve_market.MainEsiInterface.Client%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/nexuso1/eve-market/blob/master/MainEsiInterface.cs/#L23">View Source</a>
+  </span>
+  <h4 id="eve_market_MainEsiInterface_Client" data-uid="eve_market.MainEsiInterface.Client">Client</h4>
+  <div class="markdown level1 summary"><p>ESI API Client instance</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public EsiClient Client</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">ESI.NET.EsiClient</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/nexuso1/eve-market/new/master/apiSpec/new?filename=eve_market_MainEsiInterface_contractInterface.md&amp;value=---%0Auid%3A%20eve_market.MainEsiInterface.contractInterface%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/nexuso1/eve-market/blob/master/MainEsiInterface.cs/#L82">View Source</a>
+  </span>
+  <h4 id="eve_market_MainEsiInterface_contractInterface" data-uid="eve_market.MainEsiInterface.contractInterface">contractInterface</h4>
+  <div class="markdown level1 summary"><p>ContractInterface instance, used for accessing the
+Universe portion of ESI</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ContractInterface contractInterface</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="eve_market.ContractInterface.html">ContractInterface</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/nexuso1/eve-market/new/master/apiSpec/new?filename=eve_market_MainEsiInterface_marketInterface.md&amp;value=---%0Auid%3A%20eve_market.MainEsiInterface.marketInterface%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/nexuso1/eve-market/blob/master/MainEsiInterface.cs/#L70">View Source</a>
+  </span>
+  <h4 id="eve_market_MainEsiInterface_marketInterface" data-uid="eve_market.MainEsiInterface.marketInterface">marketInterface</h4>
+  <div class="markdown level1 summary"><p>MarketInterface instance, used for accessing the
+Market portion of ESI</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public MarketInterface marketInterface</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="eve_market.MarketInterface.html">MarketInterface</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/nexuso1/eve-market/new/master/apiSpec/new?filename=eve_market_MainEsiInterface_Output.md&amp;value=---%0Auid%3A%20eve_market.MainEsiInterface.Output%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/nexuso1/eve-market/blob/master/MainEsiInterface.cs/#L28">View Source</a>
+  </span>
+  <h4 id="eve_market_MainEsiInterface_Output" data-uid="eve_market.MainEsiInterface.Output">Output</h4>
+  <div class="markdown level1 summary"><p>Stream to which output will be written</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public TextWriter Output</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.IO.TextWriter</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/nexuso1/eve-market/new/master/apiSpec/new?filename=eve_market_MainEsiInterface_printer.md&amp;value=---%0Auid%3A%20eve_market.MainEsiInterface.printer%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/nexuso1/eve-market/blob/master/MainEsiInterface.cs/#L88">View Source</a>
+  </span>
+  <h4 id="eve_market_MainEsiInterface_printer" data-uid="eve_market.MainEsiInterface.printer">printer</h4>
+  <div class="markdown level1 summary"><p>Printer instance, used for nice printing of various
+data gathered from ESI</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Printer printer</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="eve_market.Printer.html">Printer</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/nexuso1/eve-market/new/master/apiSpec/new?filename=eve_market_MainEsiInterface_universeInterface.md&amp;value=---%0Auid%3A%20eve_market.MainEsiInterface.universeInterface%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/nexuso1/eve-market/blob/master/MainEsiInterface.cs/#L76">View Source</a>
+  </span>
+  <h4 id="eve_market_MainEsiInterface_universeInterface" data-uid="eve_market.MainEsiInterface.universeInterface">universeInterface</h4>
+  <div class="markdown level1 summary"><p>UniverseInterface instance, used for accessing the
+Universe portoin of ESI</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public UniverseInterface universeInterface</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="eve_market.UniverseInterface.html">UniverseInterface</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="properties">Properties
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/nexuso1/eve-market/new/master/apiSpec/new?filename=eve_market_MainEsiInterface_AuthData.md&amp;value=---%0Auid%3A%20eve_market.MainEsiInterface.AuthData%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/nexuso1/eve-market/blob/master/MainEsiInterface.cs/#L54">View Source</a>
+  </span>
+  <a id="eve_market_MainEsiInterface_AuthData_" data-uid="eve_market.MainEsiInterface.AuthData*"></a>
+  <h4 id="eve_market_MainEsiInterface_AuthData" data-uid="eve_market.MainEsiInterface.AuthData">AuthData</h4>
+  <div class="markdown level1 summary"><p>Information about the authorized character</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public AuthorizedCharacterData AuthData { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">ESI.NET.Models.SSO.AuthorizedCharacterData</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/nexuso1/eve-market/new/master/apiSpec/new?filename=eve_market_MainEsiInterface_AuthToken.md&amp;value=---%0Auid%3A%20eve_market.MainEsiInterface.AuthToken%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/nexuso1/eve-market/blob/master/MainEsiInterface.cs/#L39">View Source</a>
+  </span>
+  <a id="eve_market_MainEsiInterface_AuthToken_" data-uid="eve_market.MainEsiInterface.AuthToken*"></a>
+  <h4 id="eve_market_MainEsiInterface_AuthToken" data-uid="eve_market.MainEsiInterface.AuthToken">AuthToken</h4>
+  <div class="markdown level1 summary"><p>Auth Token obtained from the server</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public SsoToken AuthToken { set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">ESI.NET.Models.SSO.SsoToken</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/nexuso1/eve-market/new/master/apiSpec/new?filename=eve_market_MainEsiInterface_IsAuthorized.md&amp;value=---%0Auid%3A%20eve_market.MainEsiInterface.IsAuthorized%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/nexuso1/eve-market/blob/master/MainEsiInterface.cs/#L35">View Source</a>
+  </span>
+  <a id="eve_market_MainEsiInterface_IsAuthorized_" data-uid="eve_market.MainEsiInterface.IsAuthorized*"></a>
+  <h4 id="eve_market_MainEsiInterface_IsAuthorized" data-uid="eve_market.MainEsiInterface.IsAuthorized">IsAuthorized</h4>
+  <div class="markdown level1 summary"><p>Bool which is set to true if a character is authorized</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool IsAuthorized { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="methods">Methods
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/nexuso1/eve-market/new/master/apiSpec/new?filename=eve_market_MainEsiInterface_CheckAuthorization.md&amp;value=---%0Auid%3A%20eve_market.MainEsiInterface.CheckAuthorization%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/nexuso1/eve-market/blob/master/MainEsiInterface.cs/#L192">View Source</a>
+  </span>
+  <a id="eve_market_MainEsiInterface_CheckAuthorization_" data-uid="eve_market.MainEsiInterface.CheckAuthorization*"></a>
+  <h4 id="eve_market_MainEsiInterface_CheckAuthorization" data-uid="eve_market.MainEsiInterface.CheckAuthorization">CheckAuthorization()</h4>
+  <div class="markdown level1 summary"><p>Checks whether a character is authorized. Returns the value
+of IsAuthorized an</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool CheckAuthorization()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/nexuso1/eve-market/new/master/apiSpec/new?filename=eve_market_MainEsiInterface_GenerateStateString_System_Int32_.md&amp;value=---%0Auid%3A%20eve_market.MainEsiInterface.GenerateStateString(System.Int32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/nexuso1/eve-market/blob/master/MainEsiInterface.cs/#L149">View Source</a>
+  </span>
+  <a id="eve_market_MainEsiInterface_GenerateStateString_" data-uid="eve_market.MainEsiInterface.GenerateStateString*"></a>
+  <h4 id="eve_market_MainEsiInterface_GenerateStateString_System_Int32_" data-uid="eve_market.MainEsiInterface.GenerateStateString(System.Int32)">GenerateStateString(Int32)</h4>
+  <div class="markdown level1 summary"><p>Generates a state string of given length, used for OAuth.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string GenerateStateString(int length = 10)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">length</span></td>
+        <td><p>length of the state string</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><p>State string</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/nexuso1/eve-market/new/master/apiSpec/new?filename=eve_market_MainEsiInterface_HandleAuthorize_System_String___.md&amp;value=---%0Auid%3A%20eve_market.MainEsiInterface.HandleAuthorize(System.String%5B%5D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/nexuso1/eve-market/blob/master/MainEsiInterface.cs/#L267">View Source</a>
+  </span>
+  <a id="eve_market_MainEsiInterface_HandleAuthorize_" data-uid="eve_market.MainEsiInterface.HandleAuthorize*"></a>
+  <h4 id="eve_market_MainEsiInterface_HandleAuthorize_System_String___" data-uid="eve_market.MainEsiInterface.HandleAuthorize(System.String[])">HandleAuthorize(String[])</h4>
+  <div class="markdown level1 summary"><p>Handles the authorization of a user. Takes
+care of the OAuth authorization process, and
+refers the end-user to the auth page.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public async void HandleAuthorize(string[] tokens)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span>[]</td>
+        <td><span class="parametername">tokens</span></td>
+        <td><p>Command line tokens. Included for the uniformity of API</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/nexuso1/eve-market/new/master/apiSpec/new?filename=eve_market_MainEsiInterface_HandleHelp_System_String___.md&amp;value=---%0Auid%3A%20eve_market.MainEsiInterface.HandleHelp(System.String%5B%5D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/nexuso1/eve-market/blob/master/MainEsiInterface.cs/#L167">View Source</a>
+  </span>
+  <a id="eve_market_MainEsiInterface_HandleHelp_" data-uid="eve_market.MainEsiInterface.HandleHelp*"></a>
+  <h4 id="eve_market_MainEsiInterface_HandleHelp_System_String___" data-uid="eve_market.MainEsiInterface.HandleHelp(System.String[])">HandleHelp(String[])</h4>
+  <div class="markdown level1 summary"><p>Handles the &quot;help&quot; command. Prints the
+text inside the help.txt file.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void HandleHelp(string[] tokens)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span>[]</td>
+        <td><span class="parametername">tokens</span></td>
+        <td><p>Command line tokens. Only included for uniformity of API</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/nexuso1/eve-market/new/master/apiSpec/new?filename=eve_market_MainEsiInterface_HandleLogout_System_String___.md&amp;value=---%0Auid%3A%20eve_market.MainEsiInterface.HandleLogout(System.String%5B%5D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/nexuso1/eve-market/blob/master/MainEsiInterface.cs/#L247">View Source</a>
+  </span>
+  <a id="eve_market_MainEsiInterface_HandleLogout_" data-uid="eve_market.MainEsiInterface.HandleLogout*"></a>
+  <h4 id="eve_market_MainEsiInterface_HandleLogout_System_String___" data-uid="eve_market.MainEsiInterface.HandleLogout(System.String[])">HandleLogout(String[])</h4>
+  <div class="markdown level1 summary"><p>Logs the authorized character out (if there is any)</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public async void HandleLogout(string[] tokens)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span>[]</td>
+        <td><span class="parametername">tokens</span></td>
+        <td><p>Command line tokens. Only included for the uniformity of API</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/nexuso1/eve-market/new/master/apiSpec/new?filename=eve_market_MainEsiInterface_IsIdField_System_String_.md&amp;value=---%0Auid%3A%20eve_market.MainEsiInterface.IsIdField(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/nexuso1/eve-market/blob/master/MainEsiInterface.cs/#L137">View Source</a>
+  </span>
+  <a id="eve_market_MainEsiInterface_IsIdField_" data-uid="eve_market.MainEsiInterface.IsIdField*"></a>
+  <h4 id="eve_market_MainEsiInterface_IsIdField_System_String_" data-uid="eve_market.MainEsiInterface.IsIdField(System.String)">IsIdField(String)</h4>
+  <div class="markdown level1 summary"><p>Helper function which returns true if a given json field is an ID, and thus
+the corresponding name has to be resolved.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool IsIdField(string field)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">field</span></td>
+        <td><p>Name of the field</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><p>True if</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/nexuso1/eve-market/new/master/apiSpec/new?filename=eve_market_MainEsiInterface_StringFromSlice_System_String___System_Int32_System_Int32_System_Char_.md&amp;value=---%0Auid%3A%20eve_market.MainEsiInterface.StringFromSlice(System.String%5B%5D%2CSystem.Int32%2CSystem.Int32%2CSystem.Char)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/nexuso1/eve-market/blob/master/MainEsiInterface.cs/#L182">View Source</a>
+  </span>
+  <a id="eve_market_MainEsiInterface_StringFromSlice_" data-uid="eve_market.MainEsiInterface.StringFromSlice*"></a>
+  <h4 id="eve_market_MainEsiInterface_StringFromSlice_System_String___System_Int32_System_Int32_System_Char_" data-uid="eve_market.MainEsiInterface.StringFromSlice(System.String[],System.Int32,System.Int32,System.Char)">StringFromSlice(String[], Int32, Int32, Char)</h4>
+  <div class="markdown level1 summary"><p>Helper function which creates a string from a given slice
+of the &quot;tokens&quot; string array.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string StringFromSlice(string[] tokens, int offset, int size, char sep = ' ')</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span>[]</td>
+        <td><span class="parametername">tokens</span></td>
+        <td><p>Array of strings</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">offset</span></td>
+        <td><p>Beginning of the slice</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">size</span></td>
+        <td><p>Length of the slice</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Char</span></td>
+        <td><span class="parametername">sep</span></td>
+        <td><p>Separator to be added between tokens</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><p>String of joined tokens starting at &quot;offset&quot; with a length of &quot;size&quot;, separated by &quot;sep&quot;</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/nexuso1/eve-market/new/master/apiSpec/new?filename=eve_market_MainEsiInterface.md&amp;value=---%0Auid%3A%20eve_market.MainEsiInterface%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
+                  </li>
+                  <li>
+                    <a href="https://github.com/nexuso1/eve-market/blob/master/MainEsiInterface.cs/#L18" class="contribution-link">View Source</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

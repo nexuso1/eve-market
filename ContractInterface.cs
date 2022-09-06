@@ -24,7 +24,7 @@ namespace eve_market
         /// <summary>
         /// Basic constructor. Only assigns the instances from arguments to fields.
         /// </summary>
-        /// <param name="interface">Reference to an (already created) MainInterface instance</param>
+        /// <param name="interface">Reference to an (already created) MainEsiInterface instance</param>
         /// <param name="textWriter">Text output stream</param>
         public ContractInterface(MainEsiInterface @interface, TextWriter textWriter)
         {
@@ -114,6 +114,7 @@ namespace eve_market
             if (contracts.Count == 0)
             {
                 output.WriteLine("No contracts to display.");
+                return;
             }
             mainInterface.printer.PrintContracts(contracts);
         }
@@ -134,7 +135,7 @@ namespace eve_market
             else contractItems = mainInterface.Client.Contracts.CharacterContractItems((int)contractId).Result.Data;
 
             // No items in this contract
-            if (contractItems.Count == 0) new List<List<string>> { new List<string>(), new List<string>() };
+            if (contractItems is null || contractItems.Count == 0) return new List<List<string>> { new List<string>(), new List<string>() };
             var included = new List<string>();
             var asking = new List<string>();
 

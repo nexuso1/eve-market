@@ -3,24 +3,29 @@ using System.IO;
 
 namespace eve_market
 {
-    public class InputParser
+    class Program
     {
-        public MainEsiInterface apiInterface { get; set; }
-        public InputParser(MainEsiInterface apiInterface)
-        {
-            this.apiInterface = apiInterface;
-        }
-
-        public void ParseInput(TextReader streamReader, TextWriter writer)
+        /// <summary>
+        /// Simple entry point function to the program. Turns the command line input into tokens
+        /// and calls a function based on the value of the first token.
+        /// </summary>
+        /// <param name="streamReader">Input stream</param>
+        /// <param name="writer">Output stream</param>
+        /// <param name="apiInterface">MainEsiInterface instance</param>
+        public static void ParseInput(TextReader streamReader, TextWriter writer, MainEsiInterface apiInterface)
         {
             string line = null;
-            while((line = streamReader.ReadLine()) != null){
+            while ((line = streamReader.ReadLine()) != null)
+            {
                 var tokens = line.Split();
                 var command = tokens[0];
                 switch (command)
                 {
                     case "authorize":
                         apiInterface.HandleAuthorize(tokens);
+                        break;
+                    case "logout":
+                        apiInterface.HandleLogout(tokens);
                         break;
 
                     case "set":
@@ -68,7 +73,7 @@ namespace eve_market
                         return;
 
                     case "help":
-                        writer.WriteLine("Printing help...");
+                        apiInterface.HandleHelp(tokens);
                         break;
 
                     default:
@@ -77,17 +82,13 @@ namespace eve_market
                 }
             }
         }
-    }
 
-    class Program
-    {
         static void Main(string[] args)
         {
-            System.Console.WriteLine("----- ESI Market Interface -----");
+            Console.WriteLine("------------ ESI Market Interface ------------");
+            Console.WriteLine("For a list of available commands type \"help\".");
             MainEsiInterface apiInterface = new MainEsiInterface(Console.Out);
-            InputParser parser = new InputParser(apiInterface);
-
-            parser.ParseInput(Console.In, Console.Out);
+            ParseInput(Console.In, Console.Out, apiInterface);
         }
     }
 }

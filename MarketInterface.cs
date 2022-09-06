@@ -8,16 +8,41 @@ using ESI.NET.Models.Assets;
 
 namespace eve_market
 {
+    /// <summary>
+    /// Class that handles the interaction with the Market part of ESI,
+    /// as well ass the handling of assets.
+    /// </summary>
     public class MarketInterface
     {
-
+        /// <summary>
+        /// Text output stream
+        /// </summary>
         public TextWriter output;
+        /// <summary>
+        /// Reference to a MainEsiInterface instance
+        /// </summary>
         public MainEsiInterface mainInterface;
+        /// <summary>
+        /// Id of the default region ("The Forge" currently)
+        /// </summary>
         public long defaultRegionId = 10000002;
+        /// <summary>
+        /// Id of the default station ("Jita IV - Moon 4 - Caldari Navy Assembly Plant")
+        /// </summary>
         public long defaultStationId = 60003760;
+        /// <summary>
+        /// Enum choosing the sort order of various items
+        /// </summary>
         public enum SortOrder { Ascending, Descending };
+        /// <summary>
+        /// Enum for choosing the field by which orders should be sorted.
+        /// </summary>
         public enum SortBy { Price, Date, Volume, Region, Station, CustomName, TypeName };
-
+        /// <summary>
+        /// Basic constructor. Only assigns the instances from arguments to fields.
+        /// </summary>
+        /// <param name="interface">Reference to an (already created) MainEsiInterface instance</param>
+        /// <param name="textWriter">Text output stream</param>
         public MarketInterface(MainEsiInterface @interface, TextWriter textWriter)
         {
             output = textWriter;
@@ -25,6 +50,7 @@ namespace eve_market
         }
 
         /// <summary>
+        /// Handles the "set" command.
         /// Sets default values for region or station used when displaying market listings.
         /// </summary>
         /// <param name="tokens">Tokens from the input, including the original command</param>
@@ -33,67 +59,58 @@ namespace eve_market
             if (tokens.Length < 3)
             {
                 output.WriteLine("Invalid command format.");
+                return;
             }
 
-            // Slice out the rest of the tokens, make them into an array and join them with ' '.
-            var name = mainInterface.StringFromSlice(tokens, 2, tokens.Length - 2);
+            var pattern = '"' + @"([\w ]+)" + '"';
+            var matches = Regex.Matches(String.Join(' ', tokens), pattern);
+
+            if (tokens.Length == 1)
+            {
+                output.WriteLine("No name provided");
+                return;
+            }
+
+            if (matches.Count == 0)
+            {
+                output.WriteLine("Invalid name format.");
+                return;
+            }
+
+            var name = matches[0].Groups[1].Value;
 
             switch (tokens[1])
             {
                 case "region":
-                    defaultRegionId = mainInterface.universeInterface.NameToId(name, SearchCategory.Region);
+                    var regionId = mainInterface.universeInterface.NameToId(name, SearchCategory.Region);
+                    if (regionId == -1)
+                    {
+                        output.WriteLine("Invalid region name provided.");
+                        return;
+                    }
+
+                    defaultRegionId = regionId;
+                    output.WriteLine($"Default region set to {mainInterface.universeInterface.IdToName(regionId)}.");
                     return;
                 case "station":
-                    defaultStationId = mainInterface.universeInterface.NameToId(name, SearchCategory.Station);
+                    var stationId = mainInterface.universeInterface.NameToId(name, SearchCategory.Station);
+                    if (stationId == -1)
+                    {
+                        output.WriteLine("Invalid station name provided.");
+                        return;
+                    }
+
+                    defaultStationId = stationId;
+                    output.WriteLine($"Default station set to {mainInterface.universeInterface.IdToName(stationId)}.");
                     return;
                 default:
                     output.WriteLine("Invalid name of a default setting");
                     return;
             }
         }
-        /// <summary>
-        /// Extracts type and potentially location from the tokens. If both are found, returns
-        /// them as a List { typeName, locationName }
-        /// </summary>
-        /// <param name="tokens">command line tokens</param>
-        /// <param name="specifiedLocation">Bool if location was found</param>
-        /// <returns></returns>
-        private List<long> GetTypeAndLocationId(string[] tokens, ref bool specifiedLocation)
-        {
-            var pattern = '"' + @"([\w ]+)" + '"';
-            var matches = Regex.Matches(String.Join(' ', tokens), pattern);
-            bool specifiedRegion = false;
-            var regionName = "";
-            var typeName = "";
-            var regionId = defaultRegionId;
-
-            if (matches.Count == 2)
-            {
-                specifiedRegion = true;
-                regionName = matches[1].Groups[1].Value;
-            }
-
-            typeName = matches[0].Groups[1].Value;
-
-            var typeId = mainInterface.universeInterface.NameToId(typeName, SearchCategory.InventoryType);
-            if (typeId == -1)
-            {
-                throw new ArgumentException("Couldnt find the type specified.");
-            }
-
-            if (specifiedRegion)
-            {
-                regionId = mainInterface.universeInterface.NameToId(regionName, SearchCategory.Region);
-                if (regionId == -1)
-                {
-                    throw new ArgumentException("Couldnt find the region specified.");
-                }
-            }
-
-            return new List<long> { typeId, regionId };
-        }
         
         /// <summary>
+        /// Handles the "transactions" command.
         /// Displays all of the recent transactions of the authorized characters
         /// </summary>
         /// <param name="tokens">Command line tokens (included for uniformity of API, not used)</param>
@@ -115,7 +132,6 @@ namespace eve_market
                     // There is a bug in ESI it seems, every page returns the same transactions...
                     // so just break out of the loop after the first one
                     break;
-                    page++;
                 }
                 catch (ArgumentException)
                 {
@@ -133,9 +149,7 @@ namespace eve_market
             var fields = new List<string> { "date", "is_buy", "unit_price", "type_id", "quantity", "client_id", "location_id" };
             var fieldDesc = new List<string> { "Data", "Is Buy", "Unit Price", "Item", "Quantity", "Beneficiary", "Location" };
 
-            mainInterface.printer.PrintTableHeader(fieldDesc, 20);
-            mainInterface.printer.PrintLine(fields, 20);
-            mainInterface.printer.PrintJsonList(transactions, 20, transactions.Count, fields);
+            mainInterface.printer.PrintObjList(transactions, 20, transactions.Count, fields, fieldDesc);
         }
 
         /// <summary>
@@ -198,6 +212,7 @@ namespace eve_market
         /// <param name="tokens">Command line tokens</param>
         public void HandleHistory(string[] tokens)
         {
+
             var pattern = '"' + @"([\w ]+)" + '"';
             var matches = Regex.Matches(String.Join(' ', tokens), pattern);
             bool specifiedRegion = false;
@@ -205,9 +220,26 @@ namespace eve_market
             var typeName = "";
             var regionId = defaultRegionId;
 
+            if (tokens.Length == 1)
+            {
+                output.WriteLine("No item name provided");
+                return;
+            }
+
+            if (matches.Count == 0)
+            {
+                output.WriteLine("No item name provided");
+                return;
+            }
+
             if (matches.Count == 2)
             {
                 specifiedRegion = true;
+                if(matches.Count == 1)
+                {
+                    output.WriteLine("Invalid region name format. Please use double quotes around the region name.");
+                    return;
+                }
                 regionName = matches[1].Groups[1].Value;
             }
 
@@ -234,6 +266,7 @@ namespace eve_market
             if (history.Count == 0)
             {
                 output.WriteLine("No history to display.");
+                return;
             }
 
             history.Sort((x, y) => x.Date.CompareTo(y.Date));
@@ -242,12 +275,11 @@ namespace eve_market
             var fields = new List<string> { "date", "average", "highest", "lowest", "order_count", "volume" };
             var fieldDesc = new List<string> { "Date", "Average", "Highest", "Lowest", "Order Count", "Volume" };
 
-            mainInterface.printer.PrintTableHeader(fieldDesc, 20);
-            mainInterface.printer.PrintJsonList(history, 20, 60, fields);
-
+            mainInterface.printer.PrintObjList(history, 20, 60, fields, fieldDesc);
         }
 
         /// <summary>
+        /// Handles the "assets" command.
         /// Displays all assets of the authorized character as a table.
         /// </summary>
         /// <param name="tokens">Command line tokens</param>
@@ -255,7 +287,11 @@ namespace eve_market
         /// <param name="sortOrder">Ascending/Descending</param>
         public void HandleAssets(string[] tokens, SortBy sortByType = SortBy.Station, SortOrder sortOrder = SortOrder.Descending)
         {
-            if (!mainInterface.CheckAuthorization()) return;
+            if (!mainInterface.CheckAuthorization())
+            {
+                output.WriteLine("No character authorized.");
+                return;
+            }
 
             int page = 1;
             var assets = new List<Item>();
@@ -307,11 +343,17 @@ namespace eve_market
             var fieldDesc = new List<string> { "Type", "Custom Name", "Location", "Quantity" };
             // Sort the assets
             SortItems(assets, sortByType, sortOrder);
-            mainInterface.printer.PrintTableHeader(fieldDesc, 20);
-            mainInterface.printer.PrintLine(fields, 20);
-            mainInterface.printer.PrintJsonList(assets, 20, assets.Count, fields);
+            mainInterface.printer.PrintObjList(assets, 20, assets.Count, fields, fieldDesc);
         }
 
+        /// <summary>
+        /// Helper function that resolves the location and type id and determines their type.
+        /// </summary>
+        /// <param name="locationName"></param>
+        /// <param name="regionId"></param>
+        /// <param name="locationId"></param>
+        /// <param name="stationSpecified"></param>
+        /// <returns></returns>
         private bool GetLocIdAndType(string locationName, ref long regionId, ref long locationId, ref bool stationSpecified)
         {
             var res = mainInterface.universeInterface.NameToId(locationName, SearchCategory.Region);
@@ -343,6 +385,7 @@ namespace eve_market
         
 
         /// <summary>
+        /// Handles the "orders" command.
         /// Finds all orders of the given type in the given location. If not location is given, the default region will be used
         /// </summary>
         /// <param name="tokens"></param>
@@ -350,29 +393,42 @@ namespace eve_market
         /// <param name="sortOrder"></param>
         public void HandleOrders(string[] tokens, SortBy sortByType = SortBy.Price, SortOrder sortOrder = SortOrder.Descending)
         {
+            // Extract location and item name
             bool specifiedLocation = false;
             string locationName = "";
             string itemName = "";
-            var pattern = '"' + @"([\w ]+)" + '"';
+            var pattern = '"' + @"([\w ]+)" + '"'; // Matches things inbetween ""
             var matches = Regex.Matches(String.Join(' ', tokens), pattern);
+
+            if (tokens.Length == 1)
+            {
+                output.WriteLine("No item name provided");
+                return;
+            }
+            // location name was provided
             if (matches.Count == 2)
             {
                 specifiedLocation = true;
                 locationName = matches[1].Groups[1].Value;
             }
 
-            itemName = matches[0].Groups[1].Value;
-            if (tokens.Length == 1)
+            // Couldn't match anything
+            if(matches.Count == 0)
             {
-                output.WriteLine("No item name provided");
+                output.WriteLine("Invalid name format or no name provided.");
+                return;
             }
 
+            itemName = matches[0].Groups[1].Value;
+
+            // Resolve item id
             var typeId = mainInterface.universeInterface.NameToId(itemName, SearchCategory.InventoryType);
             if (typeId == -1)
             {
-                output.Write("Invalid item name.");
+                output.WriteLine("Invalid item name.");
                 return;
             }
+
             long regionId = defaultRegionId;
             long locationId = defaultStationId;
             bool stationSpecified = false;
@@ -411,6 +467,13 @@ namespace eve_market
                 }
             }
 
+
+            // Has to be done since the RegionId is 0 in the response, and this is the easiest way to ensure proper printing.
+            foreach (var order in allOrders)
+            {
+                order.RegionId = (int)regionId;
+            }
+
             // Split them to buy and sell orders
             var buyOrders = new List<Order>();
             var sellOrders = new List<Order>();
@@ -427,27 +490,24 @@ namespace eve_market
             }
 
             var tokenSet = new HashSet<string>(tokens);
-
+            var sortSpecified = false;
             // Check for different sort order
             if (tokenSet.Contains("-a"))
             {
                 sortOrder = SortOrder.Ascending;
+                sortSpecified = true;
+            }
+
+            if (tokenSet.Contains("-de"))
+            {
+                sortSpecified = true;
+                sortOrder = SortOrder.Descending;
             }
 
             // Check for field determination
             if (tokenSet.Contains("-d"))
             {
                 sortByType = SortBy.Date;
-            }
-
-            if (tokenSet.Contains("-r"))
-            {
-                sortByType = SortBy.Region;
-            }
-
-            else if (tokenSet.Contains("-s"))
-            {
-                sortByType = SortBy.Station;
             }
 
             else if (tokenSet.Contains("-v"))
@@ -461,9 +521,20 @@ namespace eve_market
             }
 
             // Sort as desired
-            SortOrders(sellOrders, sortByType, sortOrder);
-            SortOrders(buyOrders, sortByType, sortOrder);
+            if (!sortSpecified)
+            {
+                SortOrders(sellOrders, sortByType, SortOrder.Ascending);
+                SortOrders(buyOrders, sortByType, SortOrder.Descending);
+            }
+            else
+            {
+                SortOrders(buyOrders, sortByType, sortOrder);
+                SortOrders(sellOrders, sortByType, sortOrder);
+            }
+            
+            
 
+            // Filter orders from other stations
             if (stationSpecified)
             {
                 sellOrders = sellOrders.FindAll((x) => x.LocationId == locationId);
@@ -471,19 +542,18 @@ namespace eve_market
             }
 
             var fields = new List<string> { "issued", "price", "type_id", "location_id", "region_id", "volume_remain", "volume_total" };
-            var fieldDescriptions = new List<string> { "Date Issued", "Price", "Item Name", "Station", "Region", "Vol. Remain", "Total Volume" };
+            var fieldDesc = new List<string> { "Date Issued", "Price", "Item Name", "Station", "Region", "Vol. Remain", "Total Volume" };
 
             // Print to output
             output.WriteLine("Sell Orders");
             output.WriteLine();
             if(sellOrders.Count > 0)
             {
-                mainInterface.printer.PrintTableHeader(fieldDescriptions, 20);
-                mainInterface.printer.PrintJsonList<Order>(sellOrders, 20, 20, fields);
+                mainInterface.printer.PrintObjList<Order>(sellOrders, 20, 20, fields, fieldDesc);
             }
             else
             {
-                output.WriteLine("\tNo orders to print");
+                output.WriteLine("\tNo orders to show.");
             }
             
             output.WriteLine();
@@ -491,17 +561,17 @@ namespace eve_market
             output.WriteLine();
             if(buyOrders.Count > 0)
             {
-                mainInterface.printer.PrintTableHeader(fieldDescriptions, 20);
-                mainInterface.printer.PrintJsonList<Order>(sellOrders, 20, 20, fields);
+                mainInterface.printer.PrintObjList<Order>(buyOrders, 20, 20, fields, fieldDesc);
             }
 
             else
             {
-                output.WriteLine("\tNo orders to print");
+                output.WriteLine("\tNo orders to show.");
             }
         }
 
         /// <summary>
+        /// Handles the "my_orders" command.
         /// Gathers orders from the API, sorts them and prints them out to output
         /// </summary>
         /// <param name="tokens">Contains tokens from the command line.</param>
@@ -515,7 +585,7 @@ namespace eve_market
             var data = mainInterface.Client.Market.CharacterOrders().Result.Data;
             if (data.Count == 0) 
             { 
-                output.WriteLine("No orders to print."); 
+                output.WriteLine("\tNo orders to show."); 
                 return;
             }
 
@@ -532,6 +602,8 @@ namespace eve_market
                 sellOrders.Add(order);
             }
 
+
+            var sortSpecified = false;
             // Check for parameters
             if (tokens.Length > 1)
             {
@@ -541,22 +613,19 @@ namespace eve_market
                 if (tokenSet.Contains("-a"))
                 {
                     sortOrder = SortOrder.Ascending;
+                    sortSpecified = true;
+                }
+
+                if (tokenSet.Contains("-de"))
+                {
+                    sortSpecified = true;
+                    sortOrder = SortOrder.Descending;
                 }
 
                 // Check for field determination
                 if (tokenSet.Contains("-d"))
                 {
                     sortByType = SortBy.Date;
-                }
-
-                if (tokenSet.Contains("-r"))
-                {
-                    sortByType = SortBy.Region;
-                }
-
-                else if (tokenSet.Contains("-s"))
-                {
-                    sortByType = SortBy.Station;
                 }
 
                 else if (tokenSet.Contains("-v"))
@@ -568,27 +637,59 @@ namespace eve_market
                 {
                     sortByType = SortBy.Price;
                 }
-                else if (tokenSet.Contains("-s"))
-                {
-                    sortByType = SortBy.Station;
-                }
             }
-                // Sort as desired
+
+            // Sort as desired
+            if (!sortSpecified)
+            {
+                SortOrders(sellOrders, sortByType, SortOrder.Ascending);
+                SortOrders(buyOrders, sortByType, SortOrder.Descending);
+            }
+            else
+            {
+                SortOrders(buyOrders, sortByType, sortOrder);
+                SortOrders(sellOrders, sortByType, sortOrder);
+            }
+
             SortOrders(sellOrders, sortByType, sortOrder);
             SortOrders(buyOrders, sortByType, sortOrder);
 
             var fields = new List<string> { "issued", "price", "type_id", "location_id", "region_id", "volume_remain", "volume_total" };
-
+            var fieldDesc = new List<string> { "Date Issued", "Price", "Item Name", "Station", "Region", "Vol. Remain", "Total Volume" };
             // Print to output
             output.WriteLine("Sell Orders");
             output.WriteLine();
-            mainInterface.printer.PrintJsonList<Order>(sellOrders, 20, 20, fields);
+            if(sellOrders.Count > 0)
+            {
+                mainInterface.printer.PrintObjList<Order>(sellOrders, 20, 20, fields, fieldDesc);
+            }
+            else
+            {
+                output.WriteLine("\tNo orders to show.");
+            }
+            
             output.WriteLine();
             output.WriteLine("Buy Orders");
             output.WriteLine();
-            mainInterface.printer.PrintJsonList<Order>(sellOrders, 20, 20, fields);
+
+            if(buyOrders.Count > 0)
+            {
+                mainInterface.printer.PrintObjList<Order>(buyOrders, 20, 20, fields, fieldDesc);
+            }
+            else
+            {
+                output.WriteLine("\tNo orders to show.");
+            }
+            
         }
 
+        /// <summary>
+        /// Handles the "my_order_history" command. Gathers the order history of a given 
+        /// character, potentially sorts it and prints it out.
+        /// </summary>
+        /// <param name="tokens"></param>
+        /// <param name="sortByType"></param>
+        /// <param name="sortOrder"></param>
         public void HandleOrderHistory(string[] tokens, SortBy sortByType = SortBy.Date, SortOrder sortOrder = SortOrder.Descending)
         {
             if (!mainInterface.CheckAuthorization()) return;
@@ -613,20 +714,15 @@ namespace eve_market
                     sortOrder = SortOrder.Ascending;
                 }
 
+                if (tokenSet.Contains("-de"))
+                {
+                    sortOrder = SortOrder.Descending;
+                }
+
                 // Check for field determination
                 if (tokenSet.Contains("-d"))
                 {
                     sortByType = SortBy.Date;
-                }
-
-                if (tokenSet.Contains("-r"))
-                {
-                    sortByType = SortBy.Region;
-                }
-
-                else if (tokenSet.Contains("-s"))
-                {
-                    sortByType = SortBy.Station;
                 }
 
                 else if (tokenSet.Contains("-v"))
@@ -638,22 +734,18 @@ namespace eve_market
                 {
                     sortByType = SortBy.Price;
                 }
-                else if (tokenSet.Contains("-s"))
-                {
-                    sortByType = SortBy.Station;
-                }
             }
 
             // Sort as desired
             SortOrders(orders, sortByType, sortOrder);
 
             var fields = new List<string> { "issued", "price", "type_id", "location_id", "region_id", "volume_remain", "volume_total" };
+            var fieldDesc = new List<string> { "Date Issued", "Price", "Item Name", "Station", "Region", "Vol. Remain", "Total Volume" };
 
             // Print to output
             output.WriteLine("Order History");
             output.WriteLine();
-            mainInterface.printer.PrintJsonList<Order>(orders, 20, 20, fields);
-            output.WriteLine();
+            mainInterface.printer.PrintObjList<Order>(orders, 20, 20, fields, fieldDesc);
         }
 
 

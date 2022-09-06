@@ -23,8 +23,8 @@ namespace eve_market
         /// <summary>
         /// Basic constructor. Only assigns the instances from arguments to fields.
         /// </summary>
-        /// <param name="interface">Reference to an (already created) MainInterface instance</param>
-        /// <param name="textWriter">Text output stream</param>
+        /// <param name="esiInterface">Reference to an (already created) MainEsiInterface instance</param>
+        /// <param name="writer">Text output stream</param>
         public Printer( MainEsiInterface esiInterface,TextWriter writer)
         {
             output = writer;
@@ -90,6 +90,7 @@ namespace eve_market
         /// Use listPublic if you're trying to print public contracts.
         /// </summary>
         /// <param name="contracts">List of contracts to print</param>
+        /// <param name="listPublic">Whether public contract is being printed</param>
         public void PrintContracts(List<ESI.NET.Models.Contracts.Contract> contracts, bool listPublic = false)
         {
             // Prepare dict of id fields to resolve
@@ -257,7 +258,7 @@ namespace eve_market
         /// <param name="rows">Number of rows. If it's less than the length of "objList", prints only the first
         /// "rows" items.</param>
         /// <param name="fields">Keys of the fields to print.</param>
-        public void PrintJsonList<T>(List<T> objList, int width, int rows, List<string> fields)
+        public void PrintObjList<T>(List<T> objList, int width, int rows, List<string> fields, List<string> fieldDesc)
         {
             int counter = 0;
             var buffer = new StringBuilder();
@@ -295,6 +296,10 @@ namespace eve_market
                 // This will cache the results, and they can later be accessed by IdToName(long id)
                 mainEsiInterface.universeInterface.IdToName(new List<long>(temp));
             }
+
+            // Print the header
+            PrintTableHeader(fieldDesc, width);
+            PrintLine(fields, width);
 
             // Print each json as a row
             foreach (var json in jsonList)

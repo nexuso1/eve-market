@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text.RegularExpressions;
 using ESI.NET.Enumerations;
 
 namespace eve_market
@@ -16,7 +17,7 @@ namespace eve_market
         /// </summary>
         public TextWriter output;
         /// <summary>
-        /// Reference to a MainInterface instance
+        /// Reference to a MainEsiInterface instance
         /// </summary>
         public MainEsiInterface mainInterface;
 
@@ -32,7 +33,7 @@ namespace eve_market
         /// <summary>
         /// Basic constructor. Only assigns the instances from arguments to fields.
         /// </summary>
-        /// <param name="interface">Reference to an (already created) MainInterface instance</param>
+        /// <param name="interface">Reference to an (already created) MainEsiInterface instance</param>
         /// <param name="textWriter">Text output stream</param>
         public UniverseInterface(MainEsiInterface @interface, TextWriter textWriter)
         {
@@ -71,7 +72,26 @@ namespace eve_market
         /// <param name="tokens"></param>
         public void HandleInfo(string[] tokens)
         {
-            var itemName = mainInterface.StringFromSlice(tokens, 1, tokens.Length - 1);
+            // Extract item name
+
+            string itemName = "";
+            var pattern = '"' + @"([\w ]+)" + '"'; // Matches things inbetween ""
+            var matches = Regex.Matches(String.Join(' ', tokens), pattern);
+
+            if (tokens.Length == 1)
+            {
+                output.WriteLine("No item name provided");
+                return;
+            }
+
+            // Couldn't match anything
+            if (matches.Count == 0)
+            {
+                output.WriteLine("Invalid name format or no name provided.");
+                return;
+            }
+
+            itemName = matches[0].Groups[1].Value;
             PrintItemInfo(itemName);
         }
 
@@ -199,7 +219,8 @@ namespace eve_market
 
                 // Save the result to cache
                 nameToIdCache[name] = typeId;
-                idToNameCache[typeId] = name;
+                nameToIdCache[result.InventoryTypes[0].Name] = typeId;
+                idToNameCache[typeId] = result.InventoryTypes[0].Name;
 
                 return typeId;
             }
@@ -284,7 +305,8 @@ namespace eve_market
             // Check cache
             foreach (var id in ids)
             {
-                if (!idToNameCache.ContainsKey(id))
+                // Not in cache or couldn't resolve previously
+                if (!idToNameCache.ContainsKey(id) || idToNameCache[id] == "Unknown")
                 {
                     if(id == 0)
                     {
@@ -333,15 +355,27 @@ namespace eve_market
                     
                     if(longToResolve.Count > 0)
                     {
-                        // Resolve structures (each has to be done one by one)
-                        foreach (var id in longToResolve)
+                        if (mainInterface.IsAuthorized)
                         {
-                            var structResult = mainInterface.Client.Universe.Structure(id).Result.Data;
-                            // Cache the result
-                            idToNameCache[id] = structResult.Name;
-                            nameToIdCache[structResult.Name] = id;
+                            // Resolve structures (each has to be done one by one)
+                            foreach (var id in longToResolve)
+                            {
+                                var structResult = mainInterface.Client.Universe.Structure(id).Result.Data;
+                                // Cache the result
+                                idToNameCache[id] = structResult.Name;
+                                nameToIdCache[structResult.Name] = id;
+                            }
+                        }
+                        else
+                        {
+                            foreach (var id in longToResolve)
+                            {
+                                idToNameCache[id] = "Unknown";
+                            }
                         }
                     }
+
+
                     break;
 
                 case SearchCategory.Character:
@@ -389,7 +423,8 @@ namespace eve_market
             // Check the cache
             foreach (var id in ids)
             {
-                if (!idToNameCache.ContainsKey(id))
+                // Not in cache or couldn't resolve previously
+                if (!idToNameCache.ContainsKey(id) || idToNameCache[id] == "Unknown")
                 {
                     if (id > Int32.MaxValue)
                     {
@@ -417,8 +452,7 @@ namespace eve_market
             if (longToResolve.Count > 0)
             {
                 var uniResult = mainInterface.Client.Universe.Names(longToResolve).Result.Data;
-                var itemResult = mainInterface.Client.Assets.NamesForCharacter(longToResolve).Result.Data;
-                var locResult = mainInterface.Client.Assets.LocationsForCharacter(longToResolve).Result.Data;
+
                 if (uniResult is not null)
                 {
                     foreach (var resolved in uniResult)
@@ -428,44 +462,57 @@ namespace eve_market
                     }
                 }
 
-                else if (itemResult is not null)
+                // Check endpoints requiring authorization
+                else if (mainInterface.IsAuthorized)
                 {
-                    // Save the results to cache
-                    foreach (var resolved in itemResult)
-                    {
-                        idToNameCache[resolved.ItemId] = resolved.Name;
-                        nameToIdCache[resolved.Name] = resolved.ItemId;
-                    }
-                }
-                else if (locResult is not null)
-                {
-                    // Save results to cache, if its (0,0,0), its in a station/hangar
-                    foreach (var location in locResult)
-                    {
-                        if (location.X == 0 && location.Y == 0 && location.Z == 0) idToNameCache[location.ItemId] = "In hangar or station";
-                        else idToNameCache[location.ItemId] = $"({location.X}, {location.Y}, {location.Z})";
-                    }
-                }
+                    // Check asset custom names
+                    var itemResult = mainInterface.Client.Assets.NamesForCharacter(longToResolve).Result.Data;
+                    // Check asset locations
+                    var locResult = mainInterface.Client.Assets.LocationsForCharacter(longToResolve).Result.Data;
 
-                else
-                {
-                    // Check structures
-                    foreach (var id in longToResolve)
+                    if (itemResult is not null)
                     {
-                        if (mainInterface.IsAuthorized)
+                        // Save the results to cache
+                        foreach (var resolved in itemResult)
+                        {
+                            idToNameCache[resolved.ItemId] = resolved.Name;
+                            nameToIdCache[resolved.Name] = resolved.ItemId;
+                        }
+                    }
+                    else if (locResult is not null)
+                    {
+                        // Save results to cache, if its (0,0,0), its in a station/hangar
+                        foreach (var location in locResult)
+                        {
+                            if (location.X == 0 && location.Y == 0 && location.Z == 0) idToNameCache[location.ItemId] = "In hangar or station";
+                            else idToNameCache[location.ItemId] = $"({location.X}, {location.Y}, {location.Z})";
+                        }
+                    }
+
+                    else
+                    {
+                        // Check structures
+                        foreach (var id in longToResolve)
                         {
                             var structResponse = mainInterface.Client.Universe.Structure(id).Result.Data;
                             if (structResponse is not null)
                             {
                                 idToNameCache[id] = structResponse.Name;
                             }
-                        }
 
-                        // Can't find it
-                        else
-                        {
-                            idToNameCache[id] = "Unknown";
+                            else
+                            {
+                                idToNameCache[id] = "Unknown";
+                            }
                         }
+                    }
+                }
+
+                else
+                {
+                    foreach (var id in longToResolve)
+                    {
+                        idToNameCache[id] = "Unknown";
                     }
                 }
             }

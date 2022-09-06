@@ -109,6 +109,10 @@ namespace eve_market
 
         }
 
+        /// <summary>
+        /// Helper function. Creates a new instance of EsiClient with the correct configuration
+        /// </summary>
+        /// <returns></returns>
         private EsiClient createClient()
         {
             IOptions<EsiConfig> config = Options.Create(new EsiConfig()
@@ -153,6 +157,17 @@ namespace eve_market
             }
 
             return temp_string.ToString();
+        }
+
+        /// <summary>
+        /// Handles the "help" command. Prints the
+        /// text inside the help.txt file.
+        /// </summary>
+        /// <param name="tokens">Command line tokens. Only included for uniformity of API</param>
+        public void HandleHelp(string[] tokens)
+        {
+            string helpText = File.ReadAllText("..\\..\\..\\help.txt");
+            Output.Write(helpText);
         }
 
         /// <summary>
@@ -203,7 +218,7 @@ namespace eve_market
                     Client.SetCharacterData(AuthData);
                 }
 
-                catch (ArgumentException e)
+                catch (ArgumentException)
                 {
                     Output.WriteLine("Previous authorization is invalid. Please authorize a character again.");
 
@@ -222,6 +237,24 @@ namespace eve_market
             using (var writer = new StreamWriter("refresh.token"))
             {
                 writer.Write(token.RefreshToken);
+            }
+        }
+
+        /// <summary>
+        /// Logs the authorized character out (if there is any)
+        /// </summary>
+        /// <param name="tokens">Command line tokens. Only included for the uniformity of API</param>
+        async public void HandleLogout(string[] tokens)
+        {
+            if (IsAuthorized)
+            {
+                await Client.SSO.RevokeToken(AuthData.Token);
+                Client = createClient();
+            }
+
+            else
+            {
+                Output.WriteLine("No character authorized.");
             }
         }
 
