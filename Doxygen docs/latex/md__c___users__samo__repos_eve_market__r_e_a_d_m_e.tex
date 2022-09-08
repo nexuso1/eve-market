@@ -1,0 +1,137 @@
+\hypertarget{md__c___users__samo__repos_eve_market__r_e_a_d_m_e_autotoc_md3}{}\doxysection{Commands}\label{md__c___users__samo__repos_eve_market__r_e_a_d_m_e_autotoc_md3}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{authorize }
+
+\end{DoxyCode}
+
+\begin{DoxyItemize}
+\item Used to authoriza a character
+\end{DoxyItemize}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{logout }
+
+\end{DoxyCode}
+
+\begin{DoxyItemize}
+\item Removes the current character authorization
+\end{DoxyItemize}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{set region "{}\{region\_name\}"{} }
+
+\end{DoxyCode}
+
+\begin{DoxyItemize}
+\item Sets the default region to the given region
+\end{DoxyItemize}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{set station "{}\{station\_name\}"{}}
+
+\end{DoxyCode}
+
+\begin{DoxyItemize}
+\item Sets the default station the the given station
+\end{DoxyItemize}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{orders "{}\{type\_name\}"{} ["{}\{region\_name\}"{}] [-\/a] [-\/de] [-\/d] [-\/v] [-\/p] }
+
+\end{DoxyCode}
+
+\begin{DoxyItemize}
+\item Displays current buy and sell orders for type \{type\+\_\+name\} in region \{region\+\_\+name\}, or in the default one if no region name is provided.
+\item Sell orders are by default price ascending, buy orders price price descending.
+\item Additional options\+: -\/a \+: Sort type ascending -\/de \+: Sort type descending -\/d \+: Sort by date -\/v \+: Sort by volume remaining -\/p \+: Sort by price
+\end{DoxyItemize}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{wallet}
+
+\end{DoxyCode}
+
+\begin{DoxyItemize}
+\item Displays the current account balance of the authorized character transactions
+\item Displays the transaction history of the authorized character
+\end{DoxyItemize}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{my\_orders [-\/a] [-\/de] [-\/d] [-\/v] [-\/p]}
+
+\end{DoxyCode}
+
+\begin{DoxyItemize}
+\item Displays the active market orders of the authorized character
+\item Additional options\+: -\/a \+: Sort type ascending -\/de \+: Sort type descending -\/d \+: Sort by date -\/v \+: Sort by volume remaining -\/p \+: Sort by price
+\end{DoxyItemize}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{my\_order\_history [-\/a] [-\/de] [-\/d] [-\/v] [-\/p]}
+
+\end{DoxyCode}
+
+\begin{DoxyItemize}
+\item Displays all completed market orders of the authorized character
+\item Additional options\+: -\/a \+: Sort type ascending -\/de \+: Sort type descending -\/d \+: Sort by date -\/v \+: Sort by volume remaining -\/p \+: Sort by price
+\end{DoxyItemize}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{info "{}\{type\_name\}"{}}
+
+\end{DoxyCode}
+
+\begin{DoxyItemize}
+\item Displays information about the given type history \char`\"{}\{type\+\_\+name\}\char`\"{} \mbox{[}\char`\"{}\{region\+\_\+name\}\char`\"{}\mbox{]}
+\item Displays price and volume history of type \{type\+\_\+name\} in region \{region\+\_\+name\}, or the default region if no region name specified.
+\end{DoxyItemize}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{assets}
+
+\end{DoxyCode}
+
+\begin{DoxyItemize}
+\item Displays all assets of the authorized character contracts page\+\_\+number \mbox{[}\char`\"{}\{region\+\_\+name\}\char`\"{}\mbox{]}
+\item Displays page page\+\_\+number of public contracts (or all contracts available to the authorized character) in the given region, or the default one if no region name is provided.
+\end{DoxyItemize}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{my\_contracts}
+
+\end{DoxyCode}
+
+\begin{DoxyItemize}
+\item Displays all contracts of the authorized character.
+\end{DoxyItemize}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{exit}
+
+\end{DoxyCode}
+
+\begin{DoxyItemize}
+\item Exits the program.
+\end{DoxyItemize}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{help}
+
+\end{DoxyCode}
+
+\begin{DoxyItemize}
+\item Displays the help 
+\end{DoxyItemize}

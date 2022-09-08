@@ -5,9 +5,9 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Homepage </title>
+    <title>Program usage </title>
     <meta name="viewport" content="width=device-width">
-    <meta name="title" content="Homepage ">
+    <meta name="title" content="Program usage ">
     <meta name="generator" content="docfx 2.59.3.0">
     
     <link rel="shortcut icon" href="favicon.ico">
@@ -60,31 +60,105 @@
         <div class="article row grid">
           <div class="col-md-10">
             <article class="content wrap" id="_content" data-uid="">
-<h1 id="homepage">Homepage</h1>
+<h1 id="program-usage">Program usage</h1>
 
-<p>Welcome to the documentation of this program.
-Please read the notes below.</p>
-<h3 id="quick-start-notes">Quick Start Notes:</h3>
-<ul>
-<li>You can run the program by clicking eve_market in the root directory</li>
-<li>Type &quot;help&quot; (without the quotes) to see a list of available commands</li>
-<li>Parts of the program may not be working if a character isn't authorized.</li>
-</ul>
-<h3 id="example-usage">Example usage</h3>
-<pre><code>orders &quot;vedmak&quot; &quot;The Forge&quot;
+<hr>
+<h2 id="commands">Commands</h2>
+<pre><code>authorize 
 </code></pre>
 <ul>
-<li>Displays current orders of type Vedmak in the region The Forge</li>
+<li>Used to authoriza a character</li>
 </ul>
-<pre><code>history &quot;vedmak&quot;
+<pre><code>logout 
 </code></pre>
 <ul>
-<li>Display price history of Vedmak in the default region (The Forge)</li>
+<li>Removes the current character authorization</li>
 </ul>
-<pre><code>info &quot;Nuclear M&quot;
+<pre><code>set region &quot;{region_name}&quot; 
 </code></pre>
 <ul>
-<li>Displays information about type Nuclear M (a kind of ammunition)</li>
+<li>Sets the default region to the given region</li>
+</ul>
+<pre><code>set station &quot;{station_name}&quot;
+</code></pre>
+<ul>
+<li>Sets the default station the the given station</li>
+</ul>
+<pre><code>orders &quot;{type_name}&quot; [&quot;{region_name}&quot;] [-a] [-de] [-d] [-v] [-p] 
+</code></pre>
+<ul>
+<li>Displays current buy and sell orders for type {type_name} in
+region {region_name}, or in the default one if no region name
+is provided.</li>
+<li>Sell orders are by default price ascending, buy orders price
+price descending.</li>
+<li>Additional options:
+-a  : Sort type ascending
+-de : Sort type descending
+-d  : Sort by date
+-v  : Sort by volume remaining
+-p  : Sort by price</li>
+</ul>
+<pre><code>wallet
+</code></pre>
+<ul>
+<li>Displays the current account balance of the authorized character
+transactions</li>
+<li>Displays the transaction history of the authorized character</li>
+</ul>
+<pre><code>my_orders [-a] [-de] [-d] [-v] [-p]
+</code></pre>
+<ul>
+<li>Displays the active market orders of the authorized character</li>
+<li>Additional options:
+-a  : Sort type ascending
+-de : Sort type descending
+-d  : Sort by date
+-v  : Sort by volume remaining
+-p  : Sort by price</li>
+</ul>
+<pre><code>my_order_history [-a] [-de] [-d] [-v] [-p]
+</code></pre>
+<ul>
+<li>Displays all completed market orders of the authorized character</li>
+<li>Additional options:
+-a  : Sort type ascending
+-de : Sort type descending
+-d  : Sort by date
+-v  : Sort by volume remaining
+-p  : Sort by price</li>
+</ul>
+<pre><code>info &quot;{type_name}&quot;
+</code></pre>
+<ul>
+<li>Displays information about the given type
+history &quot;{type_name}&quot; [&quot;{region_name}&quot;]</li>
+<li>Displays price and volume history of type {type_name} in region
+{region_name}, or the default region if no region name specified.</li>
+</ul>
+<pre><code>assets
+</code></pre>
+<ul>
+<li>Displays all assets of the authorized character
+contracts page_number [&quot;{region_name}&quot;]</li>
+<li>Displays page page_number of public contracts (or all contracts
+available to the authorized character) in the given region,
+or the default one if no region name is provided.</li>
+</ul>
+<pre><code>my_contracts
+</code></pre>
+<ul>
+<li>Displays all contracts of the authorized character.</li>
+</ul>
+<pre><code>exit
+</code></pre>
+<ul>
+<li>Exits the program.</li>
+</ul>
+<pre><code>help
+</code></pre>
+<ul>
+<li>Displays the help</li>
 </ul>
 </article>
           </div>
@@ -94,7 +168,7 @@ Please read the notes below.</p>
               <div class="contribution">
                 <ul class="nav">
                   <li>
-                    <a href="https://github.com/nexuso1/eve-market/blob/master/index.md/#L1" class="contribution-link">Improve this Doc</a>
+                    <a href="https://github.com/nexuso1/eve-market/blob/master/README.md/#L1" class="contribution-link">Improve this Doc</a>
                   </li>
                 </ul>
               </div>

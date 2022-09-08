@@ -1,0 +1,206 @@
+\hypertarget{classeve__market_1_1_main_esi_interface}{}\doxysection{eve\+\_\+market.\+Main\+Esi\+Interface Class Reference}
+\label{classeve__market_1_1_main_esi_interface}\index{eve\_market.MainEsiInterface@{eve\_market.MainEsiInterface}}
+
+
+Main interface for communicating with the ESI API. Holds references to specialized interfaces, has some helper functions and takes care of authentication of the user.   
+
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classeve__market_1_1_main_esi_interface_a09076bb9c581927082fcf0e69dfc7567}{Main\+Esi\+Interface}} (Text\+Writer writer)
+\begin{DoxyCompactList}\small\item\em Basic contstructor, creates the instances of other interfaces and the \mbox{\hyperlink{classeve__market_1_1_printer}{Printer}}, and also creates the Esi\+Client used for communication with ESI. If there is an auth token from a previous session, uses it again.  \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{classeve__market_1_1_main_esi_interface_a8268e61ecc7a255613c1de9647852513}{Is\+Id\+Field}} (string field)
+\begin{DoxyCompactList}\small\item\em Helper function which returns true if a given json field is an ID, and thus the corresponding name has to be resolved.  \end{DoxyCompactList}\item 
+string \mbox{\hyperlink{classeve__market_1_1_main_esi_interface_a782bf231a5fdf47c00802321070b7d55}{Generate\+State\+String}} (int length=10)
+\begin{DoxyCompactList}\small\item\em Generates a state string of given length, used for OAuth.  \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classeve__market_1_1_main_esi_interface_a5e5659d9c2cf1be86765cef64d61a83f}{Handle\+Help}} (string\mbox{[}$\,$\mbox{]} tokens)
+\begin{DoxyCompactList}\small\item\em Handles the \char`\"{}help\char`\"{} command. Prints the text inside the help.\+txt file.  \end{DoxyCompactList}\item 
+string \mbox{\hyperlink{classeve__market_1_1_main_esi_interface_a2da51ae949c7d22940c2c646cf25bdb7}{String\+From\+Slice}} (string\mbox{[}$\,$\mbox{]} tokens, int offset, int size, char sep=\textquotesingle{} \textquotesingle{})
+\begin{DoxyCompactList}\small\item\em Helper function which creates a string from a given slice of the \char`\"{}tokens\char`\"{} string array.  \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{classeve__market_1_1_main_esi_interface_a062a56d420bb92f5a361bc5d1b000a6d}{Check\+Authorization}} ()
+\begin{DoxyCompactList}\small\item\em Checks whether a character is authorized. Returns the value of Is\+Authorized an  \end{DoxyCompactList}\item 
+async void \mbox{\hyperlink{classeve__market_1_1_main_esi_interface_a675f64d3dc73e2b3c81bf9afc7d42a38}{Handle\+Logout}} (string\mbox{[}$\,$\mbox{]} tokens)
+\begin{DoxyCompactList}\small\item\em Logs the authorized character out (if there is any)  \end{DoxyCompactList}\item 
+async void \mbox{\hyperlink{classeve__market_1_1_main_esi_interface_aa25284de1d43316b2a5d79896aa791a5}{Handle\+Authorize}} (string\mbox{[}$\,$\mbox{]} tokens)
+\begin{DoxyCompactList}\small\item\em Handles the authorization of a user. Takes care of the OAuth authorization process, and refers the end-\/user to the auth page.  \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classeve__market_1_1_main_esi_interface_aa19a8be4d8c550f9005591db3f4f11c9}\label{classeve__market_1_1_main_esi_interface_aa19a8be4d8c550f9005591db3f4f11c9}} 
+Esi\+Client {\bfseries Client}
+\begin{DoxyCompactList}\small\item\em ESI API Client instance  \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classeve__market_1_1_main_esi_interface_a479ca69eb96035eac668575070550827}\label{classeve__market_1_1_main_esi_interface_a479ca69eb96035eac668575070550827}} 
+Text\+Writer {\bfseries Output}
+\begin{DoxyCompactList}\small\item\em Stream to which output will be written  \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classeve__market_1_1_main_esi_interface_a84ec9976c92ac0fa449e96871f0ebc21}\label{classeve__market_1_1_main_esi_interface_a84ec9976c92ac0fa449e96871f0ebc21}} 
+\mbox{\hyperlink{classeve__market_1_1_market_interface}{Market\+Interface}} {\bfseries market\+Interface}
+\begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{classeve__market_1_1_market_interface}{Market\+Interface}} instance, used for accessing the Market portion of ESI  \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classeve__market_1_1_main_esi_interface_a4929b4298f87f7440d9c105d833e1250}\label{classeve__market_1_1_main_esi_interface_a4929b4298f87f7440d9c105d833e1250}} 
+\mbox{\hyperlink{classeve__market_1_1_universe_interface}{Universe\+Interface}} {\bfseries universe\+Interface}
+\begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{classeve__market_1_1_universe_interface}{Universe\+Interface}} instance, used for accessing the Universe portoin of ESI  \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classeve__market_1_1_main_esi_interface_ad5f1c83ffd4c884baf4c3a439b1375d5}\label{classeve__market_1_1_main_esi_interface_ad5f1c83ffd4c884baf4c3a439b1375d5}} 
+\mbox{\hyperlink{classeve__market_1_1_contract_interface}{Contract\+Interface}} {\bfseries contract\+Interface}
+\begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{classeve__market_1_1_contract_interface}{Contract\+Interface}} instance, used for accessing the Universe portion of ESI  \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classeve__market_1_1_main_esi_interface_a288a5440a3144d7515439e111f01f18d}\label{classeve__market_1_1_main_esi_interface_a288a5440a3144d7515439e111f01f18d}} 
+\mbox{\hyperlink{classeve__market_1_1_printer}{Printer}} {\bfseries printer}
+\begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{classeve__market_1_1_printer}{Printer}} instance, used for nice printing of various data gathered from ESI  \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Properties}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classeve__market_1_1_main_esi_interface_acf6e11f339c8305b1743c7e78728c75e}\label{classeve__market_1_1_main_esi_interface_acf6e11f339c8305b1743c7e78728c75e}} 
+bool {\bfseries Is\+Authorized}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Bool which is set to true if a character is authorized  \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classeve__market_1_1_main_esi_interface_a6ef3ec70871181a15a483c13c80a0114}\label{classeve__market_1_1_main_esi_interface_a6ef3ec70871181a15a483c13c80a0114}} 
+Sso\+Token {\bfseries Auth\+Token}\hspace{0.3cm}{\ttfamily  \mbox{[}set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Auth Token obtained from the server  \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classeve__market_1_1_main_esi_interface_a3ea3585641a267566cb0779c2e7850eb}\label{classeve__market_1_1_main_esi_interface_a3ea3585641a267566cb0779c2e7850eb}} 
+Authorized\+Character\+Data {\bfseries Auth\+Data}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Information about the authorized character  \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Main interface for communicating with the ESI API. Holds references to specialized interfaces, has some helper functions and takes care of authentication of the user.  
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classeve__market_1_1_main_esi_interface_a09076bb9c581927082fcf0e69dfc7567}\label{classeve__market_1_1_main_esi_interface_a09076bb9c581927082fcf0e69dfc7567}} 
+\index{eve\_market.MainEsiInterface@{eve\_market.MainEsiInterface}!MainEsiInterface@{MainEsiInterface}}
+\index{MainEsiInterface@{MainEsiInterface}!eve\_market.MainEsiInterface@{eve\_market.MainEsiInterface}}
+\doxysubsubsection{\texorpdfstring{MainEsiInterface()}{MainEsiInterface()}}
+{\footnotesize\ttfamily eve\+\_\+market.\+Main\+Esi\+Interface.\+Main\+Esi\+Interface (\begin{DoxyParamCaption}\item[{Text\+Writer}]{writer }\end{DoxyParamCaption})}
+
+
+
+Basic contstructor, creates the instances of other interfaces and the \mbox{\hyperlink{classeve__market_1_1_printer}{Printer}}, and also creates the Esi\+Client used for communication with ESI. If there is an auth token from a previous session, uses it again.  
+
+
+\begin{DoxyParams}{Parameters}
+{\em writer} & Output text stream\\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classeve__market_1_1_main_esi_interface_a062a56d420bb92f5a361bc5d1b000a6d}\label{classeve__market_1_1_main_esi_interface_a062a56d420bb92f5a361bc5d1b000a6d}} 
+\index{eve\_market.MainEsiInterface@{eve\_market.MainEsiInterface}!CheckAuthorization@{CheckAuthorization}}
+\index{CheckAuthorization@{CheckAuthorization}!eve\_market.MainEsiInterface@{eve\_market.MainEsiInterface}}
+\doxysubsubsection{\texorpdfstring{CheckAuthorization()}{CheckAuthorization()}}
+{\footnotesize\ttfamily bool eve\+\_\+market.\+Main\+Esi\+Interface.\+Check\+Authorization (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Checks whether a character is authorized. Returns the value of Is\+Authorized an  
+
+\begin{DoxyReturn}{Returns}
+
+\end{DoxyReturn}
+\mbox{\Hypertarget{classeve__market_1_1_main_esi_interface_a782bf231a5fdf47c00802321070b7d55}\label{classeve__market_1_1_main_esi_interface_a782bf231a5fdf47c00802321070b7d55}} 
+\index{eve\_market.MainEsiInterface@{eve\_market.MainEsiInterface}!GenerateStateString@{GenerateStateString}}
+\index{GenerateStateString@{GenerateStateString}!eve\_market.MainEsiInterface@{eve\_market.MainEsiInterface}}
+\doxysubsubsection{\texorpdfstring{GenerateStateString()}{GenerateStateString()}}
+{\footnotesize\ttfamily string eve\+\_\+market.\+Main\+Esi\+Interface.\+Generate\+State\+String (\begin{DoxyParamCaption}\item[{int}]{length = {\ttfamily 10} }\end{DoxyParamCaption})}
+
+
+
+Generates a state string of given length, used for OAuth.  
+
+
+\begin{DoxyParams}{Parameters}
+{\em length} & length of the state string\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+State string
+\end{DoxyReturn}
+\mbox{\Hypertarget{classeve__market_1_1_main_esi_interface_aa25284de1d43316b2a5d79896aa791a5}\label{classeve__market_1_1_main_esi_interface_aa25284de1d43316b2a5d79896aa791a5}} 
+\index{eve\_market.MainEsiInterface@{eve\_market.MainEsiInterface}!HandleAuthorize@{HandleAuthorize}}
+\index{HandleAuthorize@{HandleAuthorize}!eve\_market.MainEsiInterface@{eve\_market.MainEsiInterface}}
+\doxysubsubsection{\texorpdfstring{HandleAuthorize()}{HandleAuthorize()}}
+{\footnotesize\ttfamily async void eve\+\_\+market.\+Main\+Esi\+Interface.\+Handle\+Authorize (\begin{DoxyParamCaption}\item[{string\mbox{[}$\,$\mbox{]}}]{tokens }\end{DoxyParamCaption})}
+
+
+
+Handles the authorization of a user. Takes care of the OAuth authorization process, and refers the end-\/user to the auth page.  
+
+
+\begin{DoxyParams}{Parameters}
+{\em tokens} & Command line tokens. Included for the uniformity of API\\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classeve__market_1_1_main_esi_interface_a5e5659d9c2cf1be86765cef64d61a83f}\label{classeve__market_1_1_main_esi_interface_a5e5659d9c2cf1be86765cef64d61a83f}} 
+\index{eve\_market.MainEsiInterface@{eve\_market.MainEsiInterface}!HandleHelp@{HandleHelp}}
+\index{HandleHelp@{HandleHelp}!eve\_market.MainEsiInterface@{eve\_market.MainEsiInterface}}
+\doxysubsubsection{\texorpdfstring{HandleHelp()}{HandleHelp()}}
+{\footnotesize\ttfamily void eve\+\_\+market.\+Main\+Esi\+Interface.\+Handle\+Help (\begin{DoxyParamCaption}\item[{string\mbox{[}$\,$\mbox{]}}]{tokens }\end{DoxyParamCaption})}
+
+
+
+Handles the \char`\"{}help\char`\"{} command. Prints the text inside the help.\+txt file.  
+
+
+\begin{DoxyParams}{Parameters}
+{\em tokens} & Command line tokens. Only included for uniformity of API\\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classeve__market_1_1_main_esi_interface_a675f64d3dc73e2b3c81bf9afc7d42a38}\label{classeve__market_1_1_main_esi_interface_a675f64d3dc73e2b3c81bf9afc7d42a38}} 
+\index{eve\_market.MainEsiInterface@{eve\_market.MainEsiInterface}!HandleLogout@{HandleLogout}}
+\index{HandleLogout@{HandleLogout}!eve\_market.MainEsiInterface@{eve\_market.MainEsiInterface}}
+\doxysubsubsection{\texorpdfstring{HandleLogout()}{HandleLogout()}}
+{\footnotesize\ttfamily async void eve\+\_\+market.\+Main\+Esi\+Interface.\+Handle\+Logout (\begin{DoxyParamCaption}\item[{string\mbox{[}$\,$\mbox{]}}]{tokens }\end{DoxyParamCaption})}
+
+
+
+Logs the authorized character out (if there is any)  
+
+
+\begin{DoxyParams}{Parameters}
+{\em tokens} & Command line tokens. Only included for the uniformity of API\\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classeve__market_1_1_main_esi_interface_a8268e61ecc7a255613c1de9647852513}\label{classeve__market_1_1_main_esi_interface_a8268e61ecc7a255613c1de9647852513}} 
+\index{eve\_market.MainEsiInterface@{eve\_market.MainEsiInterface}!IsIdField@{IsIdField}}
+\index{IsIdField@{IsIdField}!eve\_market.MainEsiInterface@{eve\_market.MainEsiInterface}}
+\doxysubsubsection{\texorpdfstring{IsIdField()}{IsIdField()}}
+{\footnotesize\ttfamily bool eve\+\_\+market.\+Main\+Esi\+Interface.\+Is\+Id\+Field (\begin{DoxyParamCaption}\item[{string}]{field }\end{DoxyParamCaption})}
+
+
+
+Helper function which returns true if a given json field is an ID, and thus the corresponding name has to be resolved.  
+
+
+\begin{DoxyParams}{Parameters}
+{\em field} & Name of the field\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True if 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classeve__market_1_1_main_esi_interface_a2da51ae949c7d22940c2c646cf25bdb7}\label{classeve__market_1_1_main_esi_interface_a2da51ae949c7d22940c2c646cf25bdb7}} 
+\index{eve\_market.MainEsiInterface@{eve\_market.MainEsiInterface}!StringFromSlice@{StringFromSlice}}
+\index{StringFromSlice@{StringFromSlice}!eve\_market.MainEsiInterface@{eve\_market.MainEsiInterface}}
+\doxysubsubsection{\texorpdfstring{StringFromSlice()}{StringFromSlice()}}
+{\footnotesize\ttfamily string eve\+\_\+market.\+Main\+Esi\+Interface.\+String\+From\+Slice (\begin{DoxyParamCaption}\item[{string\mbox{[}$\,$\mbox{]}}]{tokens,  }\item[{int}]{offset,  }\item[{int}]{size,  }\item[{char}]{sep = {\ttfamily \textquotesingle{}~\textquotesingle{}} }\end{DoxyParamCaption})}
+
+
+
+Helper function which creates a string from a given slice of the \char`\"{}tokens\char`\"{} string array.  
+
+
+\begin{DoxyParams}{Parameters}
+{\em tokens} & Array of strings\\
+\hline
+{\em offset} & Beginning of the slice\\
+\hline
+{\em size} & Length of the slice\\
+\hline
+{\em sep} & Separator to be added between tokens\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+String of joined tokens starting at \char`\"{}offset\char`\"{} with a length of \char`\"{}size\char`\"{}, separated by \char`\"{}sep\char`\"{}
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Users/\+Samo/\+Repos/eve\+\_\+market/Main\+Esi\+Interface.\+cs\end{DoxyCompactItemize}

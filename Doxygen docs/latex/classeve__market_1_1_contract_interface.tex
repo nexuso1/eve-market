@@ -1,0 +1,128 @@
+\hypertarget{classeve__market_1_1_contract_interface}{}\doxysection{eve\+\_\+market.\+Contract\+Interface Class Reference}
+\label{classeve__market_1_1_contract_interface}\index{eve\_market.ContractInterface@{eve\_market.ContractInterface}}
+
+
+Main interaction point for the Contract part of ESI.   
+
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classeve__market_1_1_contract_interface_a8234963609ff145b07ba9f3eb0caee14}{Contract\+Interface}} (\mbox{\hyperlink{classeve__market_1_1_main_esi_interface}{Main\+Esi\+Interface}} @interface, Text\+Writer text\+Writer)
+\begin{DoxyCompactList}\small\item\em Basic constructor. Only assigns the instances from arguments to fields.  \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classeve__market_1_1_contract_interface_a22f54d27834fb765fb423fe8e7820f0b}{Handle\+Contracts}} (string\mbox{[}$\,$\mbox{]} tokens)
+\begin{DoxyCompactList}\small\item\em Handles the \char`\"{}contracts\char`\"{} command. Displays a given page of contracts in the input region. If no region is given, the default region is used.  \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classeve__market_1_1_contract_interface_a30d09cbf31c42abc7f978a0d5e274264}{Handle\+My\+Contracts}} (string\mbox{[}$\,$\mbox{]} tokens)
+\begin{DoxyCompactList}\small\item\em Handles the \char`\"{}my\+\_\+contracts\char`\"{} command. Displays all contracts of the authorized character.  \end{DoxyCompactList}\item 
+List$<$ List$<$ string $>$ $>$ \mbox{\hyperlink{classeve__market_1_1_contract_interface_a7ee3da471bd93eea45693f0f45d5248c}{get\+Contract\+Item\+String}} (long contract\+Id, bool is\+Public=false)
+\begin{DoxyCompactList}\small\item\em Helper function. For a given contract, constructs a string of the items in the given contract, with a specific formatting. If list\+Public is false, it is assumed that the contract is part of the authorized characters contracts, otherwise it\textquotesingle{}s public.  \end{DoxyCompactList}\item 
+List$<$ string $>$ \mbox{\hyperlink{classeve__market_1_1_contract_interface_a15e608c089ed8d234cbde7368c34f823}{Get\+Bid\+Strings}} (int contract\+Id)
+\begin{DoxyCompactList}\small\item\em Helper function. Constructs a string containing all the bids from of the given auction contract. Returns an empty lists if no bids are found.  \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classeve__market_1_1_contract_interface_a9d1f675018289c134c453ab7558d927d}\label{classeve__market_1_1_contract_interface_a9d1f675018289c134c453ab7558d927d}} 
+Text\+Writer {\bfseries output}
+\begin{DoxyCompactList}\small\item\em Text output stream  \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classeve__market_1_1_contract_interface_a9f6977f50ec5dc05f831f26f2b755351}\label{classeve__market_1_1_contract_interface_a9f6977f50ec5dc05f831f26f2b755351}} 
+\mbox{\hyperlink{classeve__market_1_1_main_esi_interface}{Main\+Esi\+Interface}} {\bfseries main\+Interface}
+\begin{DoxyCompactList}\small\item\em Reference to a Main\+Interface instance  \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Main interaction point for the Contract part of ESI.  
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classeve__market_1_1_contract_interface_a8234963609ff145b07ba9f3eb0caee14}\label{classeve__market_1_1_contract_interface_a8234963609ff145b07ba9f3eb0caee14}} 
+\index{eve\_market.ContractInterface@{eve\_market.ContractInterface}!ContractInterface@{ContractInterface}}
+\index{ContractInterface@{ContractInterface}!eve\_market.ContractInterface@{eve\_market.ContractInterface}}
+\doxysubsubsection{\texorpdfstring{ContractInterface()}{ContractInterface()}}
+{\footnotesize\ttfamily eve\+\_\+market.\+Contract\+Interface.\+Contract\+Interface (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classeve__market_1_1_main_esi_interface}{Main\+Esi\+Interface}} @}]{interface,  }\item[{Text\+Writer}]{text\+Writer }\end{DoxyParamCaption})}
+
+
+
+Basic constructor. Only assigns the instances from arguments to fields.  
+
+
+\begin{DoxyParams}{Parameters}
+{\em interface} & Reference to an (already created) \mbox{\hyperlink{classeve__market_1_1_main_esi_interface}{Main\+Esi\+Interface}} instance\\
+\hline
+{\em text\+Writer} & Text output stream\\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classeve__market_1_1_contract_interface_a15e608c089ed8d234cbde7368c34f823}\label{classeve__market_1_1_contract_interface_a15e608c089ed8d234cbde7368c34f823}} 
+\index{eve\_market.ContractInterface@{eve\_market.ContractInterface}!GetBidStrings@{GetBidStrings}}
+\index{GetBidStrings@{GetBidStrings}!eve\_market.ContractInterface@{eve\_market.ContractInterface}}
+\doxysubsubsection{\texorpdfstring{GetBidStrings()}{GetBidStrings()}}
+{\footnotesize\ttfamily List$<$ string $>$ eve\+\_\+market.\+Contract\+Interface.\+Get\+Bid\+Strings (\begin{DoxyParamCaption}\item[{int}]{contract\+Id }\end{DoxyParamCaption})}
+
+
+
+Helper function. Constructs a string containing all the bids from of the given auction contract. Returns an empty lists if no bids are found.  
+
+
+\begin{DoxyParams}{Parameters}
+{\em contract\+Id} & Auction contract ID\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+List of bid strings
+\end{DoxyReturn}
+\mbox{\Hypertarget{classeve__market_1_1_contract_interface_a7ee3da471bd93eea45693f0f45d5248c}\label{classeve__market_1_1_contract_interface_a7ee3da471bd93eea45693f0f45d5248c}} 
+\index{eve\_market.ContractInterface@{eve\_market.ContractInterface}!getContractItemString@{getContractItemString}}
+\index{getContractItemString@{getContractItemString}!eve\_market.ContractInterface@{eve\_market.ContractInterface}}
+\doxysubsubsection{\texorpdfstring{getContractItemString()}{getContractItemString()}}
+{\footnotesize\ttfamily List$<$ List$<$ string $>$ $>$ eve\+\_\+market.\+Contract\+Interface.\+get\+Contract\+Item\+String (\begin{DoxyParamCaption}\item[{long}]{contract\+Id,  }\item[{bool}]{is\+Public = {\ttfamily false} }\end{DoxyParamCaption})}
+
+
+
+Helper function. For a given contract, constructs a string of the items in the given contract, with a specific formatting. If list\+Public is false, it is assumed that the contract is part of the authorized characters contracts, otherwise it\textquotesingle{}s public.  
+
+
+\begin{DoxyParams}{Parameters}
+{\em contract\+Id} & ID of the contract\\
+\hline
+{\em is\+Public} & Whether the contract is a public or character one\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+List of item info strings
+\end{DoxyReturn}
+\mbox{\Hypertarget{classeve__market_1_1_contract_interface_a22f54d27834fb765fb423fe8e7820f0b}\label{classeve__market_1_1_contract_interface_a22f54d27834fb765fb423fe8e7820f0b}} 
+\index{eve\_market.ContractInterface@{eve\_market.ContractInterface}!HandleContracts@{HandleContracts}}
+\index{HandleContracts@{HandleContracts}!eve\_market.ContractInterface@{eve\_market.ContractInterface}}
+\doxysubsubsection{\texorpdfstring{HandleContracts()}{HandleContracts()}}
+{\footnotesize\ttfamily void eve\+\_\+market.\+Contract\+Interface.\+Handle\+Contracts (\begin{DoxyParamCaption}\item[{string\mbox{[}$\,$\mbox{]}}]{tokens }\end{DoxyParamCaption})}
+
+
+
+Handles the \char`\"{}contracts\char`\"{} command. Displays a given page of contracts in the input region. If no region is given, the default region is used.  
+
+
+\begin{DoxyParams}{Parameters}
+{\em tokens} & Command line tokens\\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classeve__market_1_1_contract_interface_a30d09cbf31c42abc7f978a0d5e274264}\label{classeve__market_1_1_contract_interface_a30d09cbf31c42abc7f978a0d5e274264}} 
+\index{eve\_market.ContractInterface@{eve\_market.ContractInterface}!HandleMyContracts@{HandleMyContracts}}
+\index{HandleMyContracts@{HandleMyContracts}!eve\_market.ContractInterface@{eve\_market.ContractInterface}}
+\doxysubsubsection{\texorpdfstring{HandleMyContracts()}{HandleMyContracts()}}
+{\footnotesize\ttfamily void eve\+\_\+market.\+Contract\+Interface.\+Handle\+My\+Contracts (\begin{DoxyParamCaption}\item[{string\mbox{[}$\,$\mbox{]}}]{tokens }\end{DoxyParamCaption})}
+
+
+
+Handles the \char`\"{}my\+\_\+contracts\char`\"{} command. Displays all contracts of the authorized character.  
+
+
+\begin{DoxyParams}{Parameters}
+{\em tokens} & Command line tokens (included for uniformity of API, not used)\\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Users/\+Samo/\+Repos/eve\+\_\+market/Contract\+Interface.\+cs\end{DoxyCompactItemize}

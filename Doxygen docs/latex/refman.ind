@@ -1,0 +1,155 @@
+\begin{theindex}
+
+  \item {CheckAuthorization}
+    \subitem {eve\_market.MainEsiInterface}, \hyperpage{15}
+  \item {ContractIdToName}
+    \subitem {eve\_market.UniverseInterface}, \hyperpage{27}
+  \item {ContractInterface}
+    \subitem {eve\_market.ContractInterface}, \hyperpage{12}
+
+  \indexspace
+
+  \item {eve\_market}, \hyperpage{9}
+  \item {eve\_market.ContractInterface}, \hyperpage{11}
+    \subitem {ContractInterface}, \hyperpage{12}
+    \subitem {GetBidStrings}, \hyperpage{12}
+    \subitem {getContractItemString}, \hyperpage{12}
+    \subitem {HandleContracts}, \hyperpage{13}
+    \subitem {HandleMyContracts}, \hyperpage{13}
+  \item {eve\_market.MainEsiInterface}, \hyperpage{13}
+    \subitem {CheckAuthorization}, \hyperpage{15}
+    \subitem {GenerateStateString}, \hyperpage{15}
+    \subitem {HandleAuthorize}, \hyperpage{16}
+    \subitem {HandleHelp}, \hyperpage{16}
+    \subitem {HandleLogout}, \hyperpage{16}
+    \subitem {IsIdField}, \hyperpage{16}
+    \subitem {MainEsiInterface}, \hyperpage{15}
+    \subitem {StringFromSlice}, \hyperpage{17}
+  \item {eve\_market.MarketInterface}, \hyperpage{17}
+    \subitem {HandleAssets}, \hyperpage{19}
+    \subitem {HandleDefaults}, \hyperpage{19}
+    \subitem {HandleHistory}, \hyperpage{19}
+    \subitem {HandleMyOrders}, \hyperpage{20}
+    \subitem {HandleOrderHistory}, \hyperpage{20}
+    \subitem {HandleOrders}, \hyperpage{20}
+    \subitem {HandleTransactions}, \hyperpage{21}
+    \subitem {HandleWallet}, \hyperpage{21}
+    \subitem {MarketInterface}, \hyperpage{18}
+    \subitem {SortItems}, \hyperpage{21}
+    \subitem {SortOrders}, \hyperpage{22}
+  \item {eve\_market.Printer}, \hyperpage{22}
+    \subitem {PrintContracts}, \hyperpage{23}
+    \subitem {Printer}, \hyperpage{23}
+    \subitem {PrintLine}, \hyperpage{24}
+    \subitem {PrintObjList$<$ T $>$}, \hyperpage{24}
+    \subitem {PrintTableHeader}, \hyperpage{25}
+  \item {eve\_market.Program}, \hyperpage{25}
+    \subitem {ParseInput}, \hyperpage{25}
+  \item {eve\_market.UniverseInterface}, \hyperpage{26}
+    \subitem {ContractIdToName}, \hyperpage{27}
+    \subitem {FindRegion}, \hyperpage{27}
+    \subitem {HandleInfo}, \hyperpage{28}
+    \subitem {IdToName}, \hyperpage{28}
+    \subitem {NameToId}, \hyperpage{29}
+    \subitem {PrintItemInfo}, \hyperpage{29}
+    \subitem {SearchName}, \hyperpage{30}
+    \subitem {UniverseInterface}, \hyperpage{27}
+
+  \indexspace
+
+  \item {FindRegion}
+    \subitem {eve\_market.UniverseInterface}, \hyperpage{27}
+
+  \indexspace
+
+  \item {GenerateStateString}
+    \subitem {eve\_market.MainEsiInterface}, \hyperpage{15}
+  \item {GetBidStrings}
+    \subitem {eve\_market.ContractInterface}, \hyperpage{12}
+  \item {getContractItemString}
+    \subitem {eve\_market.ContractInterface}, \hyperpage{12}
+
+  \indexspace
+
+  \item {HandleAssets}
+    \subitem {eve\_market.MarketInterface}, \hyperpage{19}
+  \item {HandleAuthorize}
+    \subitem {eve\_market.MainEsiInterface}, \hyperpage{16}
+  \item {HandleContracts}
+    \subitem {eve\_market.ContractInterface}, \hyperpage{13}
+  \item {HandleDefaults}
+    \subitem {eve\_market.MarketInterface}, \hyperpage{19}
+  \item {HandleHelp}
+    \subitem {eve\_market.MainEsiInterface}, \hyperpage{16}
+  \item {HandleHistory}
+    \subitem {eve\_market.MarketInterface}, \hyperpage{19}
+  \item {HandleInfo}
+    \subitem {eve\_market.UniverseInterface}, \hyperpage{28}
+  \item {HandleLogout}
+    \subitem {eve\_market.MainEsiInterface}, \hyperpage{16}
+  \item {HandleMyContracts}
+    \subitem {eve\_market.ContractInterface}, \hyperpage{13}
+  \item {HandleMyOrders}
+    \subitem {eve\_market.MarketInterface}, \hyperpage{20}
+  \item {HandleOrderHistory}
+    \subitem {eve\_market.MarketInterface}, \hyperpage{20}
+  \item {HandleOrders}
+    \subitem {eve\_market.MarketInterface}, \hyperpage{20}
+  \item {HandleTransactions}
+    \subitem {eve\_market.MarketInterface}, \hyperpage{21}
+  \item {HandleWallet}
+    \subitem {eve\_market.MarketInterface}, \hyperpage{21}
+
+  \indexspace
+
+  \item {IdToName}
+    \subitem {eve\_market.UniverseInterface}, \hyperpage{28}
+  \item {IsIdField}
+    \subitem {eve\_market.MainEsiInterface}, \hyperpage{16}
+
+  \indexspace
+
+  \item {MainEsiInterface}
+    \subitem {eve\_market.MainEsiInterface}, \hyperpage{15}
+  \item {MarketInterface}
+    \subitem {eve\_market.MarketInterface}, \hyperpage{18}
+
+  \indexspace
+
+  \item {NameToId}
+    \subitem {eve\_market.UniverseInterface}, \hyperpage{29}
+
+  \indexspace
+
+  \item {ParseInput}
+    \subitem {eve\_market.Program}, \hyperpage{25}
+  \item {PrintContracts}
+    \subitem {eve\_market.Printer}, \hyperpage{23}
+  \item {Printer}
+    \subitem {eve\_market.Printer}, \hyperpage{23}
+  \item {PrintItemInfo}
+    \subitem {eve\_market.UniverseInterface}, \hyperpage{29}
+  \item {PrintLine}
+    \subitem {eve\_market.Printer}, \hyperpage{24}
+  \item {PrintObjList$<$ T $>$}
+    \subitem {eve\_market.Printer}, \hyperpage{24}
+  \item {PrintTableHeader}
+    \subitem {eve\_market.Printer}, \hyperpage{25}
+
+  \indexspace
+
+  \item {SearchName}
+    \subitem {eve\_market.UniverseInterface}, \hyperpage{30}
+  \item {SortItems}
+    \subitem {eve\_market.MarketInterface}, \hyperpage{21}
+  \item {SortOrders}
+    \subitem {eve\_market.MarketInterface}, \hyperpage{22}
+  \item {StringFromSlice}
+    \subitem {eve\_market.MainEsiInterface}, \hyperpage{17}
+
+  \indexspace
+
+  \item {UniverseInterface}
+    \subitem {eve\_market.UniverseInterface}, \hyperpage{27}
+
+\end{theindex}

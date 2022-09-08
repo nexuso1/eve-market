@@ -1,0 +1,154 @@
+\hypertarget{classeve__market_1_1_printer}{}\doxysection{eve\+\_\+market.\+Printer Class Reference}
+\label{classeve__market_1_1_printer}\index{eve\_market.Printer@{eve\_market.Printer}}
+
+
+Class that handles printing of various data.   
+
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classeve__market_1_1_printer_abd4e08f35bc1389d63d137992b58daac}{Printer}} (\mbox{\hyperlink{classeve__market_1_1_main_esi_interface}{Main\+Esi\+Interface}} esi\+Interface, Text\+Writer writer)
+\begin{DoxyCompactList}\small\item\em Basic constructor. Only assigns the instances from arguments to fields.  \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classeve__market_1_1_printer_ad6fabd7b0855415f363606a568587e67}{Print\+Line}} (int length)
+\begin{DoxyCompactList}\small\item\em Prints a line of a given length to the output stream.  \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classeve__market_1_1_printer_a26fe2fb37fbcdbd306f5bec45e77dd89}{Print\+Line}} (List$<$ string $>$ fields, int width)
+\begin{DoxyCompactList}\small\item\em Prints a line that adapts to the number of fields, and the width corresponding to one field.  \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classeve__market_1_1_printer_ab33ea90f88d4e483e6fc58c02f0d6a29}{Print\+Table\+Header}} (List$<$ string $>$ fields, int width)
+\begin{DoxyCompactList}\small\item\em Prints the header of a table, which contains the given fields, with a cell width of \char`\"{}width\char`\"{}.  \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classeve__market_1_1_printer_a7e53726dbe613ea1387ef644b931deed}{Print\+Contracts}} (List$<$ ESI.\+NET.\+Models.\+Contracts.\+Contract $>$ contracts, bool list\+Public=false)
+\begin{DoxyCompactList}\small\item\em Prints the contracts from arguments. Warning, contracts have a lot of variations and this function is quite extensive in its printing. Use list\+Public if you\textquotesingle{}re trying to print public contracts.  \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classeve__market_1_1_printer_ab7864d17d8ad4d71afd899ff9d2237b7}{Print\+Obj\+List$<$ T $>$}} (List$<$ T $>$ obj\+List, int width, int rows, List$<$ string $>$ fields, List$<$ string $>$ field\+Desc)
+\begin{DoxyCompactList}\small\item\em Prints a list of json-\/convertible objects as a table, with a given cell width and number of rows. Only prints the fields named in the \char`\"{}fields\char`\"{}. If a field is an ID field, also resolves it\textquotesingle{}s name before printing.  \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classeve__market_1_1_printer_a25681855ffd6487fe17e2342a4cdd5fc}\label{classeve__market_1_1_printer_a25681855ffd6487fe17e2342a4cdd5fc}} 
+Text\+Writer {\bfseries output}
+\begin{DoxyCompactList}\small\item\em Text output stream  \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classeve__market_1_1_printer_a22589c3d569f2788016ee5ff2b863f46}\label{classeve__market_1_1_printer_a22589c3d569f2788016ee5ff2b863f46}} 
+\mbox{\hyperlink{classeve__market_1_1_main_esi_interface}{Main\+Esi\+Interface}} {\bfseries main\+Esi\+Interface}
+\begin{DoxyCompactList}\small\item\em Reference to a Main\+Intreface instance.  \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Class that handles printing of various data.  
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classeve__market_1_1_printer_abd4e08f35bc1389d63d137992b58daac}\label{classeve__market_1_1_printer_abd4e08f35bc1389d63d137992b58daac}} 
+\index{eve\_market.Printer@{eve\_market.Printer}!Printer@{Printer}}
+\index{Printer@{Printer}!eve\_market.Printer@{eve\_market.Printer}}
+\doxysubsubsection{\texorpdfstring{Printer()}{Printer()}}
+{\footnotesize\ttfamily eve\+\_\+market.\+Printer.\+Printer (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classeve__market_1_1_main_esi_interface}{Main\+Esi\+Interface}}}]{esi\+Interface,  }\item[{Text\+Writer}]{writer }\end{DoxyParamCaption})}
+
+
+
+Basic constructor. Only assigns the instances from arguments to fields.  
+
+
+\begin{DoxyParams}{Parameters}
+{\em esi\+Interface} & Reference to an (already created) \mbox{\hyperlink{classeve__market_1_1_main_esi_interface}{Main\+Esi\+Interface}} instance\\
+\hline
+{\em writer} & Text output stream\\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classeve__market_1_1_printer_a7e53726dbe613ea1387ef644b931deed}\label{classeve__market_1_1_printer_a7e53726dbe613ea1387ef644b931deed}} 
+\index{eve\_market.Printer@{eve\_market.Printer}!PrintContracts@{PrintContracts}}
+\index{PrintContracts@{PrintContracts}!eve\_market.Printer@{eve\_market.Printer}}
+\doxysubsubsection{\texorpdfstring{PrintContracts()}{PrintContracts()}}
+{\footnotesize\ttfamily void eve\+\_\+market.\+Printer.\+Print\+Contracts (\begin{DoxyParamCaption}\item[{List$<$ ESI.\+NET.\+Models.\+Contracts.\+Contract $>$}]{contracts,  }\item[{bool}]{list\+Public = {\ttfamily false} }\end{DoxyParamCaption})}
+
+
+
+Prints the contracts from arguments. Warning, contracts have a lot of variations and this function is quite extensive in its printing. Use list\+Public if you\textquotesingle{}re trying to print public contracts.  
+
+
+\begin{DoxyParams}{Parameters}
+{\em contracts} & List of contracts to print\\
+\hline
+{\em list\+Public} & Whether public contract is being printed\\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classeve__market_1_1_printer_ad6fabd7b0855415f363606a568587e67}\label{classeve__market_1_1_printer_ad6fabd7b0855415f363606a568587e67}} 
+\index{eve\_market.Printer@{eve\_market.Printer}!PrintLine@{PrintLine}}
+\index{PrintLine@{PrintLine}!eve\_market.Printer@{eve\_market.Printer}}
+\doxysubsubsection{\texorpdfstring{PrintLine()}{PrintLine()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily void eve\+\_\+market.\+Printer.\+Print\+Line (\begin{DoxyParamCaption}\item[{int}]{length }\end{DoxyParamCaption})}
+
+
+
+Prints a line of a given length to the output stream.  
+
+
+\begin{DoxyParams}{Parameters}
+{\em length} & Length of the line\\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classeve__market_1_1_printer_a26fe2fb37fbcdbd306f5bec45e77dd89}\label{classeve__market_1_1_printer_a26fe2fb37fbcdbd306f5bec45e77dd89}} 
+\index{eve\_market.Printer@{eve\_market.Printer}!PrintLine@{PrintLine}}
+\index{PrintLine@{PrintLine}!eve\_market.Printer@{eve\_market.Printer}}
+\doxysubsubsection{\texorpdfstring{PrintLine()}{PrintLine()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily void eve\+\_\+market.\+Printer.\+Print\+Line (\begin{DoxyParamCaption}\item[{List$<$ string $>$}]{fields,  }\item[{int}]{width }\end{DoxyParamCaption})}
+
+
+
+Prints a line that adapts to the number of fields, and the width corresponding to one field.  
+
+
+\begin{DoxyParams}{Parameters}
+{\em fields} & List of fields\\
+\hline
+{\em width} & Width for one field\\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classeve__market_1_1_printer_ab7864d17d8ad4d71afd899ff9d2237b7}\label{classeve__market_1_1_printer_ab7864d17d8ad4d71afd899ff9d2237b7}} 
+\index{eve\_market.Printer@{eve\_market.Printer}!PrintObjList$<$ T $>$@{PrintObjList$<$ T $>$}}
+\index{PrintObjList$<$ T $>$@{PrintObjList$<$ T $>$}!eve\_market.Printer@{eve\_market.Printer}}
+\doxysubsubsection{\texorpdfstring{PrintObjList$<$ T $>$()}{PrintObjList< T >()}}
+{\footnotesize\ttfamily void eve\+\_\+market.\+Printer.\+Print\+Obj\+List$<$ T $>$ (\begin{DoxyParamCaption}\item[{List$<$ T $>$}]{obj\+List,  }\item[{int}]{width,  }\item[{int}]{rows,  }\item[{List$<$ string $>$}]{fields,  }\item[{List$<$ string $>$}]{field\+Desc }\end{DoxyParamCaption})}
+
+
+
+Prints a list of json-\/convertible objects as a table, with a given cell width and number of rows. Only prints the fields named in the \char`\"{}fields\char`\"{}. If a field is an ID field, also resolves it\textquotesingle{}s name before printing.  
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em T} & JObject-\/convertible type\\
+\hline
+\end{DoxyTemplParams}
+
+\begin{DoxyParams}{Parameters}
+{\em obj\+List} & List of items to print\\
+\hline
+{\em width} & Table cell width\\
+\hline
+{\em rows} & Number of rows. If it\textquotesingle{}s less than the length of \char`\"{}obj\+List\char`\"{}, prints only the first \char`\"{}rows\char`\"{} items.\\
+\hline
+{\em fields} & Keys of the fields to print.\\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classeve__market_1_1_printer_ab33ea90f88d4e483e6fc58c02f0d6a29}\label{classeve__market_1_1_printer_ab33ea90f88d4e483e6fc58c02f0d6a29}} 
+\index{eve\_market.Printer@{eve\_market.Printer}!PrintTableHeader@{PrintTableHeader}}
+\index{PrintTableHeader@{PrintTableHeader}!eve\_market.Printer@{eve\_market.Printer}}
+\doxysubsubsection{\texorpdfstring{PrintTableHeader()}{PrintTableHeader()}}
+{\footnotesize\ttfamily void eve\+\_\+market.\+Printer.\+Print\+Table\+Header (\begin{DoxyParamCaption}\item[{List$<$ string $>$}]{fields,  }\item[{int}]{width }\end{DoxyParamCaption})}
+
+
+
+Prints the header of a table, which contains the given fields, with a cell width of \char`\"{}width\char`\"{}.  
+
+
+\begin{DoxyParams}{Parameters}
+{\em fields} & List of field names\\
+\hline
+{\em width} & Width of a cell in the table\\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Users/\+Samo/\+Repos/eve\+\_\+market/Printer.\+cs\end{DoxyCompactItemize}

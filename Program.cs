@@ -3,6 +3,9 @@ using System.IO;
 
 namespace eve_market
 {
+    /// <summary>
+    /// Entry point of the program.
+    /// </summary>
     class Program
     {
         /// <summary>

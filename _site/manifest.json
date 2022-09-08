@@ -4,6 +4,18 @@
   "xrefmap": "xrefmap.yml",
   "files": [
     {
+      "type": "Conceptual",
+      "source_relative_path": "README.md",
+      "output": {
+        ".html": {
+          "relative_path": "README.html",
+          "hash": "KP19FLqznrzGfflkF1jnpu+7dnXiJfxlBUW/SPzks+U="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
       "type": "ManagedReference",
       "source_relative_path": "api/eve_market.ContractInterface.yml",
       "output": {
@@ -153,10 +165,10 @@
       "output": {
         ".html": {
           "relative_path": "index.html",
-          "hash": "V4MvXHjMmSdsUmXGjVyeuVNnwFqRnFKG+Xoj3PzgfGA="
+          "hash": "XwP6wTieZRJKN0eJZqt4ORP+YGKb/k98fJo2fH3dzUE="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -166,18 +178,6 @@
         ".html": {
           "relative_path": "toc.html",
           "hash": "WSuRrYiGwKKMbtdG9z8W9fXmLoCyTnGg9AxbPKLXm2Y="
-        }
-      },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
-      "type": "Conceptual",
-      "source_relative_path": "user_docs.md",
-      "output": {
-        ".html": {
-          "relative_path": "user_docs.html",
-          "hash": "WC78ULsQe93VVIk/WB+A0ErtXBQDq2Z6w8ixEgoRsR4="
         }
       },
       "is_incremental": false,
@@ -197,7 +197,7 @@
           "can_incremental": true,
           "incrementalPhase": "build",
           "total_file_count": 4,
-          "skipped_file_count": 3
+          "skipped_file_count": 2
         },
         "ManagedReferenceDocumentProcessor": {
           "can_incremental": true,
