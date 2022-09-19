@@ -47,9 +47,9 @@
     \subitem {ParseInput}, \hyperpage{25}
   \item {eve\_market.UniverseInterface}, \hyperpage{26}
     \subitem {ContractIdToName}, \hyperpage{27}
-    \subitem {FindRegion}, \hyperpage{27}
+    \subitem {FindRegion}, \hyperpage{28}
     \subitem {HandleInfo}, \hyperpage{28}
-    \subitem {IdToName}, \hyperpage{28}
+    \subitem {IdToName}, \hyperpage{28, 29}
     \subitem {NameToId}, \hyperpage{29}
     \subitem {PrintItemInfo}, \hyperpage{29}
     \subitem {SearchName}, \hyperpage{30}
@@ -58,7 +58,7 @@
   \indexspace
 
   \item {FindRegion}
-    \subitem {eve\_market.UniverseInterface}, \hyperpage{27}
+    \subitem {eve\_market.UniverseInterface}, \hyperpage{28}
 
   \indexspace
 
@@ -103,7 +103,7 @@
   \indexspace
 
   \item {IdToName}
-    \subitem {eve\_market.UniverseInterface}, \hyperpage{28}
+    \subitem {eve\_market.UniverseInterface}, \hyperpage{28, 29}
   \item {IsIdField}
     \subitem {eve\_market.MainEsiInterface}, \hyperpage{16}
 

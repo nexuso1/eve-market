@@ -1,6 +1,7 @@
 \@ifundefined {etoctocstyle}{\let \etoc@startlocaltoc \@gobble \let \etoc@settocdepth \@gobble \let \etoc@depthtag \@gobble \let \etoc@setlocaltop \@gobble }{}
-\contentsline {chapter}{\numberline {1}This is the $<$strong$>$HOMEPAGE$<$/strong$>$.}{1}{chapter.1}%
-\contentsline {section}{\numberline {1.1}Quick Start Notes\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}:}{1}{section.1.1}%
+\contentsline {chapter}{\numberline {1}Homepage}{1}{chapter.1}%
+\contentsline {subsection}{\numberline {1.0.1}Quick Start Notes\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}:}{1}{subsection.1.0.1}%
+\contentsline {subsection}{\numberline {1.0.2}Example usage}{1}{subsection.1.0.2}%
 \contentsline {chapter}{\numberline {2}\# Program usage}{3}{chapter.2}%
 \contentsline {section}{\numberline {2.1}Commands}{3}{section.2.1}%
 \contentsline {chapter}{\numberline {3}Namespace Index}{5}{chapter.3}%
@@ -57,15 +58,16 @@
 \contentsline {subsubsection}{\numberline {6.4.3.4}PrintObjList$<$ T $>$()}{24}{subsubsection.6.4.3.4}%
 \contentsline {subsubsection}{\numberline {6.4.3.5}PrintTableHeader()}{25}{subsubsection.6.4.3.5}%
 \contentsline {section}{\numberline {6.5}eve\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}market.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Program Class Reference}{25}{section.6.5}%
-\contentsline {subsection}{\numberline {6.5.1}Member Function Documentation}{25}{subsection.6.5.1}%
-\contentsline {subsubsection}{\numberline {6.5.1.1}ParseInput()}{25}{subsubsection.6.5.1.1}%
+\contentsline {subsection}{\numberline {6.5.1}Detailed Description}{25}{subsection.6.5.1}%
+\contentsline {subsection}{\numberline {6.5.2}Member Function Documentation}{25}{subsection.6.5.2}%
+\contentsline {subsubsection}{\numberline {6.5.2.1}ParseInput()}{26}{subsubsection.6.5.2.1}%
 \contentsline {section}{\numberline {6.6}eve\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}market.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Universe\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Interface Class Reference}{26}{section.6.6}%
 \contentsline {subsection}{\numberline {6.6.1}Detailed Description}{27}{subsection.6.6.1}%
 \contentsline {subsection}{\numberline {6.6.2}Constructor \& Destructor Documentation}{27}{subsection.6.6.2}%
 \contentsline {subsubsection}{\numberline {6.6.2.1}UniverseInterface()}{27}{subsubsection.6.6.2.1}%
 \contentsline {subsection}{\numberline {6.6.3}Member Function Documentation}{27}{subsection.6.6.3}%
 \contentsline {subsubsection}{\numberline {6.6.3.1}ContractIdToName()}{27}{subsubsection.6.6.3.1}%
-\contentsline {subsubsection}{\numberline {6.6.3.2}FindRegion()}{27}{subsubsection.6.6.3.2}%
+\contentsline {subsubsection}{\numberline {6.6.3.2}FindRegion()}{28}{subsubsection.6.6.3.2}%
 \contentsline {subsubsection}{\numberline {6.6.3.3}HandleInfo()}{28}{subsubsection.6.6.3.3}%
 \contentsline {subsubsection}{\numberline {6.6.3.4}IdToName()\hspace {0.1cm}{\footnotesize \ttfamily [1/2]}}{28}{subsubsection.6.6.3.4}%
 \contentsline {subsubsection}{\numberline {6.6.3.5}IdToName()\hspace {0.1cm}{\footnotesize \ttfamily [2/2]}}{29}{subsubsection.6.6.3.5}%
