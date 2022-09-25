@@ -205,16 +205,16 @@ namespace eve_market
         /// work properly.
         /// </summary>
         /// <param name="path">Path of the token save file</param>
-        async private void LoadAuthToken(string path = "refresh.token")
+        private void LoadAuthToken(string path = "refresh.token")
         {
             using (var reader = new StreamReader(File.OpenRead(path)))
             {
                 var refreshToken = reader.ReadLine();
                 try
                 {
-                    var token = await Client.SSO.GetToken(GrantType.RefreshToken, refreshToken);
+                    var token = Client.SSO.GetToken(GrantType.RefreshToken, refreshToken).Result;
                     AuthToken = token;
-                    AuthData = await Client.SSO.Verify(token);
+                    AuthData = Client.SSO.Verify(token).Result;
                     Client.SetCharacterData(AuthData);
                 }
 
@@ -244,11 +244,11 @@ namespace eve_market
         /// Logs the authorized character out (if there is any)
         /// </summary>
         /// <param name="tokens">Command line tokens. Only included for the uniformity of API</param>
-        async public void HandleLogout(string[] tokens)
+        public void HandleLogout(string[] tokens)
         {
             if (IsAuthorized)
             {
-                await Client.SSO.RevokeToken(AuthData.Token);
+                Client.SSO.RevokeToken(AuthData.Token).Wait();
                 Client = createClient();
             }
 
@@ -264,11 +264,11 @@ namespace eve_market
         /// refers the end-user to the auth page.
         /// </summary>
         /// <param name="tokens">Command line tokens. Included for the uniformity of API</param>
-        async public void HandleAuthorize(string[] tokens)
+        public void HandleAuthorize(string[] tokens)
         {
             if (IsAuthorized)
             {
-                await Client.SSO.RevokeToken(AuthData.Token);
+                Client.SSO.RevokeToken(AuthData.Token).Wait();
                 Client = createClient();
             }
 
@@ -290,8 +290,8 @@ namespace eve_market
             listener.Prefixes.Add(redirectUri);
             listener.Start();
 
-            // Will hold the request response fromt the server
-            var context = await listener.GetContextAsync();
+            // Will hold the request response from the server
+            var context = listener.GetContextAsync().Result;
 
             // Reterned url query string
             var queryString = context.Request.QueryString;
@@ -306,8 +306,8 @@ namespace eve_market
             }
 
             // Obtain the authorization token
-            AuthToken = await Client.SSO.GetToken(GrantType.AuthorizationCode, code, challenge);
-            AuthData = await Client.SSO.Verify(AuthToken);
+            AuthToken = Client.SSO.GetToken(GrantType.AuthorizationCode, code, challenge).Result;
+            AuthData = Client.SSO.Verify(AuthToken).Result;
             Client.SetCharacterData(AuthData);
             SaveRefreshToken(AuthToken);
 
@@ -321,7 +321,7 @@ namespace eve_market
             var responseOutput = response.OutputStream;
 
             // Present it to the user
-            await responseOutput.WriteAsync(buffer, 0, buffer.Length);
+            responseOutput.Write(buffer, 0, buffer.Length);
             responseOutput.Close();
 
             // Close the listener

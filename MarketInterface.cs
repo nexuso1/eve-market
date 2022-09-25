@@ -753,11 +753,11 @@ namespace eve_market
         /// Gathers information about the authorized characters' wallet and prints it out to output
         /// </summary>
         /// <param name="tokens">Included for the uniformity of API, not used</param>
-        async public void HandleWallet(string[] tokens)
+        public void HandleWallet(string[] tokens)
         {
             if (!mainInterface.CheckAuthorization()) return;
 
-            var response = await mainInterface.Client.Wallet.CharacterWallet();
+            var response = mainInterface.Client.Wallet.CharacterWallet().Result;
             var balance = response.Message;
             output.WriteLine($"Your current personal account balance is {balance} ISK.");
             return;

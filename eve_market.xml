@@ -397,6 +397,11 @@
             "rows" items.</param>
             <param name="fields">Keys of the fields to print.</param>
         </member>
+        <member name="T:eve_market.Program">
+            <summary>
+            Entry point of the program.
+            </summary>
+        </member>
         <member name="M:eve_market.Program.ParseInput(System.IO.TextReader,System.IO.TextWriter,eve_market.MainEsiInterface)">
             <summary>
             Simple entry point function to the program. Turns the command line input into tokens

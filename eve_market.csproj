@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>C:\Users\Samo\Repos\eve_market\eve_market.xml</DocumentationFile>
+    <DocumentationFile>.\eve_market.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
