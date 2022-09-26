@@ -10,22 +10,22 @@ Class that handles the interaction with the Universe part of ESI, and provides v
 \item 
 \mbox{\hyperlink{classeve__market_1_1_universe_interface_ad8bdc5e629f40dbe369a60c54cf3bedd}{Universe\+Interface}} (\mbox{\hyperlink{classeve__market_1_1_main_esi_interface}{Main\+Esi\+Interface}} @interface, Text\+Writer text\+Writer)
 \begin{DoxyCompactList}\small\item\em Basic constructor. Only assigns the instances from arguments to fields.  \end{DoxyCompactList}\item 
-void \mbox{\hyperlink{classeve__market_1_1_universe_interface_af632468d8df9ddea8c83e73b494c730e}{Print\+Item\+Info}} (string item\+Name)
+async Task \mbox{\hyperlink{classeve__market_1_1_universe_interface_a4954e14b88b3a765ffe286951b1735ce}{Print\+Item\+Info}} (string item\+Name)
 \begin{DoxyCompactList}\small\item\em Finds the closest matching item and prints its description  \end{DoxyCompactList}\item 
-void \mbox{\hyperlink{classeve__market_1_1_universe_interface_abc8b29cc59f8d9c496541bd264f8cb12}{Handle\+Info}} (string\mbox{[}$\,$\mbox{]} tokens)
+async Task \mbox{\hyperlink{classeve__market_1_1_universe_interface_a4f5f964b88a752b34ddad11596063151}{Handle\+Info}} (string\mbox{[}$\,$\mbox{]} tokens)
 \begin{DoxyCompactList}\small\item\em HAndles the \char`\"{}info\char`\"{} command.  \end{DoxyCompactList}\item 
-long\mbox{[}$\,$\mbox{]} \mbox{\hyperlink{classeve__market_1_1_universe_interface_acc6ff637cc4500bd2191d3572852f96f}{Search\+Name}} (string query, Search\+Category category)
+async Task$<$ long\mbox{[}$\,$\mbox{]}$>$ \mbox{\hyperlink{classeve__market_1_1_universe_interface_a32d0a53617a2ae99d253869e8194ae27}{Search\+Name}} (string query, Search\+Category category)
 \begin{DoxyCompactList}\small\item\em Find names of types/objects which containg a given string query and returns the list of matching ids  \end{DoxyCompactList}\item 
-long \mbox{\hyperlink{classeve__market_1_1_universe_interface_a284cf33b23799baedb2fb275c1f6868a}{Find\+Region}} (long id, Search\+Category type)
+async Task$<$ long $>$ \mbox{\hyperlink{classeve__market_1_1_universe_interface_a0d89734ffaf4c5aa405d1a5bb9a84dc0}{Find\+Region}} (long id, Search\+Category type)
 \begin{DoxyCompactList}\small\item\em Finds the region of a given object lower in the hierarchy  \end{DoxyCompactList}\item 
-long \mbox{\hyperlink{classeve__market_1_1_universe_interface_a8ba32d0218dcd6cd768a6cc2c791b50b}{Name\+To\+Id}} (string name, Search\+Category category)
+async Task$<$ long $>$ \mbox{\hyperlink{classeve__market_1_1_universe_interface_aa3ee2e5a263dee94907faa5d1442dbcb}{Name\+To\+Id}} (string name, Search\+Category category)
 \begin{DoxyCompactList}\small\item\em For a given name of object and it\textquotesingle{}s type, finds its ID. Doesn\textquotesingle{}t require exact names, will find the closest match and returns its ID If no matches are found, returns -\/1  \end{DoxyCompactList}\item 
-void \mbox{\hyperlink{classeve__market_1_1_universe_interface_a6ba8609e584fc39d1d97f9ffcc7aa2ab}{Contract\+Id\+To\+Name}} (List$<$ long $>$ ids, string field\+Name)
-\begin{DoxyCompactList}\small\item\em Function that resolves the ids in a given contract, categories are determined based on the name of the field to which these ids belong. Results are cached and are available later from the \mbox{\hyperlink{classeve__market_1_1_universe_interface_a78f7644c7bc9d7078ffec95bb9f27e7e}{Id\+To\+Name()}} function.  \end{DoxyCompactList}\item 
-List$<$ string $>$ \mbox{\hyperlink{classeve__market_1_1_universe_interface_a78f7644c7bc9d7078ffec95bb9f27e7e}{Id\+To\+Name}} (List$<$ long $>$ ids)
-\begin{DoxyCompactList}\small\item\em Finds the names corresponding to these IDs, caches them and returns them as a list. Make sure all IDs are unique and of the same type.\+It is better to later query the \mbox{\hyperlink{classeve__market_1_1_universe_interface_a6e3a874dac8cf97bb503e4e53ca34602}{Id\+To\+Name(long id)}} method for the results, instead of using this list.  \end{DoxyCompactList}\item 
-string \mbox{\hyperlink{classeve__market_1_1_universe_interface_a6e3a874dac8cf97bb503e4e53ca34602}{Id\+To\+Name}} (long id)
-\begin{DoxyCompactList}\small\item\em Overload for singular ids. If id is in the cache, returns it\textquotesingle{}s cached value. Otherwise calls \mbox{\hyperlink{classeve__market_1_1_universe_interface_a78f7644c7bc9d7078ffec95bb9f27e7e}{Id\+To\+Name()}} with a List of length 1 containing this id.  \end{DoxyCompactList}\end{DoxyCompactItemize}
+async Task \mbox{\hyperlink{classeve__market_1_1_universe_interface_a46ffa503fb69f694ab281b2f74ba3333}{Contract\+Id\+To\+Name}} (List$<$ long $>$ ids, string field\+Name)
+\begin{DoxyCompactList}\small\item\em Function that resolves the ids in a given contract, categories are determined based on the name of the field to which these ids belong. Results are cached and are available later from the \mbox{\hyperlink{classeve__market_1_1_universe_interface_ab1ad7fc3ee0015275df0aa22edfc5c27}{Id\+To\+Name()}} function.  \end{DoxyCompactList}\item 
+async Task$<$ List$<$ string $>$ $>$ \mbox{\hyperlink{classeve__market_1_1_universe_interface_ab1ad7fc3ee0015275df0aa22edfc5c27}{Id\+To\+Name}} (List$<$ long $>$ ids)
+\begin{DoxyCompactList}\small\item\em Finds the names corresponding to these IDs, caches them and returns them as a list. Make sure all IDs are unique and of the same type.\+It is better to later query the \mbox{\hyperlink{classeve__market_1_1_universe_interface_ad426fefdd22446d4642f169dc1f3f87e}{Id\+To\+Name(long id)}} method for the results, instead of using this list.  \end{DoxyCompactList}\item 
+async Task$<$ string $>$ \mbox{\hyperlink{classeve__market_1_1_universe_interface_ad426fefdd22446d4642f169dc1f3f87e}{Id\+To\+Name}} (long id)
+\begin{DoxyCompactList}\small\item\em Overload for singular ids. If id is in the cache, returns it\textquotesingle{}s cached value. Otherwise calls \mbox{\hyperlink{classeve__market_1_1_universe_interface_ab1ad7fc3ee0015275df0aa22edfc5c27}{Id\+To\+Name()}} with a List of length 1 containing this id.  \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsection*{Public Attributes}
 \begin{DoxyCompactItemize}
 \item 
@@ -61,15 +61,15 @@ Basic constructor. Only assigns the instances from arguments to fields.
 
 
 \doxysubsection{Member Function Documentation}
-\mbox{\Hypertarget{classeve__market_1_1_universe_interface_a6ba8609e584fc39d1d97f9ffcc7aa2ab}\label{classeve__market_1_1_universe_interface_a6ba8609e584fc39d1d97f9ffcc7aa2ab}} 
+\mbox{\Hypertarget{classeve__market_1_1_universe_interface_a46ffa503fb69f694ab281b2f74ba3333}\label{classeve__market_1_1_universe_interface_a46ffa503fb69f694ab281b2f74ba3333}} 
 \index{eve\_market.UniverseInterface@{eve\_market.UniverseInterface}!ContractIdToName@{ContractIdToName}}
 \index{ContractIdToName@{ContractIdToName}!eve\_market.UniverseInterface@{eve\_market.UniverseInterface}}
 \doxysubsubsection{\texorpdfstring{ContractIdToName()}{ContractIdToName()}}
-{\footnotesize\ttfamily void eve\+\_\+market.\+Universe\+Interface.\+Contract\+Id\+To\+Name (\begin{DoxyParamCaption}\item[{List$<$ long $>$}]{ids,  }\item[{string}]{field\+Name }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily async Task eve\+\_\+market.\+Universe\+Interface.\+Contract\+Id\+To\+Name (\begin{DoxyParamCaption}\item[{List$<$ long $>$}]{ids,  }\item[{string}]{field\+Name }\end{DoxyParamCaption})}
 
 
 
-Function that resolves the ids in a given contract, categories are determined based on the name of the field to which these ids belong. Results are cached and are available later from the \mbox{\hyperlink{classeve__market_1_1_universe_interface_a78f7644c7bc9d7078ffec95bb9f27e7e}{Id\+To\+Name()}} function.  
+Function that resolves the ids in a given contract, categories are determined based on the name of the field to which these ids belong. Results are cached and are available later from the \mbox{\hyperlink{classeve__market_1_1_universe_interface_ab1ad7fc3ee0015275df0aa22edfc5c27}{Id\+To\+Name()}} function.  
 
 
 \begin{DoxyParams}{Parameters}
@@ -78,11 +78,11 @@ Function that resolves the ids in a given contract, categories are determined ba
 {\em field\+Name} & Name of the field to which these ids belong\\
 \hline
 \end{DoxyParams}
-\mbox{\Hypertarget{classeve__market_1_1_universe_interface_a284cf33b23799baedb2fb275c1f6868a}\label{classeve__market_1_1_universe_interface_a284cf33b23799baedb2fb275c1f6868a}} 
+\mbox{\Hypertarget{classeve__market_1_1_universe_interface_a0d89734ffaf4c5aa405d1a5bb9a84dc0}\label{classeve__market_1_1_universe_interface_a0d89734ffaf4c5aa405d1a5bb9a84dc0}} 
 \index{eve\_market.UniverseInterface@{eve\_market.UniverseInterface}!FindRegion@{FindRegion}}
 \index{FindRegion@{FindRegion}!eve\_market.UniverseInterface@{eve\_market.UniverseInterface}}
 \doxysubsubsection{\texorpdfstring{FindRegion()}{FindRegion()}}
-{\footnotesize\ttfamily long eve\+\_\+market.\+Universe\+Interface.\+Find\+Region (\begin{DoxyParamCaption}\item[{long}]{id,  }\item[{Search\+Category}]{type }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily async Task$<$ long $>$ eve\+\_\+market.\+Universe\+Interface.\+Find\+Region (\begin{DoxyParamCaption}\item[{long}]{id,  }\item[{Search\+Category}]{type }\end{DoxyParamCaption})}
 
 
 
@@ -98,11 +98,11 @@ Finds the region of a given object lower in the hierarchy
 \begin{DoxyReturn}{Returns}
 ID of the region to which this object belongs
 \end{DoxyReturn}
-\mbox{\Hypertarget{classeve__market_1_1_universe_interface_abc8b29cc59f8d9c496541bd264f8cb12}\label{classeve__market_1_1_universe_interface_abc8b29cc59f8d9c496541bd264f8cb12}} 
+\mbox{\Hypertarget{classeve__market_1_1_universe_interface_a4f5f964b88a752b34ddad11596063151}\label{classeve__market_1_1_universe_interface_a4f5f964b88a752b34ddad11596063151}} 
 \index{eve\_market.UniverseInterface@{eve\_market.UniverseInterface}!HandleInfo@{HandleInfo}}
 \index{HandleInfo@{HandleInfo}!eve\_market.UniverseInterface@{eve\_market.UniverseInterface}}
 \doxysubsubsection{\texorpdfstring{HandleInfo()}{HandleInfo()}}
-{\footnotesize\ttfamily void eve\+\_\+market.\+Universe\+Interface.\+Handle\+Info (\begin{DoxyParamCaption}\item[{string\mbox{[}$\,$\mbox{]}}]{tokens }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily async Task eve\+\_\+market.\+Universe\+Interface.\+Handle\+Info (\begin{DoxyParamCaption}\item[{string\mbox{[}$\,$\mbox{]}}]{tokens }\end{DoxyParamCaption})}
 
 
 
@@ -113,15 +113,15 @@ HAndles the \char`\"{}info\char`\"{} command.
 {\em tokens} & \\
 \hline
 \end{DoxyParams}
-\mbox{\Hypertarget{classeve__market_1_1_universe_interface_a78f7644c7bc9d7078ffec95bb9f27e7e}\label{classeve__market_1_1_universe_interface_a78f7644c7bc9d7078ffec95bb9f27e7e}} 
+\mbox{\Hypertarget{classeve__market_1_1_universe_interface_ab1ad7fc3ee0015275df0aa22edfc5c27}\label{classeve__market_1_1_universe_interface_ab1ad7fc3ee0015275df0aa22edfc5c27}} 
 \index{eve\_market.UniverseInterface@{eve\_market.UniverseInterface}!IdToName@{IdToName}}
 \index{IdToName@{IdToName}!eve\_market.UniverseInterface@{eve\_market.UniverseInterface}}
 \doxysubsubsection{\texorpdfstring{IdToName()}{IdToName()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
-{\footnotesize\ttfamily List$<$ string $>$ eve\+\_\+market.\+Universe\+Interface.\+Id\+To\+Name (\begin{DoxyParamCaption}\item[{List$<$ long $>$}]{ids }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily async Task$<$ List$<$ string $>$ $>$ eve\+\_\+market.\+Universe\+Interface.\+Id\+To\+Name (\begin{DoxyParamCaption}\item[{List$<$ long $>$}]{ids }\end{DoxyParamCaption})}
 
 
 
-Finds the names corresponding to these IDs, caches them and returns them as a list. Make sure all IDs are unique and of the same type.\+It is better to later query the \mbox{\hyperlink{classeve__market_1_1_universe_interface_a6e3a874dac8cf97bb503e4e53ca34602}{Id\+To\+Name(long id)}} method for the results, instead of using this list.  
+Finds the names corresponding to these IDs, caches them and returns them as a list. Make sure all IDs are unique and of the same type.\+It is better to later query the \mbox{\hyperlink{classeve__market_1_1_universe_interface_ad426fefdd22446d4642f169dc1f3f87e}{Id\+To\+Name(long id)}} method for the results, instead of using this list.  
 
 
 \begin{DoxyParams}{Parameters}
@@ -131,15 +131,15 @@ Finds the names corresponding to these IDs, caches them and returns them as a li
 \begin{DoxyReturn}{Returns}
 Name corresponding to the given ID
 \end{DoxyReturn}
-\mbox{\Hypertarget{classeve__market_1_1_universe_interface_a6e3a874dac8cf97bb503e4e53ca34602}\label{classeve__market_1_1_universe_interface_a6e3a874dac8cf97bb503e4e53ca34602}} 
+\mbox{\Hypertarget{classeve__market_1_1_universe_interface_ad426fefdd22446d4642f169dc1f3f87e}\label{classeve__market_1_1_universe_interface_ad426fefdd22446d4642f169dc1f3f87e}} 
 \index{eve\_market.UniverseInterface@{eve\_market.UniverseInterface}!IdToName@{IdToName}}
 \index{IdToName@{IdToName}!eve\_market.UniverseInterface@{eve\_market.UniverseInterface}}
 \doxysubsubsection{\texorpdfstring{IdToName()}{IdToName()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
-{\footnotesize\ttfamily string eve\+\_\+market.\+Universe\+Interface.\+Id\+To\+Name (\begin{DoxyParamCaption}\item[{long}]{id }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily async Task$<$ string $>$ eve\+\_\+market.\+Universe\+Interface.\+Id\+To\+Name (\begin{DoxyParamCaption}\item[{long}]{id }\end{DoxyParamCaption})}
 
 
 
-Overload for singular ids. If id is in the cache, returns it\textquotesingle{}s cached value. Otherwise calls \mbox{\hyperlink{classeve__market_1_1_universe_interface_a78f7644c7bc9d7078ffec95bb9f27e7e}{Id\+To\+Name()}} with a List of length 1 containing this id.  
+Overload for singular ids. If id is in the cache, returns it\textquotesingle{}s cached value. Otherwise calls \mbox{\hyperlink{classeve__market_1_1_universe_interface_ab1ad7fc3ee0015275df0aa22edfc5c27}{Id\+To\+Name()}} with a List of length 1 containing this id.  
 
 
 \begin{DoxyParams}{Parameters}
@@ -149,11 +149,11 @@ Overload for singular ids. If id is in the cache, returns it\textquotesingle{}s 
 \begin{DoxyReturn}{Returns}
 Resolved name
 \end{DoxyReturn}
-\mbox{\Hypertarget{classeve__market_1_1_universe_interface_a8ba32d0218dcd6cd768a6cc2c791b50b}\label{classeve__market_1_1_universe_interface_a8ba32d0218dcd6cd768a6cc2c791b50b}} 
+\mbox{\Hypertarget{classeve__market_1_1_universe_interface_aa3ee2e5a263dee94907faa5d1442dbcb}\label{classeve__market_1_1_universe_interface_aa3ee2e5a263dee94907faa5d1442dbcb}} 
 \index{eve\_market.UniverseInterface@{eve\_market.UniverseInterface}!NameToId@{NameToId}}
 \index{NameToId@{NameToId}!eve\_market.UniverseInterface@{eve\_market.UniverseInterface}}
 \doxysubsubsection{\texorpdfstring{NameToId()}{NameToId()}}
-{\footnotesize\ttfamily long eve\+\_\+market.\+Universe\+Interface.\+Name\+To\+Id (\begin{DoxyParamCaption}\item[{string}]{name,  }\item[{Search\+Category}]{category }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily async Task$<$ long $>$ eve\+\_\+market.\+Universe\+Interface.\+Name\+To\+Id (\begin{DoxyParamCaption}\item[{string}]{name,  }\item[{Search\+Category}]{category }\end{DoxyParamCaption})}
 
 
 
@@ -169,11 +169,11 @@ For a given name of object and it\textquotesingle{}s type, finds its ID. Doesn\t
 \begin{DoxyReturn}{Returns}
 ID of the given query type/object
 \end{DoxyReturn}
-\mbox{\Hypertarget{classeve__market_1_1_universe_interface_af632468d8df9ddea8c83e73b494c730e}\label{classeve__market_1_1_universe_interface_af632468d8df9ddea8c83e73b494c730e}} 
+\mbox{\Hypertarget{classeve__market_1_1_universe_interface_a4954e14b88b3a765ffe286951b1735ce}\label{classeve__market_1_1_universe_interface_a4954e14b88b3a765ffe286951b1735ce}} 
 \index{eve\_market.UniverseInterface@{eve\_market.UniverseInterface}!PrintItemInfo@{PrintItemInfo}}
 \index{PrintItemInfo@{PrintItemInfo}!eve\_market.UniverseInterface@{eve\_market.UniverseInterface}}
 \doxysubsubsection{\texorpdfstring{PrintItemInfo()}{PrintItemInfo()}}
-{\footnotesize\ttfamily void eve\+\_\+market.\+Universe\+Interface.\+Print\+Item\+Info (\begin{DoxyParamCaption}\item[{string}]{item\+Name }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily async Task eve\+\_\+market.\+Universe\+Interface.\+Print\+Item\+Info (\begin{DoxyParamCaption}\item[{string}]{item\+Name }\end{DoxyParamCaption})}
 
 
 
@@ -184,11 +184,11 @@ Finds the closest matching item and prints its description
 {\em item\+Name} & Command line tokens\\
 \hline
 \end{DoxyParams}
-\mbox{\Hypertarget{classeve__market_1_1_universe_interface_acc6ff637cc4500bd2191d3572852f96f}\label{classeve__market_1_1_universe_interface_acc6ff637cc4500bd2191d3572852f96f}} 
+\mbox{\Hypertarget{classeve__market_1_1_universe_interface_a32d0a53617a2ae99d253869e8194ae27}\label{classeve__market_1_1_universe_interface_a32d0a53617a2ae99d253869e8194ae27}} 
 \index{eve\_market.UniverseInterface@{eve\_market.UniverseInterface}!SearchName@{SearchName}}
 \index{SearchName@{SearchName}!eve\_market.UniverseInterface@{eve\_market.UniverseInterface}}
 \doxysubsubsection{\texorpdfstring{SearchName()}{SearchName()}}
-{\footnotesize\ttfamily long\mbox{[}$\,$\mbox{]} eve\+\_\+market.\+Universe\+Interface.\+Search\+Name (\begin{DoxyParamCaption}\item[{string}]{query,  }\item[{Search\+Category}]{category }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily async Task$<$ long\mbox{[}$\,$\mbox{]}$>$ eve\+\_\+market.\+Universe\+Interface.\+Search\+Name (\begin{DoxyParamCaption}\item[{string}]{query,  }\item[{Search\+Category}]{category }\end{DoxyParamCaption})}
 
 
 

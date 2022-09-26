@@ -122,12 +122,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a062a56d420bb92f5a361bc5d1b000a6d"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classeve__market_1_1_main_esi_interface.html#a062a56d420bb92f5a361bc5d1b000a6d">CheckAuthorization</a> ()</td></tr>
 <tr class="memdesc:a062a56d420bb92f5a361bc5d1b000a6d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks whether a character is authorized. Returns the value of IsAuthorized an   <a href="classeve__market_1_1_main_esi_interface.html#a062a56d420bb92f5a361bc5d1b000a6d">More...</a><br /></td></tr>
 <tr class="separator:a062a56d420bb92f5a361bc5d1b000a6d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a675f64d3dc73e2b3c81bf9afc7d42a38"><td class="memItemLeft" align="right" valign="top">async void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classeve__market_1_1_main_esi_interface.html#a675f64d3dc73e2b3c81bf9afc7d42a38">HandleLogout</a> (string[] tokens)</td></tr>
-<tr class="memdesc:a675f64d3dc73e2b3c81bf9afc7d42a38"><td class="mdescLeft">&#160;</td><td class="mdescRight">Logs the authorized character out (if there is any)   <a href="classeve__market_1_1_main_esi_interface.html#a675f64d3dc73e2b3c81bf9afc7d42a38">More...</a><br /></td></tr>
-<tr class="separator:a675f64d3dc73e2b3c81bf9afc7d42a38"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa25284de1d43316b2a5d79896aa791a5"><td class="memItemLeft" align="right" valign="top">async void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classeve__market_1_1_main_esi_interface.html#aa25284de1d43316b2a5d79896aa791a5">HandleAuthorize</a> (string[] tokens)</td></tr>
-<tr class="memdesc:aa25284de1d43316b2a5d79896aa791a5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handles the authorization of a user. Takes care of the OAuth authorization process, and refers the end-user to the auth page.   <a href="classeve__market_1_1_main_esi_interface.html#aa25284de1d43316b2a5d79896aa791a5">More...</a><br /></td></tr>
-<tr class="separator:aa25284de1d43316b2a5d79896aa791a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6a945dd0ba690d2ea54879a9afd2c7eb"><td class="memItemLeft" align="right" valign="top">async Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classeve__market_1_1_main_esi_interface.html#a6a945dd0ba690d2ea54879a9afd2c7eb">HandleLogout</a> (string[] tokens)</td></tr>
+<tr class="memdesc:a6a945dd0ba690d2ea54879a9afd2c7eb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Logs the authorized character out (if there is any)   <a href="classeve__market_1_1_main_esi_interface.html#a6a945dd0ba690d2ea54879a9afd2c7eb">More...</a><br /></td></tr>
+<tr class="separator:a6a945dd0ba690d2ea54879a9afd2c7eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a987d645f79081817c8a543dcccdff10d"><td class="memItemLeft" align="right" valign="top">async Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classeve__market_1_1_main_esi_interface.html#a987d645f79081817c8a543dcccdff10d">HandleAuthorize</a> (string[] tokens)</td></tr>
+<tr class="memdesc:a987d645f79081817c8a543dcccdff10d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handles the authorization of a user. Takes care of the OAuth authorization process, and refers the end-user to the auth page.   <a href="classeve__market_1_1_main_esi_interface.html#a987d645f79081817c8a543dcccdff10d">More...</a><br /></td></tr>
+<tr class="separator:a987d645f79081817c8a543dcccdff10d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
@@ -248,14 +248,14 @@ AuthorizedCharacterData&#160;</td><td class="memItemRight" valign="bottom"><b>Au
 
 </div>
 </div>
-<a id="aa25284de1d43316b2a5d79896aa791a5" name="aa25284de1d43316b2a5d79896aa791a5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa25284de1d43316b2a5d79896aa791a5">&#9670;&#160;</a></span>HandleAuthorize()</h2>
+<a id="a987d645f79081817c8a543dcccdff10d" name="a987d645f79081817c8a543dcccdff10d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a987d645f79081817c8a543dcccdff10d">&#9670;&#160;</a></span>HandleAuthorize()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">async void eve_market.MainEsiInterface.HandleAuthorize </td>
+          <td class="memname">async Task eve_market.MainEsiInterface.HandleAuthorize </td>
           <td>(</td>
           <td class="paramtype">string[]&#160;</td>
           <td class="paramname"><em>tokens</em></td><td>)</td>
@@ -300,14 +300,14 @@ AuthorizedCharacterData&#160;</td><td class="memItemRight" valign="bottom"><b>Au
 
 </div>
 </div>
-<a id="a675f64d3dc73e2b3c81bf9afc7d42a38" name="a675f64d3dc73e2b3c81bf9afc7d42a38"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a675f64d3dc73e2b3c81bf9afc7d42a38">&#9670;&#160;</a></span>HandleLogout()</h2>
+<a id="a6a945dd0ba690d2ea54879a9afd2c7eb" name="a6a945dd0ba690d2ea54879a9afd2c7eb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6a945dd0ba690d2ea54879a9afd2c7eb">&#9670;&#160;</a></span>HandleLogout()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">async void eve_market.MainEsiInterface.HandleLogout </td>
+          <td class="memname">async Task eve_market.MainEsiInterface.HandleLogout </td>
           <td>(</td>
           <td class="paramtype">string[]&#160;</td>
           <td class="paramname"><em>tokens</em></td><td>)</td>

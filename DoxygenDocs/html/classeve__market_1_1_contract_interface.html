@@ -106,18 +106,18 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a8234963609ff145b07ba9f3eb0caee14"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classeve__market_1_1_contract_interface.html#a8234963609ff145b07ba9f3eb0caee14">ContractInterface</a> (<a class="el" href="classeve__market_1_1_main_esi_interface.html">MainEsiInterface</a> @interface, TextWriter textWriter)</td></tr>
 <tr class="memdesc:a8234963609ff145b07ba9f3eb0caee14"><td class="mdescLeft">&#160;</td><td class="mdescRight">Basic constructor. Only assigns the instances from arguments to fields.   <a href="classeve__market_1_1_contract_interface.html#a8234963609ff145b07ba9f3eb0caee14">More...</a><br /></td></tr>
 <tr class="separator:a8234963609ff145b07ba9f3eb0caee14"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a22f54d27834fb765fb423fe8e7820f0b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classeve__market_1_1_contract_interface.html#a22f54d27834fb765fb423fe8e7820f0b">HandleContracts</a> (string[] tokens)</td></tr>
-<tr class="memdesc:a22f54d27834fb765fb423fe8e7820f0b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handles the "contracts" command. Displays a given page of contracts in the input region. If no region is given, the default region is used.   <a href="classeve__market_1_1_contract_interface.html#a22f54d27834fb765fb423fe8e7820f0b">More...</a><br /></td></tr>
-<tr class="separator:a22f54d27834fb765fb423fe8e7820f0b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a30d09cbf31c42abc7f978a0d5e274264"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classeve__market_1_1_contract_interface.html#a30d09cbf31c42abc7f978a0d5e274264">HandleMyContracts</a> (string[] tokens)</td></tr>
-<tr class="memdesc:a30d09cbf31c42abc7f978a0d5e274264"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handles the "my_contracts" command. Displays all contracts of the authorized character.   <a href="classeve__market_1_1_contract_interface.html#a30d09cbf31c42abc7f978a0d5e274264">More...</a><br /></td></tr>
-<tr class="separator:a30d09cbf31c42abc7f978a0d5e274264"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7ee3da471bd93eea45693f0f45d5248c"><td class="memItemLeft" align="right" valign="top">List&lt; List&lt; string &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classeve__market_1_1_contract_interface.html#a7ee3da471bd93eea45693f0f45d5248c">getContractItemString</a> (long contractId, bool isPublic=false)</td></tr>
-<tr class="memdesc:a7ee3da471bd93eea45693f0f45d5248c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Helper function. For a given contract, constructs a string of the items in the given contract, with a specific formatting. If listPublic is false, it is assumed that the contract is part of the authorized characters contracts, otherwise it's public.   <a href="classeve__market_1_1_contract_interface.html#a7ee3da471bd93eea45693f0f45d5248c">More...</a><br /></td></tr>
-<tr class="separator:a7ee3da471bd93eea45693f0f45d5248c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a15e608c089ed8d234cbde7368c34f823"><td class="memItemLeft" align="right" valign="top">List&lt; string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classeve__market_1_1_contract_interface.html#a15e608c089ed8d234cbde7368c34f823">GetBidStrings</a> (int contractId)</td></tr>
-<tr class="memdesc:a15e608c089ed8d234cbde7368c34f823"><td class="mdescLeft">&#160;</td><td class="mdescRight">Helper function. Constructs a string containing all the bids from of the given auction contract. Returns an empty lists if no bids are found.   <a href="classeve__market_1_1_contract_interface.html#a15e608c089ed8d234cbde7368c34f823">More...</a><br /></td></tr>
-<tr class="separator:a15e608c089ed8d234cbde7368c34f823"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aebd0828a7fe93e162fef0ea4c3a88254"><td class="memItemLeft" align="right" valign="top">async Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classeve__market_1_1_contract_interface.html#aebd0828a7fe93e162fef0ea4c3a88254">HandleContracts</a> (string[] tokens)</td></tr>
+<tr class="memdesc:aebd0828a7fe93e162fef0ea4c3a88254"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handles the "contracts" command. Displays a given page of contracts in the input region. If no region is given, the default region is used.   <a href="classeve__market_1_1_contract_interface.html#aebd0828a7fe93e162fef0ea4c3a88254">More...</a><br /></td></tr>
+<tr class="separator:aebd0828a7fe93e162fef0ea4c3a88254"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a925ad9d480edd9143336fdcced6f6bac"><td class="memItemLeft" align="right" valign="top">async Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classeve__market_1_1_contract_interface.html#a925ad9d480edd9143336fdcced6f6bac">HandleMyContracts</a> (string[] tokens)</td></tr>
+<tr class="memdesc:a925ad9d480edd9143336fdcced6f6bac"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handles the "my_contracts" command. Displays all contracts of the authorized character.   <a href="classeve__market_1_1_contract_interface.html#a925ad9d480edd9143336fdcced6f6bac">More...</a><br /></td></tr>
+<tr class="separator:a925ad9d480edd9143336fdcced6f6bac"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a535639bd37f51c4c893568aa9edf1899"><td class="memItemLeft" align="right" valign="top">async Task&lt; List&lt; List&lt; string &gt; &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classeve__market_1_1_contract_interface.html#a535639bd37f51c4c893568aa9edf1899">getContractItemString</a> (long contractId, bool isPublic=false)</td></tr>
+<tr class="memdesc:a535639bd37f51c4c893568aa9edf1899"><td class="mdescLeft">&#160;</td><td class="mdescRight">Helper function. For a given contract, constructs a string of the items in the given contract, with a specific formatting. If listPublic is false, it is assumed that the contract is part of the authorized characters contracts, otherwise it's public.   <a href="classeve__market_1_1_contract_interface.html#a535639bd37f51c4c893568aa9edf1899">More...</a><br /></td></tr>
+<tr class="separator:a535639bd37f51c4c893568aa9edf1899"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a85e8c6aa3f39571795bd5837eb607a79"><td class="memItemLeft" align="right" valign="top">async Task&lt; List&lt; string &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classeve__market_1_1_contract_interface.html#a85e8c6aa3f39571795bd5837eb607a79">GetBidStrings</a> (int contractId)</td></tr>
+<tr class="memdesc:a85e8c6aa3f39571795bd5837eb607a79"><td class="mdescLeft">&#160;</td><td class="mdescRight">Helper function. Constructs a string containing all the bids from of the given auction contract. Returns an empty lists if no bids are found.   <a href="classeve__market_1_1_contract_interface.html#a85e8c6aa3f39571795bd5837eb607a79">More...</a><br /></td></tr>
+<tr class="separator:a85e8c6aa3f39571795bd5837eb607a79"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
@@ -171,14 +171,14 @@ TextWriter&#160;</td><td class="memItemRight" valign="bottom"><b>output</b></td>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a15e608c089ed8d234cbde7368c34f823" name="a15e608c089ed8d234cbde7368c34f823"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a15e608c089ed8d234cbde7368c34f823">&#9670;&#160;</a></span>GetBidStrings()</h2>
+<a id="a85e8c6aa3f39571795bd5837eb607a79" name="a85e8c6aa3f39571795bd5837eb607a79"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a85e8c6aa3f39571795bd5837eb607a79">&#9670;&#160;</a></span>GetBidStrings()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">List&lt; string &gt; eve_market.ContractInterface.GetBidStrings </td>
+          <td class="memname">async Task&lt; List&lt; string &gt; &gt; eve_market.ContractInterface.GetBidStrings </td>
           <td>(</td>
           <td class="paramtype">int&#160;</td>
           <td class="paramname"><em>contractId</em></td><td>)</td>
@@ -198,14 +198,14 @@ TextWriter&#160;</td><td class="memItemRight" valign="bottom"><b>output</b></td>
 
 </div>
 </div>
-<a id="a7ee3da471bd93eea45693f0f45d5248c" name="a7ee3da471bd93eea45693f0f45d5248c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7ee3da471bd93eea45693f0f45d5248c">&#9670;&#160;</a></span>getContractItemString()</h2>
+<a id="a535639bd37f51c4c893568aa9edf1899" name="a535639bd37f51c4c893568aa9edf1899"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a535639bd37f51c4c893568aa9edf1899">&#9670;&#160;</a></span>getContractItemString()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">List&lt; List&lt; string &gt; &gt; eve_market.ContractInterface.getContractItemString </td>
+          <td class="memname">async Task&lt; List&lt; List&lt; string &gt; &gt; &gt; eve_market.ContractInterface.getContractItemString </td>
           <td>(</td>
           <td class="paramtype">long&#160;</td>
           <td class="paramname"><em>contractId</em>, </td>
@@ -236,14 +236,14 @@ TextWriter&#160;</td><td class="memItemRight" valign="bottom"><b>output</b></td>
 
 </div>
 </div>
-<a id="a22f54d27834fb765fb423fe8e7820f0b" name="a22f54d27834fb765fb423fe8e7820f0b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a22f54d27834fb765fb423fe8e7820f0b">&#9670;&#160;</a></span>HandleContracts()</h2>
+<a id="aebd0828a7fe93e162fef0ea4c3a88254" name="aebd0828a7fe93e162fef0ea4c3a88254"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aebd0828a7fe93e162fef0ea4c3a88254">&#9670;&#160;</a></span>HandleContracts()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void eve_market.ContractInterface.HandleContracts </td>
+          <td class="memname">async Task eve_market.ContractInterface.HandleContracts </td>
           <td>(</td>
           <td class="paramtype">string[]&#160;</td>
           <td class="paramname"><em>tokens</em></td><td>)</td>
@@ -262,14 +262,14 @@ TextWriter&#160;</td><td class="memItemRight" valign="bottom"><b>output</b></td>
 
 </div>
 </div>
-<a id="a30d09cbf31c42abc7f978a0d5e274264" name="a30d09cbf31c42abc7f978a0d5e274264"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a30d09cbf31c42abc7f978a0d5e274264">&#9670;&#160;</a></span>HandleMyContracts()</h2>
+<a id="a925ad9d480edd9143336fdcced6f6bac" name="a925ad9d480edd9143336fdcced6f6bac"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a925ad9d480edd9143336fdcced6f6bac">&#9670;&#160;</a></span>HandleMyContracts()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void eve_market.ContractInterface.HandleMyContracts </td>
+          <td class="memname">async Task eve_market.ContractInterface.HandleMyContracts </td>
           <td>(</td>
           <td class="paramtype">string[]&#160;</td>
           <td class="paramname"><em>tokens</em></td><td>)</td>

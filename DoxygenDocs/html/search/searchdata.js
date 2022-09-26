@@ -7,7 +7,7 @@ var indexSectionsWithContent =
   4: "cdmopu",
   5: "s",
   6: "ai",
-  7: "#h"
+  7: "#hp"
 };
 
 var indexSectionNames =

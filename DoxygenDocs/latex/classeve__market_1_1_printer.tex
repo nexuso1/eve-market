@@ -16,9 +16,9 @@ void \mbox{\hyperlink{classeve__market_1_1_printer_a26fe2fb37fbcdbd306f5bec45e77
 \begin{DoxyCompactList}\small\item\em Prints a line that adapts to the number of fields, and the width corresponding to one field.  \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{classeve__market_1_1_printer_ab33ea90f88d4e483e6fc58c02f0d6a29}{Print\+Table\+Header}} (List$<$ string $>$ fields, int width)
 \begin{DoxyCompactList}\small\item\em Prints the header of a table, which contains the given fields, with a cell width of \char`\"{}width\char`\"{}.  \end{DoxyCompactList}\item 
-void \mbox{\hyperlink{classeve__market_1_1_printer_a7e53726dbe613ea1387ef644b931deed}{Print\+Contracts}} (List$<$ ESI.\+NET.\+Models.\+Contracts.\+Contract $>$ contracts, bool list\+Public=false)
+async Task \mbox{\hyperlink{classeve__market_1_1_printer_abe3fa438885308c9fd8944d11cdd1cdd}{Print\+Contracts}} (List$<$ ESI.\+NET.\+Models.\+Contracts.\+Contract $>$ contracts, bool list\+Public=false)
 \begin{DoxyCompactList}\small\item\em Prints the contracts from arguments. Warning, contracts have a lot of variations and this function is quite extensive in its printing. Use list\+Public if you\textquotesingle{}re trying to print public contracts.  \end{DoxyCompactList}\item 
-void \mbox{\hyperlink{classeve__market_1_1_printer_ab7864d17d8ad4d71afd899ff9d2237b7}{Print\+Obj\+List$<$ T $>$}} (List$<$ T $>$ obj\+List, int width, int rows, List$<$ string $>$ fields, List$<$ string $>$ field\+Desc)
+async Task \mbox{\hyperlink{classeve__market_1_1_printer_a8293e3f0b22e41f5ddf0afb738210329}{Print\+Obj\+List$<$ T $>$}} (List$<$ T $>$ obj\+List, int width, int rows, List$<$ string $>$ fields, List$<$ string $>$ field\+Desc)
 \begin{DoxyCompactList}\small\item\em Prints a list of json-\/convertible objects as a table, with a given cell width and number of rows. Only prints the fields named in the \char`\"{}fields\char`\"{}. If a field is an ID field, also resolves it\textquotesingle{}s name before printing.  \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsection*{Public Attributes}
 \begin{DoxyCompactItemize}
@@ -55,11 +55,11 @@ Basic constructor. Only assigns the instances from arguments to fields.
 
 
 \doxysubsection{Member Function Documentation}
-\mbox{\Hypertarget{classeve__market_1_1_printer_a7e53726dbe613ea1387ef644b931deed}\label{classeve__market_1_1_printer_a7e53726dbe613ea1387ef644b931deed}} 
+\mbox{\Hypertarget{classeve__market_1_1_printer_abe3fa438885308c9fd8944d11cdd1cdd}\label{classeve__market_1_1_printer_abe3fa438885308c9fd8944d11cdd1cdd}} 
 \index{eve\_market.Printer@{eve\_market.Printer}!PrintContracts@{PrintContracts}}
 \index{PrintContracts@{PrintContracts}!eve\_market.Printer@{eve\_market.Printer}}
 \doxysubsubsection{\texorpdfstring{PrintContracts()}{PrintContracts()}}
-{\footnotesize\ttfamily void eve\+\_\+market.\+Printer.\+Print\+Contracts (\begin{DoxyParamCaption}\item[{List$<$ ESI.\+NET.\+Models.\+Contracts.\+Contract $>$}]{contracts,  }\item[{bool}]{list\+Public = {\ttfamily false} }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily async Task eve\+\_\+market.\+Printer.\+Print\+Contracts (\begin{DoxyParamCaption}\item[{List$<$ ESI.\+NET.\+Models.\+Contracts.\+Contract $>$}]{contracts,  }\item[{bool}]{list\+Public = {\ttfamily false} }\end{DoxyParamCaption})}
 
 
 
@@ -104,11 +104,11 @@ Prints a line that adapts to the number of fields, and the width corresponding t
 {\em width} & Width for one field\\
 \hline
 \end{DoxyParams}
-\mbox{\Hypertarget{classeve__market_1_1_printer_ab7864d17d8ad4d71afd899ff9d2237b7}\label{classeve__market_1_1_printer_ab7864d17d8ad4d71afd899ff9d2237b7}} 
+\mbox{\Hypertarget{classeve__market_1_1_printer_a8293e3f0b22e41f5ddf0afb738210329}\label{classeve__market_1_1_printer_a8293e3f0b22e41f5ddf0afb738210329}} 
 \index{eve\_market.Printer@{eve\_market.Printer}!PrintObjList$<$ T $>$@{PrintObjList$<$ T $>$}}
 \index{PrintObjList$<$ T $>$@{PrintObjList$<$ T $>$}!eve\_market.Printer@{eve\_market.Printer}}
 \doxysubsubsection{\texorpdfstring{PrintObjList$<$ T $>$()}{PrintObjList< T >()}}
-{\footnotesize\ttfamily void eve\+\_\+market.\+Printer.\+Print\+Obj\+List$<$ T $>$ (\begin{DoxyParamCaption}\item[{List$<$ T $>$}]{obj\+List,  }\item[{int}]{width,  }\item[{int}]{rows,  }\item[{List$<$ string $>$}]{fields,  }\item[{List$<$ string $>$}]{field\+Desc }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily async Task eve\+\_\+market.\+Printer.\+Print\+Obj\+List$<$ T $>$ (\begin{DoxyParamCaption}\item[{List$<$ T $>$}]{obj\+List,  }\item[{int}]{width,  }\item[{int}]{rows,  }\item[{List$<$ string $>$}]{fields,  }\item[{List$<$ string $>$}]{field\+Desc }\end{DoxyParamCaption})}
 
 
 
@@ -128,6 +128,8 @@ Prints a list of json-\/convertible objects as a table, with a given cell width 
 {\em rows} & Number of rows. If it\textquotesingle{}s less than the length of \char`\"{}obj\+List\char`\"{}, prints only the first \char`\"{}rows\char`\"{} items.\\
 \hline
 {\em fields} & Keys of the fields to print.\\
+\hline
+{\em field\+Desc} & Descriptions of fields to be printed.\\
 \hline
 \end{DoxyParams}
 \mbox{\Hypertarget{classeve__market_1_1_printer_ab33ea90f88d4e483e6fc58c02f0d6a29}\label{classeve__market_1_1_printer_ab33ea90f88d4e483e6fc58c02f0d6a29}} 

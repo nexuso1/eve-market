@@ -26,6 +26,7 @@ var NAVTREE =
 [
   [ "EVE Market viewer", "index.html", [
     [ "Homepage", "md__c___users__samo__repos_eve_market_index.html", null ],
+    [ "ProgramátorskáDokumentácia", "md__c___users__samo__repos_eve_market__program_xC3_xA1torsk_xC3_xA1_dokument_xC3_xA1cia.html", null ],
     [ "# Program usage", "md__c___users__samo__repos_eve_market__r_e_a_d_m_e.html", [
       [ "Commands", "md__c___users__samo__repos_eve_market__r_e_a_d_m_e.html#autotoc_md3", null ]
     ] ],

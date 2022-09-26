@@ -20,9 +20,9 @@ string \mbox{\hyperlink{classeve__market_1_1_main_esi_interface_a2da51ae949c7d22
 \begin{DoxyCompactList}\small\item\em Helper function which creates a string from a given slice of the \char`\"{}tokens\char`\"{} string array.  \end{DoxyCompactList}\item 
 bool \mbox{\hyperlink{classeve__market_1_1_main_esi_interface_a062a56d420bb92f5a361bc5d1b000a6d}{Check\+Authorization}} ()
 \begin{DoxyCompactList}\small\item\em Checks whether a character is authorized. Returns the value of Is\+Authorized an  \end{DoxyCompactList}\item 
-async void \mbox{\hyperlink{classeve__market_1_1_main_esi_interface_a675f64d3dc73e2b3c81bf9afc7d42a38}{Handle\+Logout}} (string\mbox{[}$\,$\mbox{]} tokens)
+async Task \mbox{\hyperlink{classeve__market_1_1_main_esi_interface_a6a945dd0ba690d2ea54879a9afd2c7eb}{Handle\+Logout}} (string\mbox{[}$\,$\mbox{]} tokens)
 \begin{DoxyCompactList}\small\item\em Logs the authorized character out (if there is any)  \end{DoxyCompactList}\item 
-async void \mbox{\hyperlink{classeve__market_1_1_main_esi_interface_aa25284de1d43316b2a5d79896aa791a5}{Handle\+Authorize}} (string\mbox{[}$\,$\mbox{]} tokens)
+async Task \mbox{\hyperlink{classeve__market_1_1_main_esi_interface_a987d645f79081817c8a543dcccdff10d}{Handle\+Authorize}} (string\mbox{[}$\,$\mbox{]} tokens)
 \begin{DoxyCompactList}\small\item\em Handles the authorization of a user. Takes care of the OAuth authorization process, and refers the end-\/user to the auth page.  \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsection*{Public Attributes}
 \begin{DoxyCompactItemize}
@@ -112,11 +112,11 @@ Generates a state string of given length, used for OAuth.
 \begin{DoxyReturn}{Returns}
 State string
 \end{DoxyReturn}
-\mbox{\Hypertarget{classeve__market_1_1_main_esi_interface_aa25284de1d43316b2a5d79896aa791a5}\label{classeve__market_1_1_main_esi_interface_aa25284de1d43316b2a5d79896aa791a5}} 
+\mbox{\Hypertarget{classeve__market_1_1_main_esi_interface_a987d645f79081817c8a543dcccdff10d}\label{classeve__market_1_1_main_esi_interface_a987d645f79081817c8a543dcccdff10d}} 
 \index{eve\_market.MainEsiInterface@{eve\_market.MainEsiInterface}!HandleAuthorize@{HandleAuthorize}}
 \index{HandleAuthorize@{HandleAuthorize}!eve\_market.MainEsiInterface@{eve\_market.MainEsiInterface}}
 \doxysubsubsection{\texorpdfstring{HandleAuthorize()}{HandleAuthorize()}}
-{\footnotesize\ttfamily async void eve\+\_\+market.\+Main\+Esi\+Interface.\+Handle\+Authorize (\begin{DoxyParamCaption}\item[{string\mbox{[}$\,$\mbox{]}}]{tokens }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily async Task eve\+\_\+market.\+Main\+Esi\+Interface.\+Handle\+Authorize (\begin{DoxyParamCaption}\item[{string\mbox{[}$\,$\mbox{]}}]{tokens }\end{DoxyParamCaption})}
 
 
 
@@ -142,11 +142,11 @@ Handles the \char`\"{}help\char`\"{} command. Prints the text inside the help.\+
 {\em tokens} & Command line tokens. Only included for uniformity of API\\
 \hline
 \end{DoxyParams}
-\mbox{\Hypertarget{classeve__market_1_1_main_esi_interface_a675f64d3dc73e2b3c81bf9afc7d42a38}\label{classeve__market_1_1_main_esi_interface_a675f64d3dc73e2b3c81bf9afc7d42a38}} 
+\mbox{\Hypertarget{classeve__market_1_1_main_esi_interface_a6a945dd0ba690d2ea54879a9afd2c7eb}\label{classeve__market_1_1_main_esi_interface_a6a945dd0ba690d2ea54879a9afd2c7eb}} 
 \index{eve\_market.MainEsiInterface@{eve\_market.MainEsiInterface}!HandleLogout@{HandleLogout}}
 \index{HandleLogout@{HandleLogout}!eve\_market.MainEsiInterface@{eve\_market.MainEsiInterface}}
 \doxysubsubsection{\texorpdfstring{HandleLogout()}{HandleLogout()}}
-{\footnotesize\ttfamily async void eve\+\_\+market.\+Main\+Esi\+Interface.\+Handle\+Logout (\begin{DoxyParamCaption}\item[{string\mbox{[}$\,$\mbox{]}}]{tokens }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily async Task eve\+\_\+market.\+Main\+Esi\+Interface.\+Handle\+Logout (\begin{DoxyParamCaption}\item[{string\mbox{[}$\,$\mbox{]}}]{tokens }\end{DoxyParamCaption})}
 
 
 

@@ -106,30 +106,30 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ad8bdc5e629f40dbe369a60c54cf3bedd"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classeve__market_1_1_universe_interface.html#ad8bdc5e629f40dbe369a60c54cf3bedd">UniverseInterface</a> (<a class="el" href="classeve__market_1_1_main_esi_interface.html">MainEsiInterface</a> @interface, TextWriter textWriter)</td></tr>
 <tr class="memdesc:ad8bdc5e629f40dbe369a60c54cf3bedd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Basic constructor. Only assigns the instances from arguments to fields.   <a href="classeve__market_1_1_universe_interface.html#ad8bdc5e629f40dbe369a60c54cf3bedd">More...</a><br /></td></tr>
 <tr class="separator:ad8bdc5e629f40dbe369a60c54cf3bedd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af632468d8df9ddea8c83e73b494c730e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classeve__market_1_1_universe_interface.html#af632468d8df9ddea8c83e73b494c730e">PrintItemInfo</a> (string itemName)</td></tr>
-<tr class="memdesc:af632468d8df9ddea8c83e73b494c730e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Finds the closest matching item and prints its description   <a href="classeve__market_1_1_universe_interface.html#af632468d8df9ddea8c83e73b494c730e">More...</a><br /></td></tr>
-<tr class="separator:af632468d8df9ddea8c83e73b494c730e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abc8b29cc59f8d9c496541bd264f8cb12"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classeve__market_1_1_universe_interface.html#abc8b29cc59f8d9c496541bd264f8cb12">HandleInfo</a> (string[] tokens)</td></tr>
-<tr class="memdesc:abc8b29cc59f8d9c496541bd264f8cb12"><td class="mdescLeft">&#160;</td><td class="mdescRight">HAndles the "info" command.   <a href="classeve__market_1_1_universe_interface.html#abc8b29cc59f8d9c496541bd264f8cb12">More...</a><br /></td></tr>
-<tr class="separator:abc8b29cc59f8d9c496541bd264f8cb12"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acc6ff637cc4500bd2191d3572852f96f"><td class="memItemLeft" align="right" valign="top">long[]&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classeve__market_1_1_universe_interface.html#acc6ff637cc4500bd2191d3572852f96f">SearchName</a> (string query, SearchCategory category)</td></tr>
-<tr class="memdesc:acc6ff637cc4500bd2191d3572852f96f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Find names of types/objects which containg a given string query and returns the list of matching ids   <a href="classeve__market_1_1_universe_interface.html#acc6ff637cc4500bd2191d3572852f96f">More...</a><br /></td></tr>
-<tr class="separator:acc6ff637cc4500bd2191d3572852f96f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a284cf33b23799baedb2fb275c1f6868a"><td class="memItemLeft" align="right" valign="top">long&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classeve__market_1_1_universe_interface.html#a284cf33b23799baedb2fb275c1f6868a">FindRegion</a> (long id, SearchCategory type)</td></tr>
-<tr class="memdesc:a284cf33b23799baedb2fb275c1f6868a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Finds the region of a given object lower in the hierarchy   <a href="classeve__market_1_1_universe_interface.html#a284cf33b23799baedb2fb275c1f6868a">More...</a><br /></td></tr>
-<tr class="separator:a284cf33b23799baedb2fb275c1f6868a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8ba32d0218dcd6cd768a6cc2c791b50b"><td class="memItemLeft" align="right" valign="top">long&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classeve__market_1_1_universe_interface.html#a8ba32d0218dcd6cd768a6cc2c791b50b">NameToId</a> (string name, SearchCategory category)</td></tr>
-<tr class="memdesc:a8ba32d0218dcd6cd768a6cc2c791b50b"><td class="mdescLeft">&#160;</td><td class="mdescRight">For a given name of object and it's type, finds its ID. Doesn't require exact names, will find the closest match and returns its ID If no matches are found, returns -1   <a href="classeve__market_1_1_universe_interface.html#a8ba32d0218dcd6cd768a6cc2c791b50b">More...</a><br /></td></tr>
-<tr class="separator:a8ba32d0218dcd6cd768a6cc2c791b50b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6ba8609e584fc39d1d97f9ffcc7aa2ab"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classeve__market_1_1_universe_interface.html#a6ba8609e584fc39d1d97f9ffcc7aa2ab">ContractIdToName</a> (List&lt; long &gt; ids, string fieldName)</td></tr>
-<tr class="memdesc:a6ba8609e584fc39d1d97f9ffcc7aa2ab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function that resolves the ids in a given contract, categories are determined based on the name of the field to which these ids belong. Results are cached and are available later from the <a class="el" href="classeve__market_1_1_universe_interface.html#a78f7644c7bc9d7078ffec95bb9f27e7e" title="Finds the names corresponding to these IDs, caches them and returns them as a list....">IdToName()</a> function.   <a href="classeve__market_1_1_universe_interface.html#a6ba8609e584fc39d1d97f9ffcc7aa2ab">More...</a><br /></td></tr>
-<tr class="separator:a6ba8609e584fc39d1d97f9ffcc7aa2ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a78f7644c7bc9d7078ffec95bb9f27e7e"><td class="memItemLeft" align="right" valign="top">List&lt; string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classeve__market_1_1_universe_interface.html#a78f7644c7bc9d7078ffec95bb9f27e7e">IdToName</a> (List&lt; long &gt; ids)</td></tr>
-<tr class="memdesc:a78f7644c7bc9d7078ffec95bb9f27e7e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Finds the names corresponding to these IDs, caches them and returns them as a list. Make sure all IDs are unique and of the same type.It is better to later query the <a class="el" href="classeve__market_1_1_universe_interface.html#a6e3a874dac8cf97bb503e4e53ca34602" title="Overload for singular ids. If id is in the cache, returns it&#39;s cached value. Otherwise calls IdToName...">IdToName(long id)</a> method for the results, instead of using this list.   <a href="classeve__market_1_1_universe_interface.html#a78f7644c7bc9d7078ffec95bb9f27e7e">More...</a><br /></td></tr>
-<tr class="separator:a78f7644c7bc9d7078ffec95bb9f27e7e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6e3a874dac8cf97bb503e4e53ca34602"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classeve__market_1_1_universe_interface.html#a6e3a874dac8cf97bb503e4e53ca34602">IdToName</a> (long id)</td></tr>
-<tr class="memdesc:a6e3a874dac8cf97bb503e4e53ca34602"><td class="mdescLeft">&#160;</td><td class="mdescRight">Overload for singular ids. If id is in the cache, returns it's cached value. Otherwise calls <a class="el" href="classeve__market_1_1_universe_interface.html#a78f7644c7bc9d7078ffec95bb9f27e7e" title="Finds the names corresponding to these IDs, caches them and returns them as a list....">IdToName()</a> with a List of length 1 containing this id.   <a href="classeve__market_1_1_universe_interface.html#a6e3a874dac8cf97bb503e4e53ca34602">More...</a><br /></td></tr>
-<tr class="separator:a6e3a874dac8cf97bb503e4e53ca34602"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4954e14b88b3a765ffe286951b1735ce"><td class="memItemLeft" align="right" valign="top">async Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classeve__market_1_1_universe_interface.html#a4954e14b88b3a765ffe286951b1735ce">PrintItemInfo</a> (string itemName)</td></tr>
+<tr class="memdesc:a4954e14b88b3a765ffe286951b1735ce"><td class="mdescLeft">&#160;</td><td class="mdescRight">Finds the closest matching item and prints its description   <a href="classeve__market_1_1_universe_interface.html#a4954e14b88b3a765ffe286951b1735ce">More...</a><br /></td></tr>
+<tr class="separator:a4954e14b88b3a765ffe286951b1735ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4f5f964b88a752b34ddad11596063151"><td class="memItemLeft" align="right" valign="top">async Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classeve__market_1_1_universe_interface.html#a4f5f964b88a752b34ddad11596063151">HandleInfo</a> (string[] tokens)</td></tr>
+<tr class="memdesc:a4f5f964b88a752b34ddad11596063151"><td class="mdescLeft">&#160;</td><td class="mdescRight">HAndles the "info" command.   <a href="classeve__market_1_1_universe_interface.html#a4f5f964b88a752b34ddad11596063151">More...</a><br /></td></tr>
+<tr class="separator:a4f5f964b88a752b34ddad11596063151"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a32d0a53617a2ae99d253869e8194ae27"><td class="memItemLeft" align="right" valign="top">async Task&lt; long[]&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classeve__market_1_1_universe_interface.html#a32d0a53617a2ae99d253869e8194ae27">SearchName</a> (string query, SearchCategory category)</td></tr>
+<tr class="memdesc:a32d0a53617a2ae99d253869e8194ae27"><td class="mdescLeft">&#160;</td><td class="mdescRight">Find names of types/objects which containg a given string query and returns the list of matching ids   <a href="classeve__market_1_1_universe_interface.html#a32d0a53617a2ae99d253869e8194ae27">More...</a><br /></td></tr>
+<tr class="separator:a32d0a53617a2ae99d253869e8194ae27"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0d89734ffaf4c5aa405d1a5bb9a84dc0"><td class="memItemLeft" align="right" valign="top">async Task&lt; long &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classeve__market_1_1_universe_interface.html#a0d89734ffaf4c5aa405d1a5bb9a84dc0">FindRegion</a> (long id, SearchCategory type)</td></tr>
+<tr class="memdesc:a0d89734ffaf4c5aa405d1a5bb9a84dc0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Finds the region of a given object lower in the hierarchy   <a href="classeve__market_1_1_universe_interface.html#a0d89734ffaf4c5aa405d1a5bb9a84dc0">More...</a><br /></td></tr>
+<tr class="separator:a0d89734ffaf4c5aa405d1a5bb9a84dc0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa3ee2e5a263dee94907faa5d1442dbcb"><td class="memItemLeft" align="right" valign="top">async Task&lt; long &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classeve__market_1_1_universe_interface.html#aa3ee2e5a263dee94907faa5d1442dbcb">NameToId</a> (string name, SearchCategory category)</td></tr>
+<tr class="memdesc:aa3ee2e5a263dee94907faa5d1442dbcb"><td class="mdescLeft">&#160;</td><td class="mdescRight">For a given name of object and it's type, finds its ID. Doesn't require exact names, will find the closest match and returns its ID If no matches are found, returns -1   <a href="classeve__market_1_1_universe_interface.html#aa3ee2e5a263dee94907faa5d1442dbcb">More...</a><br /></td></tr>
+<tr class="separator:aa3ee2e5a263dee94907faa5d1442dbcb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a46ffa503fb69f694ab281b2f74ba3333"><td class="memItemLeft" align="right" valign="top">async Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classeve__market_1_1_universe_interface.html#a46ffa503fb69f694ab281b2f74ba3333">ContractIdToName</a> (List&lt; long &gt; ids, string fieldName)</td></tr>
+<tr class="memdesc:a46ffa503fb69f694ab281b2f74ba3333"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function that resolves the ids in a given contract, categories are determined based on the name of the field to which these ids belong. Results are cached and are available later from the <a class="el" href="classeve__market_1_1_universe_interface.html#ab1ad7fc3ee0015275df0aa22edfc5c27" title="Finds the names corresponding to these IDs, caches them and returns them as a list....">IdToName()</a> function.   <a href="classeve__market_1_1_universe_interface.html#a46ffa503fb69f694ab281b2f74ba3333">More...</a><br /></td></tr>
+<tr class="separator:a46ffa503fb69f694ab281b2f74ba3333"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab1ad7fc3ee0015275df0aa22edfc5c27"><td class="memItemLeft" align="right" valign="top">async Task&lt; List&lt; string &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classeve__market_1_1_universe_interface.html#ab1ad7fc3ee0015275df0aa22edfc5c27">IdToName</a> (List&lt; long &gt; ids)</td></tr>
+<tr class="memdesc:ab1ad7fc3ee0015275df0aa22edfc5c27"><td class="mdescLeft">&#160;</td><td class="mdescRight">Finds the names corresponding to these IDs, caches them and returns them as a list. Make sure all IDs are unique and of the same type.It is better to later query the <a class="el" href="classeve__market_1_1_universe_interface.html#ad426fefdd22446d4642f169dc1f3f87e" title="Overload for singular ids. If id is in the cache, returns it&#39;s cached value. Otherwise calls IdToName...">IdToName(long id)</a> method for the results, instead of using this list.   <a href="classeve__market_1_1_universe_interface.html#ab1ad7fc3ee0015275df0aa22edfc5c27">More...</a><br /></td></tr>
+<tr class="separator:ab1ad7fc3ee0015275df0aa22edfc5c27"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad426fefdd22446d4642f169dc1f3f87e"><td class="memItemLeft" align="right" valign="top">async Task&lt; string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classeve__market_1_1_universe_interface.html#ad426fefdd22446d4642f169dc1f3f87e">IdToName</a> (long id)</td></tr>
+<tr class="memdesc:ad426fefdd22446d4642f169dc1f3f87e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Overload for singular ids. If id is in the cache, returns it's cached value. Otherwise calls <a class="el" href="classeve__market_1_1_universe_interface.html#ab1ad7fc3ee0015275df0aa22edfc5c27" title="Finds the names corresponding to these IDs, caches them and returns them as a list....">IdToName()</a> with a List of length 1 containing this id.   <a href="classeve__market_1_1_universe_interface.html#ad426fefdd22446d4642f169dc1f3f87e">More...</a><br /></td></tr>
+<tr class="separator:ad426fefdd22446d4642f169dc1f3f87e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
@@ -183,14 +183,14 @@ TextWriter&#160;</td><td class="memItemRight" valign="bottom"><b>output</b></td>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a6ba8609e584fc39d1d97f9ffcc7aa2ab" name="a6ba8609e584fc39d1d97f9ffcc7aa2ab"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6ba8609e584fc39d1d97f9ffcc7aa2ab">&#9670;&#160;</a></span>ContractIdToName()</h2>
+<a id="a46ffa503fb69f694ab281b2f74ba3333" name="a46ffa503fb69f694ab281b2f74ba3333"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a46ffa503fb69f694ab281b2f74ba3333">&#9670;&#160;</a></span>ContractIdToName()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void eve_market.UniverseInterface.ContractIdToName </td>
+          <td class="memname">async Task eve_market.UniverseInterface.ContractIdToName </td>
           <td>(</td>
           <td class="paramtype">List&lt; long &gt;&#160;</td>
           <td class="paramname"><em>ids</em>, </td>
@@ -209,7 +209,7 @@ TextWriter&#160;</td><td class="memItemRight" valign="bottom"><b>output</b></td>
       </table>
 </div><div class="memdoc">
 
-<p>Function that resolves the ids in a given contract, categories are determined based on the name of the field to which these ids belong. Results are cached and are available later from the <a class="el" href="classeve__market_1_1_universe_interface.html#a78f7644c7bc9d7078ffec95bb9f27e7e" title="Finds the names corresponding to these IDs, caches them and returns them as a list....">IdToName()</a> function.  </p>
+<p>Function that resolves the ids in a given contract, categories are determined based on the name of the field to which these ids belong. Results are cached and are available later from the <a class="el" href="classeve__market_1_1_universe_interface.html#ab1ad7fc3ee0015275df0aa22edfc5c27" title="Finds the names corresponding to these IDs, caches them and returns them as a list....">IdToName()</a> function.  </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">ids</td><td>List of ids to resolve</td></tr>
@@ -220,14 +220,14 @@ TextWriter&#160;</td><td class="memItemRight" valign="bottom"><b>output</b></td>
 
 </div>
 </div>
-<a id="a284cf33b23799baedb2fb275c1f6868a" name="a284cf33b23799baedb2fb275c1f6868a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a284cf33b23799baedb2fb275c1f6868a">&#9670;&#160;</a></span>FindRegion()</h2>
+<a id="a0d89734ffaf4c5aa405d1a5bb9a84dc0" name="a0d89734ffaf4c5aa405d1a5bb9a84dc0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0d89734ffaf4c5aa405d1a5bb9a84dc0">&#9670;&#160;</a></span>FindRegion()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">long eve_market.UniverseInterface.FindRegion </td>
+          <td class="memname">async Task&lt; long &gt; eve_market.UniverseInterface.FindRegion </td>
           <td>(</td>
           <td class="paramtype">long&#160;</td>
           <td class="paramname"><em>id</em>, </td>
@@ -258,14 +258,14 @@ TextWriter&#160;</td><td class="memItemRight" valign="bottom"><b>output</b></td>
 
 </div>
 </div>
-<a id="abc8b29cc59f8d9c496541bd264f8cb12" name="abc8b29cc59f8d9c496541bd264f8cb12"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abc8b29cc59f8d9c496541bd264f8cb12">&#9670;&#160;</a></span>HandleInfo()</h2>
+<a id="a4f5f964b88a752b34ddad11596063151" name="a4f5f964b88a752b34ddad11596063151"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4f5f964b88a752b34ddad11596063151">&#9670;&#160;</a></span>HandleInfo()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void eve_market.UniverseInterface.HandleInfo </td>
+          <td class="memname">async Task eve_market.UniverseInterface.HandleInfo </td>
           <td>(</td>
           <td class="paramtype">string[]&#160;</td>
           <td class="paramname"><em>tokens</em></td><td>)</td>
@@ -284,14 +284,14 @@ TextWriter&#160;</td><td class="memItemRight" valign="bottom"><b>output</b></td>
 
 </div>
 </div>
-<a id="a78f7644c7bc9d7078ffec95bb9f27e7e" name="a78f7644c7bc9d7078ffec95bb9f27e7e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a78f7644c7bc9d7078ffec95bb9f27e7e">&#9670;&#160;</a></span>IdToName() <span class="overload">[1/2]</span></h2>
+<a id="ab1ad7fc3ee0015275df0aa22edfc5c27" name="ab1ad7fc3ee0015275df0aa22edfc5c27"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab1ad7fc3ee0015275df0aa22edfc5c27">&#9670;&#160;</a></span>IdToName() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">List&lt; string &gt; eve_market.UniverseInterface.IdToName </td>
+          <td class="memname">async Task&lt; List&lt; string &gt; &gt; eve_market.UniverseInterface.IdToName </td>
           <td>(</td>
           <td class="paramtype">List&lt; long &gt;&#160;</td>
           <td class="paramname"><em>ids</em></td><td>)</td>
@@ -300,7 +300,7 @@ TextWriter&#160;</td><td class="memItemRight" valign="bottom"><b>output</b></td>
       </table>
 </div><div class="memdoc">
 
-<p>Finds the names corresponding to these IDs, caches them and returns them as a list. Make sure all IDs are unique and of the same type.It is better to later query the <a class="el" href="classeve__market_1_1_universe_interface.html#a6e3a874dac8cf97bb503e4e53ca34602" title="Overload for singular ids. If id is in the cache, returns it&#39;s cached value. Otherwise calls IdToName...">IdToName(long id)</a> method for the results, instead of using this list.  </p>
+<p>Finds the names corresponding to these IDs, caches them and returns them as a list. Make sure all IDs are unique and of the same type.It is better to later query the <a class="el" href="classeve__market_1_1_universe_interface.html#ad426fefdd22446d4642f169dc1f3f87e" title="Overload for singular ids. If id is in the cache, returns it&#39;s cached value. Otherwise calls IdToName...">IdToName(long id)</a> method for the results, instead of using this list.  </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">ids</td><td>List of ids to resolve</td></tr>
@@ -311,14 +311,14 @@ TextWriter&#160;</td><td class="memItemRight" valign="bottom"><b>output</b></td>
 
 </div>
 </div>
-<a id="a6e3a874dac8cf97bb503e4e53ca34602" name="a6e3a874dac8cf97bb503e4e53ca34602"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6e3a874dac8cf97bb503e4e53ca34602">&#9670;&#160;</a></span>IdToName() <span class="overload">[2/2]</span></h2>
+<a id="ad426fefdd22446d4642f169dc1f3f87e" name="ad426fefdd22446d4642f169dc1f3f87e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad426fefdd22446d4642f169dc1f3f87e">&#9670;&#160;</a></span>IdToName() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">string eve_market.UniverseInterface.IdToName </td>
+          <td class="memname">async Task&lt; string &gt; eve_market.UniverseInterface.IdToName </td>
           <td>(</td>
           <td class="paramtype">long&#160;</td>
           <td class="paramname"><em>id</em></td><td>)</td>
@@ -327,7 +327,7 @@ TextWriter&#160;</td><td class="memItemRight" valign="bottom"><b>output</b></td>
       </table>
 </div><div class="memdoc">
 
-<p>Overload for singular ids. If id is in the cache, returns it's cached value. Otherwise calls <a class="el" href="classeve__market_1_1_universe_interface.html#a78f7644c7bc9d7078ffec95bb9f27e7e" title="Finds the names corresponding to these IDs, caches them and returns them as a list....">IdToName()</a> with a List of length 1 containing this id.  </p>
+<p>Overload for singular ids. If id is in the cache, returns it's cached value. Otherwise calls <a class="el" href="classeve__market_1_1_universe_interface.html#ab1ad7fc3ee0015275df0aa22edfc5c27" title="Finds the names corresponding to these IDs, caches them and returns them as a list....">IdToName()</a> with a List of length 1 containing this id.  </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">id</td><td>Id to resolve</td></tr>
@@ -338,14 +338,14 @@ TextWriter&#160;</td><td class="memItemRight" valign="bottom"><b>output</b></td>
 
 </div>
 </div>
-<a id="a8ba32d0218dcd6cd768a6cc2c791b50b" name="a8ba32d0218dcd6cd768a6cc2c791b50b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8ba32d0218dcd6cd768a6cc2c791b50b">&#9670;&#160;</a></span>NameToId()</h2>
+<a id="aa3ee2e5a263dee94907faa5d1442dbcb" name="aa3ee2e5a263dee94907faa5d1442dbcb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa3ee2e5a263dee94907faa5d1442dbcb">&#9670;&#160;</a></span>NameToId()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">long eve_market.UniverseInterface.NameToId </td>
+          <td class="memname">async Task&lt; long &gt; eve_market.UniverseInterface.NameToId </td>
           <td>(</td>
           <td class="paramtype">string&#160;</td>
           <td class="paramname"><em>name</em>, </td>
@@ -376,14 +376,14 @@ TextWriter&#160;</td><td class="memItemRight" valign="bottom"><b>output</b></td>
 
 </div>
 </div>
-<a id="af632468d8df9ddea8c83e73b494c730e" name="af632468d8df9ddea8c83e73b494c730e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af632468d8df9ddea8c83e73b494c730e">&#9670;&#160;</a></span>PrintItemInfo()</h2>
+<a id="a4954e14b88b3a765ffe286951b1735ce" name="a4954e14b88b3a765ffe286951b1735ce"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4954e14b88b3a765ffe286951b1735ce">&#9670;&#160;</a></span>PrintItemInfo()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void eve_market.UniverseInterface.PrintItemInfo </td>
+          <td class="memname">async Task eve_market.UniverseInterface.PrintItemInfo </td>
           <td>(</td>
           <td class="paramtype">string&#160;</td>
           <td class="paramname"><em>itemName</em></td><td>)</td>
@@ -402,14 +402,14 @@ TextWriter&#160;</td><td class="memItemRight" valign="bottom"><b>output</b></td>
 
 </div>
 </div>
-<a id="acc6ff637cc4500bd2191d3572852f96f" name="acc6ff637cc4500bd2191d3572852f96f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#acc6ff637cc4500bd2191d3572852f96f">&#9670;&#160;</a></span>SearchName()</h2>
+<a id="a32d0a53617a2ae99d253869e8194ae27" name="a32d0a53617a2ae99d253869e8194ae27"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a32d0a53617a2ae99d253869e8194ae27">&#9670;&#160;</a></span>SearchName()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">long[] eve_market.UniverseInterface.SearchName </td>
+          <td class="memname">async Task&lt; long[]&gt; eve_market.UniverseInterface.SearchName </td>
           <td>(</td>
           <td class="paramtype">string&#160;</td>
           <td class="paramname"><em>query</em>, </td>

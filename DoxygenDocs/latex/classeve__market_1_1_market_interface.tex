@@ -19,25 +19,25 @@ enum \mbox{\hyperlink{classeve__market_1_1_market_interface_af7f62b45b314a59a918
 \item 
 \mbox{\hyperlink{classeve__market_1_1_market_interface_a8951f922fbf18f2b088de33e0a2236d1}{Market\+Interface}} (\mbox{\hyperlink{classeve__market_1_1_main_esi_interface}{Main\+Esi\+Interface}} @interface, Text\+Writer text\+Writer)
 \begin{DoxyCompactList}\small\item\em Basic constructor. Only assigns the instances from arguments to fields.  \end{DoxyCompactList}\item 
-void \mbox{\hyperlink{classeve__market_1_1_market_interface_a019f9fb9598ea0fb330835753ec69c9c}{Handle\+Defaults}} (string\mbox{[}$\,$\mbox{]} tokens)
+async Task \mbox{\hyperlink{classeve__market_1_1_market_interface_a96e7964cded8a0cdf1d7ccaa15a5a2eb}{Handle\+Defaults}} (string\mbox{[}$\,$\mbox{]} tokens)
 \begin{DoxyCompactList}\small\item\em Handles the \char`\"{}set\char`\"{} command. Sets default values for region or station used when displaying market listings.  \end{DoxyCompactList}\item 
-void \mbox{\hyperlink{classeve__market_1_1_market_interface_a60ec5d883931ff1005bbb9fa532c82f1}{Handle\+Transactions}} (string\mbox{[}$\,$\mbox{]} tokens)
+async Task \mbox{\hyperlink{classeve__market_1_1_market_interface_a8d06bf64cecad1d59510b87e08d68351}{Handle\+Transactions}} (string\mbox{[}$\,$\mbox{]} tokens)
 \begin{DoxyCompactList}\small\item\em Handles the \char`\"{}transactions\char`\"{} command. Displays all of the recent transactions of the authorized characters  \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{classeve__market_1_1_market_interface_ae7a2c5e573f3469c21f55edc7f8eb149}{Sort\+Orders}} (List$<$ Order $>$ orders, \mbox{\hyperlink{classeve__market_1_1_market_interface_af7f62b45b314a59a9180f4fda568a46d}{Sort\+By}} sort\+By\+Type, \mbox{\hyperlink{classeve__market_1_1_market_interface_afca6da50cc7cc95f6c2412b1692983a7}{Sort\+Order}} sort\+Order)
 \begin{DoxyCompactList}\small\item\em Sorts orders based on various fields defined by Sort\+By enum and in ascending or descending order  \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{classeve__market_1_1_market_interface_a738cc91511ecc862c94528fe5d61d857}{Sort\+Items}} (List$<$ Item $>$ items, \mbox{\hyperlink{classeve__market_1_1_market_interface_af7f62b45b314a59a9180f4fda568a46d}{Sort\+By}} sort\+By\+Type, \mbox{\hyperlink{classeve__market_1_1_market_interface_afca6da50cc7cc95f6c2412b1692983a7}{Sort\+Order}} sort\+Order)
 \begin{DoxyCompactList}\small\item\em Sorts a list of items according to the given field in the given order  \end{DoxyCompactList}\item 
-void \mbox{\hyperlink{classeve__market_1_1_market_interface_a7574bd429e125aefceb27961987664d3}{Handle\+History}} (string\mbox{[}$\,$\mbox{]} tokens)
+async Task \mbox{\hyperlink{classeve__market_1_1_market_interface_af2c2cd179d9468b14473391084f14bef}{Handle\+History}} (string\mbox{[}$\,$\mbox{]} tokens)
 \begin{DoxyCompactList}\small\item\em Prints type history in a given region.  \end{DoxyCompactList}\item 
-void \mbox{\hyperlink{classeve__market_1_1_market_interface_abc8c40e2513ebebc0dc447b1f143e97f}{Handle\+Assets}} (string\mbox{[}$\,$\mbox{]} tokens, \mbox{\hyperlink{classeve__market_1_1_market_interface_af7f62b45b314a59a9180f4fda568a46d}{Sort\+By}} sort\+By\+Type=Sort\+By.\+Station, \mbox{\hyperlink{classeve__market_1_1_market_interface_afca6da50cc7cc95f6c2412b1692983a7}{Sort\+Order}} sort\+Order=Sort\+Order.\+Descending)
+async Task \mbox{\hyperlink{classeve__market_1_1_market_interface_ac6d861c40ef187843ba3361e00de0753}{Handle\+Assets}} (string\mbox{[}$\,$\mbox{]} tokens, \mbox{\hyperlink{classeve__market_1_1_market_interface_af7f62b45b314a59a9180f4fda568a46d}{Sort\+By}} sort\+By\+Type=Sort\+By.\+Station, \mbox{\hyperlink{classeve__market_1_1_market_interface_afca6da50cc7cc95f6c2412b1692983a7}{Sort\+Order}} sort\+Order=Sort\+Order.\+Descending)
 \begin{DoxyCompactList}\small\item\em Handles the \char`\"{}assets\char`\"{} command. Displays all assets of the authorized character as a table.  \end{DoxyCompactList}\item 
-void \mbox{\hyperlink{classeve__market_1_1_market_interface_a6516368eaf40ebd496d0d7fb989702b3}{Handle\+Orders}} (string\mbox{[}$\,$\mbox{]} tokens, \mbox{\hyperlink{classeve__market_1_1_market_interface_af7f62b45b314a59a9180f4fda568a46d}{Sort\+By}} sort\+By\+Type=Sort\+By.\+Price, \mbox{\hyperlink{classeve__market_1_1_market_interface_afca6da50cc7cc95f6c2412b1692983a7}{Sort\+Order}} sort\+Order=Sort\+Order.\+Descending)
+async Task \mbox{\hyperlink{classeve__market_1_1_market_interface_a8f4de9b210cb475ca8630387e1f388f1}{Handle\+Orders}} (string\mbox{[}$\,$\mbox{]} tokens, \mbox{\hyperlink{classeve__market_1_1_market_interface_af7f62b45b314a59a9180f4fda568a46d}{Sort\+By}} sort\+By\+Type=Sort\+By.\+Price, \mbox{\hyperlink{classeve__market_1_1_market_interface_afca6da50cc7cc95f6c2412b1692983a7}{Sort\+Order}} sort\+Order=Sort\+Order.\+Descending)
 \begin{DoxyCompactList}\small\item\em Handles the \char`\"{}orders\char`\"{} command. Finds all orders of the given type in the given location. If not location is given, the default region will be used  \end{DoxyCompactList}\item 
-void \mbox{\hyperlink{classeve__market_1_1_market_interface_ac1983cc451f00fe55c18cec52c6931fe}{Handle\+My\+Orders}} (string\mbox{[}$\,$\mbox{]} tokens, \mbox{\hyperlink{classeve__market_1_1_market_interface_af7f62b45b314a59a9180f4fda568a46d}{Sort\+By}} sort\+By\+Type=Sort\+By.\+Date, \mbox{\hyperlink{classeve__market_1_1_market_interface_afca6da50cc7cc95f6c2412b1692983a7}{Sort\+Order}} sort\+Order=Sort\+Order.\+Descending)
+async Task \mbox{\hyperlink{classeve__market_1_1_market_interface_a31f9c046dff8da5ad6b2c79abcba7175}{Handle\+My\+Orders}} (string\mbox{[}$\,$\mbox{]} tokens, \mbox{\hyperlink{classeve__market_1_1_market_interface_af7f62b45b314a59a9180f4fda568a46d}{Sort\+By}} sort\+By\+Type=Sort\+By.\+Date, \mbox{\hyperlink{classeve__market_1_1_market_interface_afca6da50cc7cc95f6c2412b1692983a7}{Sort\+Order}} sort\+Order=Sort\+Order.\+Descending)
 \begin{DoxyCompactList}\small\item\em Handles the \char`\"{}my\+\_\+orders\char`\"{} command. Gathers orders from the API, sorts them and prints them out to output  \end{DoxyCompactList}\item 
-void \mbox{\hyperlink{classeve__market_1_1_market_interface_aed1fa6e7b9308f264c918510a621ab10}{Handle\+Order\+History}} (string\mbox{[}$\,$\mbox{]} tokens, \mbox{\hyperlink{classeve__market_1_1_market_interface_af7f62b45b314a59a9180f4fda568a46d}{Sort\+By}} sort\+By\+Type=Sort\+By.\+Date, \mbox{\hyperlink{classeve__market_1_1_market_interface_afca6da50cc7cc95f6c2412b1692983a7}{Sort\+Order}} sort\+Order=Sort\+Order.\+Descending)
+async Task \mbox{\hyperlink{classeve__market_1_1_market_interface_a018b2dcaf519ac3742b76c52a1c37654}{Handle\+Order\+History}} (string\mbox{[}$\,$\mbox{]} tokens, \mbox{\hyperlink{classeve__market_1_1_market_interface_af7f62b45b314a59a9180f4fda568a46d}{Sort\+By}} sort\+By\+Type=Sort\+By.\+Date, \mbox{\hyperlink{classeve__market_1_1_market_interface_afca6da50cc7cc95f6c2412b1692983a7}{Sort\+Order}} sort\+Order=Sort\+Order.\+Descending)
 \begin{DoxyCompactList}\small\item\em Handles the \char`\"{}my\+\_\+order\+\_\+history\char`\"{} command. Gathers the order history of a given character, potentially sorts it and prints it out.  \end{DoxyCompactList}\item 
-async void \mbox{\hyperlink{classeve__market_1_1_market_interface_acae3e74f7ae8c3a974cb3a71009d2299}{Handle\+Wallet}} (string\mbox{[}$\,$\mbox{]} tokens)
+async Task \mbox{\hyperlink{classeve__market_1_1_market_interface_a1b9533934ca8727a00d97d91a677842e}{Handle\+Wallet}} (string\mbox{[}$\,$\mbox{]} tokens)
 \begin{DoxyCompactList}\small\item\em Gathers information about the authorized characters\textquotesingle{} wallet and prints it out to output  \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsection*{Public Attributes}
 \begin{DoxyCompactItemize}
@@ -80,11 +80,11 @@ Basic constructor. Only assigns the instances from arguments to fields.
 
 
 \doxysubsection{Member Function Documentation}
-\mbox{\Hypertarget{classeve__market_1_1_market_interface_abc8c40e2513ebebc0dc447b1f143e97f}\label{classeve__market_1_1_market_interface_abc8c40e2513ebebc0dc447b1f143e97f}} 
+\mbox{\Hypertarget{classeve__market_1_1_market_interface_ac6d861c40ef187843ba3361e00de0753}\label{classeve__market_1_1_market_interface_ac6d861c40ef187843ba3361e00de0753}} 
 \index{eve\_market.MarketInterface@{eve\_market.MarketInterface}!HandleAssets@{HandleAssets}}
 \index{HandleAssets@{HandleAssets}!eve\_market.MarketInterface@{eve\_market.MarketInterface}}
 \doxysubsubsection{\texorpdfstring{HandleAssets()}{HandleAssets()}}
-{\footnotesize\ttfamily void eve\+\_\+market.\+Market\+Interface.\+Handle\+Assets (\begin{DoxyParamCaption}\item[{string\mbox{[}$\,$\mbox{]}}]{tokens,  }\item[{\mbox{\hyperlink{classeve__market_1_1_market_interface_af7f62b45b314a59a9180f4fda568a46d}{Sort\+By}}}]{sort\+By\+Type = {\ttfamily SortBy.Station},  }\item[{\mbox{\hyperlink{classeve__market_1_1_market_interface_afca6da50cc7cc95f6c2412b1692983a7}{Sort\+Order}}}]{sort\+Order = {\ttfamily SortOrder.Descending} }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily async Task eve\+\_\+market.\+Market\+Interface.\+Handle\+Assets (\begin{DoxyParamCaption}\item[{string\mbox{[}$\,$\mbox{]}}]{tokens,  }\item[{\mbox{\hyperlink{classeve__market_1_1_market_interface_af7f62b45b314a59a9180f4fda568a46d}{Sort\+By}}}]{sort\+By\+Type = {\ttfamily SortBy.Station},  }\item[{\mbox{\hyperlink{classeve__market_1_1_market_interface_afca6da50cc7cc95f6c2412b1692983a7}{Sort\+Order}}}]{sort\+Order = {\ttfamily SortOrder.Descending} }\end{DoxyParamCaption})}
 
 
 
@@ -99,11 +99,11 @@ Handles the \char`\"{}assets\char`\"{} command. Displays all assets of the autho
 {\em sort\+Order} & Ascending/\+Descending\\
 \hline
 \end{DoxyParams}
-\mbox{\Hypertarget{classeve__market_1_1_market_interface_a019f9fb9598ea0fb330835753ec69c9c}\label{classeve__market_1_1_market_interface_a019f9fb9598ea0fb330835753ec69c9c}} 
+\mbox{\Hypertarget{classeve__market_1_1_market_interface_a96e7964cded8a0cdf1d7ccaa15a5a2eb}\label{classeve__market_1_1_market_interface_a96e7964cded8a0cdf1d7ccaa15a5a2eb}} 
 \index{eve\_market.MarketInterface@{eve\_market.MarketInterface}!HandleDefaults@{HandleDefaults}}
 \index{HandleDefaults@{HandleDefaults}!eve\_market.MarketInterface@{eve\_market.MarketInterface}}
 \doxysubsubsection{\texorpdfstring{HandleDefaults()}{HandleDefaults()}}
-{\footnotesize\ttfamily void eve\+\_\+market.\+Market\+Interface.\+Handle\+Defaults (\begin{DoxyParamCaption}\item[{string\mbox{[}$\,$\mbox{]}}]{tokens }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily async Task eve\+\_\+market.\+Market\+Interface.\+Handle\+Defaults (\begin{DoxyParamCaption}\item[{string\mbox{[}$\,$\mbox{]}}]{tokens }\end{DoxyParamCaption})}
 
 
 
@@ -114,11 +114,11 @@ Handles the \char`\"{}set\char`\"{} command. Sets default values for region or s
 {\em tokens} & Tokens from the input, including the original command\\
 \hline
 \end{DoxyParams}
-\mbox{\Hypertarget{classeve__market_1_1_market_interface_a7574bd429e125aefceb27961987664d3}\label{classeve__market_1_1_market_interface_a7574bd429e125aefceb27961987664d3}} 
+\mbox{\Hypertarget{classeve__market_1_1_market_interface_af2c2cd179d9468b14473391084f14bef}\label{classeve__market_1_1_market_interface_af2c2cd179d9468b14473391084f14bef}} 
 \index{eve\_market.MarketInterface@{eve\_market.MarketInterface}!HandleHistory@{HandleHistory}}
 \index{HandleHistory@{HandleHistory}!eve\_market.MarketInterface@{eve\_market.MarketInterface}}
 \doxysubsubsection{\texorpdfstring{HandleHistory()}{HandleHistory()}}
-{\footnotesize\ttfamily void eve\+\_\+market.\+Market\+Interface.\+Handle\+History (\begin{DoxyParamCaption}\item[{string\mbox{[}$\,$\mbox{]}}]{tokens }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily async Task eve\+\_\+market.\+Market\+Interface.\+Handle\+History (\begin{DoxyParamCaption}\item[{string\mbox{[}$\,$\mbox{]}}]{tokens }\end{DoxyParamCaption})}
 
 
 
@@ -129,11 +129,11 @@ Prints type history in a given region.
 {\em tokens} & Command line tokens\\
 \hline
 \end{DoxyParams}
-\mbox{\Hypertarget{classeve__market_1_1_market_interface_ac1983cc451f00fe55c18cec52c6931fe}\label{classeve__market_1_1_market_interface_ac1983cc451f00fe55c18cec52c6931fe}} 
+\mbox{\Hypertarget{classeve__market_1_1_market_interface_a31f9c046dff8da5ad6b2c79abcba7175}\label{classeve__market_1_1_market_interface_a31f9c046dff8da5ad6b2c79abcba7175}} 
 \index{eve\_market.MarketInterface@{eve\_market.MarketInterface}!HandleMyOrders@{HandleMyOrders}}
 \index{HandleMyOrders@{HandleMyOrders}!eve\_market.MarketInterface@{eve\_market.MarketInterface}}
 \doxysubsubsection{\texorpdfstring{HandleMyOrders()}{HandleMyOrders()}}
-{\footnotesize\ttfamily void eve\+\_\+market.\+Market\+Interface.\+Handle\+My\+Orders (\begin{DoxyParamCaption}\item[{string\mbox{[}$\,$\mbox{]}}]{tokens,  }\item[{\mbox{\hyperlink{classeve__market_1_1_market_interface_af7f62b45b314a59a9180f4fda568a46d}{Sort\+By}}}]{sort\+By\+Type = {\ttfamily SortBy.Date},  }\item[{\mbox{\hyperlink{classeve__market_1_1_market_interface_afca6da50cc7cc95f6c2412b1692983a7}{Sort\+Order}}}]{sort\+Order = {\ttfamily SortOrder.Descending} }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily async Task eve\+\_\+market.\+Market\+Interface.\+Handle\+My\+Orders (\begin{DoxyParamCaption}\item[{string\mbox{[}$\,$\mbox{]}}]{tokens,  }\item[{\mbox{\hyperlink{classeve__market_1_1_market_interface_af7f62b45b314a59a9180f4fda568a46d}{Sort\+By}}}]{sort\+By\+Type = {\ttfamily SortBy.Date},  }\item[{\mbox{\hyperlink{classeve__market_1_1_market_interface_afca6da50cc7cc95f6c2412b1692983a7}{Sort\+Order}}}]{sort\+Order = {\ttfamily SortOrder.Descending} }\end{DoxyParamCaption})}
 
 
 
@@ -148,11 +148,11 @@ Handles the \char`\"{}my\+\_\+orders\char`\"{} command. Gathers orders from the 
 {\em sort\+Order} & Enum for ascending/descending sort order\\
 \hline
 \end{DoxyParams}
-\mbox{\Hypertarget{classeve__market_1_1_market_interface_aed1fa6e7b9308f264c918510a621ab10}\label{classeve__market_1_1_market_interface_aed1fa6e7b9308f264c918510a621ab10}} 
+\mbox{\Hypertarget{classeve__market_1_1_market_interface_a018b2dcaf519ac3742b76c52a1c37654}\label{classeve__market_1_1_market_interface_a018b2dcaf519ac3742b76c52a1c37654}} 
 \index{eve\_market.MarketInterface@{eve\_market.MarketInterface}!HandleOrderHistory@{HandleOrderHistory}}
 \index{HandleOrderHistory@{HandleOrderHistory}!eve\_market.MarketInterface@{eve\_market.MarketInterface}}
 \doxysubsubsection{\texorpdfstring{HandleOrderHistory()}{HandleOrderHistory()}}
-{\footnotesize\ttfamily void eve\+\_\+market.\+Market\+Interface.\+Handle\+Order\+History (\begin{DoxyParamCaption}\item[{string\mbox{[}$\,$\mbox{]}}]{tokens,  }\item[{\mbox{\hyperlink{classeve__market_1_1_market_interface_af7f62b45b314a59a9180f4fda568a46d}{Sort\+By}}}]{sort\+By\+Type = {\ttfamily SortBy.Date},  }\item[{\mbox{\hyperlink{classeve__market_1_1_market_interface_afca6da50cc7cc95f6c2412b1692983a7}{Sort\+Order}}}]{sort\+Order = {\ttfamily SortOrder.Descending} }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily async Task eve\+\_\+market.\+Market\+Interface.\+Handle\+Order\+History (\begin{DoxyParamCaption}\item[{string\mbox{[}$\,$\mbox{]}}]{tokens,  }\item[{\mbox{\hyperlink{classeve__market_1_1_market_interface_af7f62b45b314a59a9180f4fda568a46d}{Sort\+By}}}]{sort\+By\+Type = {\ttfamily SortBy.Date},  }\item[{\mbox{\hyperlink{classeve__market_1_1_market_interface_afca6da50cc7cc95f6c2412b1692983a7}{Sort\+Order}}}]{sort\+Order = {\ttfamily SortOrder.Descending} }\end{DoxyParamCaption})}
 
 
 
@@ -167,11 +167,11 @@ Handles the \char`\"{}my\+\_\+order\+\_\+history\char`\"{} command. Gathers the 
 {\em sort\+Order} & \\
 \hline
 \end{DoxyParams}
-\mbox{\Hypertarget{classeve__market_1_1_market_interface_a6516368eaf40ebd496d0d7fb989702b3}\label{classeve__market_1_1_market_interface_a6516368eaf40ebd496d0d7fb989702b3}} 
+\mbox{\Hypertarget{classeve__market_1_1_market_interface_a8f4de9b210cb475ca8630387e1f388f1}\label{classeve__market_1_1_market_interface_a8f4de9b210cb475ca8630387e1f388f1}} 
 \index{eve\_market.MarketInterface@{eve\_market.MarketInterface}!HandleOrders@{HandleOrders}}
 \index{HandleOrders@{HandleOrders}!eve\_market.MarketInterface@{eve\_market.MarketInterface}}
 \doxysubsubsection{\texorpdfstring{HandleOrders()}{HandleOrders()}}
-{\footnotesize\ttfamily void eve\+\_\+market.\+Market\+Interface.\+Handle\+Orders (\begin{DoxyParamCaption}\item[{string\mbox{[}$\,$\mbox{]}}]{tokens,  }\item[{\mbox{\hyperlink{classeve__market_1_1_market_interface_af7f62b45b314a59a9180f4fda568a46d}{Sort\+By}}}]{sort\+By\+Type = {\ttfamily SortBy.Price},  }\item[{\mbox{\hyperlink{classeve__market_1_1_market_interface_afca6da50cc7cc95f6c2412b1692983a7}{Sort\+Order}}}]{sort\+Order = {\ttfamily SortOrder.Descending} }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily async Task eve\+\_\+market.\+Market\+Interface.\+Handle\+Orders (\begin{DoxyParamCaption}\item[{string\mbox{[}$\,$\mbox{]}}]{tokens,  }\item[{\mbox{\hyperlink{classeve__market_1_1_market_interface_af7f62b45b314a59a9180f4fda568a46d}{Sort\+By}}}]{sort\+By\+Type = {\ttfamily SortBy.Price},  }\item[{\mbox{\hyperlink{classeve__market_1_1_market_interface_afca6da50cc7cc95f6c2412b1692983a7}{Sort\+Order}}}]{sort\+Order = {\ttfamily SortOrder.Descending} }\end{DoxyParamCaption})}
 
 
 
@@ -179,18 +179,18 @@ Handles the \char`\"{}orders\char`\"{} command. Finds all orders of the given ty
 
 
 \begin{DoxyParams}{Parameters}
-{\em tokens} & \\
+{\em tokens} & Command line tokens\\
 \hline
 {\em sort\+By\+Type} & \\
 \hline
 {\em sort\+Order} & \\
 \hline
 \end{DoxyParams}
-\mbox{\Hypertarget{classeve__market_1_1_market_interface_a60ec5d883931ff1005bbb9fa532c82f1}\label{classeve__market_1_1_market_interface_a60ec5d883931ff1005bbb9fa532c82f1}} 
+\mbox{\Hypertarget{classeve__market_1_1_market_interface_a8d06bf64cecad1d59510b87e08d68351}\label{classeve__market_1_1_market_interface_a8d06bf64cecad1d59510b87e08d68351}} 
 \index{eve\_market.MarketInterface@{eve\_market.MarketInterface}!HandleTransactions@{HandleTransactions}}
 \index{HandleTransactions@{HandleTransactions}!eve\_market.MarketInterface@{eve\_market.MarketInterface}}
 \doxysubsubsection{\texorpdfstring{HandleTransactions()}{HandleTransactions()}}
-{\footnotesize\ttfamily void eve\+\_\+market.\+Market\+Interface.\+Handle\+Transactions (\begin{DoxyParamCaption}\item[{string\mbox{[}$\,$\mbox{]}}]{tokens }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily async Task eve\+\_\+market.\+Market\+Interface.\+Handle\+Transactions (\begin{DoxyParamCaption}\item[{string\mbox{[}$\,$\mbox{]}}]{tokens }\end{DoxyParamCaption})}
 
 
 
@@ -201,11 +201,11 @@ Handles the \char`\"{}transactions\char`\"{} command. Displays all of the recent
 {\em tokens} & Command line tokens (included for uniformity of API, not used)\\
 \hline
 \end{DoxyParams}
-\mbox{\Hypertarget{classeve__market_1_1_market_interface_acae3e74f7ae8c3a974cb3a71009d2299}\label{classeve__market_1_1_market_interface_acae3e74f7ae8c3a974cb3a71009d2299}} 
+\mbox{\Hypertarget{classeve__market_1_1_market_interface_a1b9533934ca8727a00d97d91a677842e}\label{classeve__market_1_1_market_interface_a1b9533934ca8727a00d97d91a677842e}} 
 \index{eve\_market.MarketInterface@{eve\_market.MarketInterface}!HandleWallet@{HandleWallet}}
 \index{HandleWallet@{HandleWallet}!eve\_market.MarketInterface@{eve\_market.MarketInterface}}
 \doxysubsubsection{\texorpdfstring{HandleWallet()}{HandleWallet()}}
-{\footnotesize\ttfamily async void eve\+\_\+market.\+Market\+Interface.\+Handle\+Wallet (\begin{DoxyParamCaption}\item[{string\mbox{[}$\,$\mbox{]}}]{tokens }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily async Task eve\+\_\+market.\+Market\+Interface.\+Handle\+Wallet (\begin{DoxyParamCaption}\item[{string\mbox{[}$\,$\mbox{]}}]{tokens }\end{DoxyParamCaption})}
 
 
 
