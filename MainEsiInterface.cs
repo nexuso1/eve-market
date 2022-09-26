@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
 using System.IO;
 using System.Net;
 using ESI.NET.Models.SSO;
 using ESI.NET;
 using ESI.NET.Enumerations;
 using Microsoft.Extensions.Options;
+using System.Threading.Tasks;
 
 namespace eve_market
 {
@@ -105,7 +107,7 @@ namespace eve_market
             printer = new Printer(this, Output);
 
             // Check if there is an existing authorization token
-            if (File.Exists("refresh.token")) LoadAuthToken();
+            if (File.Exists("refresh.token")) LoadAuthToken().Wait();
 
         }
 
@@ -137,7 +139,7 @@ namespace eve_market
         public bool IsIdField(string field)
         {
             var id_fields = new HashSet<string> { "location_id", "region_id", "type_id", "item_id",
-            "acceptor_id", "assignee_id", "issuer_corporation_id", "issuer_id", "end_location_id", "start_location_id" };
+            "acceptor_id", "assignee_id", "issuer_corporation_id", "issuer_id", "end_location_id", "start_location_id", "client_id" };
             return id_fields.Contains(field);
         }
 
@@ -205,25 +207,31 @@ namespace eve_market
         /// work properly.
         /// </summary>
         /// <param name="path">Path of the token save file</param>
-        private void LoadAuthToken(string path = "refresh.token")
+        private async Task LoadAuthToken(string path = "refresh.token")
         {
             using (var reader = new StreamReader(File.OpenRead(path)))
             {
                 var refreshToken = reader.ReadLine();
                 try
                 {
-                    var token = Client.SSO.GetToken(GrantType.RefreshToken, refreshToken).Result;
+                    var token = await Client.SSO.GetToken(GrantType.RefreshToken, refreshToken);
                     AuthToken = token;
                     AuthData = Client.SSO.Verify(token).Result;
                     Client.SetCharacterData(AuthData);
                 }
 
-                catch (ArgumentException)
+                catch (Exception ex)
                 {
-                    Output.WriteLine("Previous authorization is invalid. Please authorize a character again.");
+                    if (ex is AggregateException || ex is ArgumentException)
+                    {
+                        Output.WriteLine("Previous authorization is invalid. Please authorize a character again.");
 
-                    // Reload the client (some weird OAuth bug, if it's not reloaded the requests contain multiple copies of same headers)
-                    Client = createClient();
+                        // Reload the client (some weird OAuth bug, if it's not reloaded the requests contain multiple copies of same headers)
+                        Client = createClient();
+                        return;
+                    }
+
+                    throw;
                 }
             }
         }
@@ -244,12 +252,25 @@ namespace eve_market
         /// Logs the authorized character out (if there is any)
         /// </summary>
         /// <param name="tokens">Command line tokens. Only included for the uniformity of API</param>
-        public void HandleLogout(string[] tokens)
+        public async Task HandleLogout(string[] tokens)
         {
             if (IsAuthorized)
             {
-                Client.SSO.RevokeToken(AuthData.Token).Wait();
+                await Client.SSO.RevokeToken(AuthData.Token);
                 Client = createClient();
+                IsAuthorized = false;
+
+                // Reset the authorization data and token
+                authData = new AuthorizedCharacterData();
+                authToken = new SsoToken();
+
+                // Delete old auth data
+                using (var writer = new StreamWriter("refresh.token"))
+                {
+                    writer.Write("");
+                }
+
+                Output.WriteLine("Logged out.");
             }
 
             else
@@ -264,11 +285,11 @@ namespace eve_market
         /// refers the end-user to the auth page.
         /// </summary>
         /// <param name="tokens">Command line tokens. Included for the uniformity of API</param>
-        public void HandleAuthorize(string[] tokens)
+        public async Task HandleAuthorize(string[] tokens)
         {
             if (IsAuthorized)
             {
-                Client.SSO.RevokeToken(AuthData.Token).Wait();
+                await Client.SSO.RevokeToken(AuthData.Token);
                 Client = createClient();
             }
 
@@ -282,8 +303,6 @@ namespace eve_market
 
             Output.WriteLine("Please follow this link for authorization: " + auth_url);
 
-            //TODO: potential automatic browser open
-            //System.Diagnostics.Process.Start("C:\\Windows\\Sysnative\\explorer.exe", auth_url);
             HttpListener listener = new HttpListener();
             // Listen on this address
             string redirectUri = $"http://localhost:8080/";
@@ -291,7 +310,7 @@ namespace eve_market
             listener.Start();
 
             // Will hold the request response from the server
-            var context = listener.GetContextAsync().Result;
+            var context = await listener.GetContextAsync();
 
             // Reterned url query string
             var queryString = context.Request.QueryString;
@@ -306,8 +325,8 @@ namespace eve_market
             }
 
             // Obtain the authorization token
-            AuthToken = Client.SSO.GetToken(GrantType.AuthorizationCode, code, challenge).Result;
-            AuthData = Client.SSO.Verify(AuthToken).Result;
+            AuthToken = await Client.SSO.GetToken(GrantType.AuthorizationCode, code, challenge);
+            AuthData = await Client.SSO.Verify(AuthToken);
             Client.SetCharacterData(AuthData);
             SaveRefreshToken(AuthToken);
 

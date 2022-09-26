@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using System.IO;
 using ESI.NET.Enumerations;
 using ESI.NET.Models.Market;
@@ -54,7 +55,7 @@ namespace eve_market
         /// Sets default values for region or station used when displaying market listings.
         /// </summary>
         /// <param name="tokens">Tokens from the input, including the original command</param>
-        public void HandleDefaults(string[] tokens)
+        public async Task HandleDefaults(string[] tokens)
         {
             if (tokens.Length < 3)
             {
@@ -82,7 +83,7 @@ namespace eve_market
             switch (tokens[1])
             {
                 case "region":
-                    var regionId = mainInterface.universeInterface.NameToId(name, SearchCategory.Region);
+                    var regionId = await mainInterface.universeInterface.NameToId(name, SearchCategory.Region);
                     if (regionId == -1)
                     {
                         output.WriteLine("Invalid region name provided.");
@@ -90,10 +91,10 @@ namespace eve_market
                     }
 
                     defaultRegionId = regionId;
-                    output.WriteLine($"Default region set to {mainInterface.universeInterface.IdToName(regionId)}.");
+                    output.WriteLine($"Default region set to {await mainInterface .universeInterface.IdToName(regionId)}.");
                     return;
                 case "station":
-                    var stationId = mainInterface.universeInterface.NameToId(name, SearchCategory.Station);
+                    var stationId = await mainInterface.universeInterface.NameToId(name, SearchCategory.Station);
                     if (stationId == -1)
                     {
                         output.WriteLine("Invalid station name provided.");
@@ -101,7 +102,7 @@ namespace eve_market
                     }
 
                     defaultStationId = stationId;
-                    output.WriteLine($"Default station set to {mainInterface.universeInterface.IdToName(stationId)}.");
+                    output.WriteLine($"Default station set to {await mainInterface.universeInterface.IdToName(stationId)}.");
                     return;
                 default:
                     output.WriteLine("Invalid name of a default setting");
@@ -114,7 +115,7 @@ namespace eve_market
         /// Displays all of the recent transactions of the authorized characters
         /// </summary>
         /// <param name="tokens">Command line tokens (included for uniformity of API, not used)</param>
-        public void HandleTransactions(string[] tokens)
+        public async Task HandleTransactions(string[] tokens)
         {
             if (!mainInterface.CheckAuthorization()) return;
             int page = 1;
@@ -125,9 +126,9 @@ namespace eve_market
             {
                 try
                 {
-                    var temp = mainInterface.Client.Wallet.CharacterTransactions(page).Result.Data;
-                    if (temp.Count == 0) break;
-                    transactions.AddRange(temp);
+                    var temp = await mainInterface.Client.Wallet.CharacterTransactions(page);
+                    if (temp.Data.Count == 0) break;
+                    transactions.AddRange(temp.Data);
 
                     // There is a bug in ESI it seems, every page returns the same transactions...
                     // so just break out of the loop after the first one
@@ -149,7 +150,7 @@ namespace eve_market
             var fields = new List<string> { "date", "is_buy", "unit_price", "type_id", "quantity", "client_id", "location_id" };
             var fieldDesc = new List<string> { "Data", "Is Buy", "Unit Price", "Item", "Quantity", "Beneficiary", "Location" };
 
-            mainInterface.printer.PrintObjList(transactions, 20, transactions.Count, fields, fieldDesc);
+            await mainInterface.printer.PrintObjList(transactions, 20, transactions.Count, fields, fieldDesc);
         }
 
         /// <summary>
@@ -210,7 +211,7 @@ namespace eve_market
         /// Prints type history in a given region.
         /// </summary>
         /// <param name="tokens">Command line tokens</param>
-        public void HandleHistory(string[] tokens)
+        public async Task HandleHistory(string[] tokens)
         {
 
             var pattern = '"' + @"([\w ]+)" + '"';
@@ -245,7 +246,7 @@ namespace eve_market
 
             typeName = matches[0].Groups[1].Value;
 
-            var typeId = mainInterface.universeInterface.NameToId(typeName, SearchCategory.InventoryType);
+            var typeId = await mainInterface.universeInterface.NameToId(typeName, SearchCategory.InventoryType);
             if (typeId == -1)
             {
                 output.WriteLine("Couldn't find the item specified.");
@@ -254,7 +255,7 @@ namespace eve_market
 
             if (specifiedRegion)
             {
-                regionId = mainInterface.universeInterface.NameToId(regionName, SearchCategory.Region);
+                regionId = await mainInterface .universeInterface.NameToId(regionName, SearchCategory.Region);
                 if (regionId == -1)
                 {
                     output.WriteLine("Invalid region name given.");
@@ -262,7 +263,8 @@ namespace eve_market
                 }
             }
 
-            var history = mainInterface.Client.Market.TypeHistoryInRegion((int)regionId, (int)typeId).Result.Data;
+            var historyRes = await mainInterface.Client.Market.TypeHistoryInRegion((int)regionId, (int)typeId);
+            var history = historyRes.Data;
             if (history.Count == 0)
             {
                 output.WriteLine("No history to display.");
@@ -275,7 +277,7 @@ namespace eve_market
             var fields = new List<string> { "date", "average", "highest", "lowest", "order_count", "volume" };
             var fieldDesc = new List<string> { "Date", "Average", "Highest", "Lowest", "Order Count", "Volume" };
 
-            mainInterface.printer.PrintObjList(history, 20, 60, fields, fieldDesc);
+            await mainInterface .printer.PrintObjList(history, 20, 60, fields, fieldDesc);
         }
 
         /// <summary>
@@ -285,7 +287,7 @@ namespace eve_market
         /// <param name="tokens">Command line tokens</param>
         /// <param name="sortByType">Which field to sort by</param>
         /// <param name="sortOrder">Ascending/Descending</param>
-        public void HandleAssets(string[] tokens, SortBy sortByType = SortBy.Station, SortOrder sortOrder = SortOrder.Descending)
+        public async Task HandleAssets(string[] tokens, SortBy sortByType = SortBy.Station, SortOrder sortOrder = SortOrder.Descending)
         {
             if (!mainInterface.CheckAuthorization())
             {
@@ -301,8 +303,13 @@ namespace eve_market
             {
                 try
                 {
-                    var data = mainInterface.Client.Assets.ForCharacter(page).Result.Data;
-                    assets.AddRange(data);
+                    var response = await mainInterface.Client.Assets.ForCharacter(page);
+                    if (response.Data is null)
+                    {
+                        break;
+                    }
+
+                    assets.AddRange(response.Data);
                     page++;
                 }
                 catch (ArgumentException)
@@ -343,38 +350,39 @@ namespace eve_market
             var fieldDesc = new List<string> { "Type", "Custom Name", "Location", "Quantity" };
             // Sort the assets
             SortItems(assets, sortByType, sortOrder);
-            mainInterface.printer.PrintObjList(assets, 20, assets.Count, fields, fieldDesc);
+            await mainInterface.printer.PrintObjList(assets, 20, assets.Count, fields, fieldDesc);
         }
 
         /// <summary>
         /// Helper function that resolves the location and type id and determines their type.
         /// </summary>
-        /// <param name="locationName"></param>
-        /// <param name="regionId"></param>
-        /// <param name="locationId"></param>
-        /// <param name="stationSpecified"></param>
-        /// <returns></returns>
+        /// <param name="locationName">Original location string</param>
+        /// <param name="regionId">Region ID of the location will be deposited here</param>
+        /// <param name="locationId">Location ID will be deposited here</param>
+        /// <param name="stationSpecified">If the location was a station/structure, this will be true</param>
+        /// <returns>Whether a location was succesfully resolved</returns>
         private bool GetLocIdAndType(string locationName, ref long regionId, ref long locationId, ref bool stationSpecified)
         {
-            var res = mainInterface.universeInterface.NameToId(locationName, SearchCategory.Region);
+            
+            var res = mainInterface.universeInterface.NameToId(locationName, SearchCategory.Region).Result;
             if (res == -1)
             {
-                res = mainInterface.universeInterface.NameToId(locationName, SearchCategory.Station);
+                res = mainInterface.universeInterface.NameToId(locationName, SearchCategory.Station).Result;
                 if (res == -1)
                 {
-                    res = mainInterface.universeInterface.NameToId(locationName, SearchCategory.Structure);
+                    res = mainInterface.universeInterface.NameToId(locationName, SearchCategory.Structure).Result;
                     if (res == -1)
                     {
                         return false;
                     }
 
                     locationId = res;
-                    regionId = mainInterface.universeInterface.FindRegion(locationId, SearchCategory.Structure);
+                    regionId = mainInterface.universeInterface.FindRegion(locationId, SearchCategory.Structure).Result;
                     stationSpecified = true;
                     return true;
                 }
                 locationId = res;
-                regionId = mainInterface.universeInterface.FindRegion(locationId, SearchCategory.Station);
+                regionId = mainInterface.universeInterface.FindRegion(locationId, SearchCategory.Station).Result;
                 stationSpecified = true;
                 return true;
             }
@@ -388,10 +396,10 @@ namespace eve_market
         /// Handles the "orders" command.
         /// Finds all orders of the given type in the given location. If not location is given, the default region will be used
         /// </summary>
-        /// <param name="tokens"></param>
+        /// <param name="tokens">Command line tokens</param>
         /// <param name="sortByType"></param>
         /// <param name="sortOrder"></param>
-        public void HandleOrders(string[] tokens, SortBy sortByType = SortBy.Price, SortOrder sortOrder = SortOrder.Descending)
+        public async Task HandleOrders(string[] tokens, SortBy sortByType = SortBy.Price, SortOrder sortOrder = SortOrder.Descending)
         {
             // Extract location and item name
             bool specifiedLocation = false;
@@ -422,7 +430,7 @@ namespace eve_market
             itemName = matches[0].Groups[1].Value;
 
             // Resolve item id
-            var typeId = mainInterface.universeInterface.NameToId(itemName, SearchCategory.InventoryType);
+            var typeId = await mainInterface.universeInterface.NameToId(itemName, SearchCategory.InventoryType);
             if (typeId == -1)
             {
                 output.WriteLine("Invalid item name.");
@@ -452,8 +460,8 @@ namespace eve_market
             {
                 try
                 {
-                    var tempOrders = new List<Order>();
-                    tempOrders = mainInterface.Client.Market.RegionOrders((int)regionId, page: page, type_id: (int)typeId).Result.Data;
+                    var response = await mainInterface.Client.Market.RegionOrders((int)regionId, page: page, type_id: (int)typeId);
+                    var tempOrders = response.Data;
                     if (tempOrders is null || tempOrders.Count == 0)
                     {
                         break;
@@ -549,7 +557,7 @@ namespace eve_market
             output.WriteLine();
             if(sellOrders.Count > 0)
             {
-                mainInterface.printer.PrintObjList<Order>(sellOrders, 20, 20, fields, fieldDesc);
+                await mainInterface.printer.PrintObjList<Order>(sellOrders, 20, 20, fields, fieldDesc);
             }
             else
             {
@@ -561,7 +569,7 @@ namespace eve_market
             output.WriteLine();
             if(buyOrders.Count > 0)
             {
-                mainInterface.printer.PrintObjList<Order>(buyOrders, 20, 20, fields, fieldDesc);
+                await mainInterface .printer.PrintObjList<Order>(buyOrders, 20, 20, fields, fieldDesc);
             }
 
             else
@@ -577,12 +585,13 @@ namespace eve_market
         /// <param name="tokens">Contains tokens from the command line.</param>
         /// <param name="sortByType">Enum which determines the field by which to sort the orders</param>
         /// <param name="sortOrder">Enum for ascending/descending sort order</param>
-        public void HandleMyOrders(string[] tokens, SortBy sortByType = SortBy.Date, SortOrder sortOrder = SortOrder.Descending)
+        public async Task HandleMyOrders(string[] tokens, SortBy sortByType = SortBy.Date, SortOrder sortOrder = SortOrder.Descending)
         {
             if (!mainInterface.CheckAuthorization()) return;
 
             // Gather the orders
-            var data = mainInterface.Client.Market.CharacterOrders().Result.Data;
+            var response = await mainInterface.Client.Market.CharacterOrders();
+            var data = response.Data;
             if (data.Count == 0) 
             { 
                 output.WriteLine("\tNo orders to show."); 
@@ -661,7 +670,7 @@ namespace eve_market
             output.WriteLine();
             if(sellOrders.Count > 0)
             {
-                mainInterface.printer.PrintObjList<Order>(sellOrders, 20, 20, fields, fieldDesc);
+                await mainInterface .printer.PrintObjList<Order>(sellOrders, 20, 20, fields, fieldDesc);
             }
             else
             {
@@ -674,7 +683,7 @@ namespace eve_market
 
             if(buyOrders.Count > 0)
             {
-                mainInterface.printer.PrintObjList<Order>(buyOrders, 20, 20, fields, fieldDesc);
+                await mainInterface .printer.PrintObjList<Order>(buyOrders, 20, 20, fields, fieldDesc);
             }
             else
             {
@@ -690,12 +699,12 @@ namespace eve_market
         /// <param name="tokens"></param>
         /// <param name="sortByType"></param>
         /// <param name="sortOrder"></param>
-        public void HandleOrderHistory(string[] tokens, SortBy sortByType = SortBy.Date, SortOrder sortOrder = SortOrder.Descending)
+        public async Task HandleOrderHistory(string[] tokens, SortBy sortByType = SortBy.Date, SortOrder sortOrder = SortOrder.Descending)
         {
             if (!mainInterface.CheckAuthorization()) return;
 
             // Gather the orders
-            var response = mainInterface.Client.Market.CharacterOrderHistory().Result;
+            var response = await mainInterface.Client.Market.CharacterOrderHistory();
             var orders = response.Data;
             if (orders.Count == 0)
             {
@@ -745,7 +754,7 @@ namespace eve_market
             // Print to output
             output.WriteLine("Order History");
             output.WriteLine();
-            mainInterface.printer.PrintObjList<Order>(orders, 20, 20, fields, fieldDesc);
+            await mainInterface.printer.PrintObjList<Order>(orders, 20, 20, fields, fieldDesc);
         }
 
 
@@ -753,11 +762,11 @@ namespace eve_market
         /// Gathers information about the authorized characters' wallet and prints it out to output
         /// </summary>
         /// <param name="tokens">Included for the uniformity of API, not used</param>
-        public void HandleWallet(string[] tokens)
+        public async Task HandleWallet(string[] tokens)
         {
             if (!mainInterface.CheckAuthorization()) return;
 
-            var response = mainInterface.Client.Wallet.CharacterWallet().Result;
+            var response = await mainInterface.Client.Wallet.CharacterWallet();
             var balance = response.Message;
             output.WriteLine($"Your current personal account balance is {balance} ISK.");
             return;

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.IO;
 using System.Text.RegularExpressions;
 using ESI.NET.Enumerations;
@@ -45,9 +46,9 @@ namespace eve_market
         /// Finds the closest matching item and prints its description
         /// </summary>
         /// <param name="itemName">Command line tokens</param>
-        public void PrintItemInfo(string itemName)
+        public async Task PrintItemInfo(string itemName)
         {
-            var itemId = NameToId(itemName, SearchCategory.InventoryType);
+            var itemId = await NameToId(itemName, SearchCategory.InventoryType);
 
             if (itemId == -1)
             {
@@ -55,8 +56,10 @@ namespace eve_market
                 return;
             }
 
-            var itemDesc = mainInterface.Client.Universe.Type((int)itemId).Result.Data;
-            var itemCategory = mainInterface.Client.Market.Group(itemDesc.MarketGroupId).Result.Data;
+            var descResponse = await mainInterface.Client.Universe.Type((int)itemId);
+            var itemDesc = descResponse.Data;
+            var categoryResponse = await mainInterface.Client.Market.Group(itemDesc.MarketGroupId);
+            var itemCategory = categoryResponse.Data;
             output.WriteLine(itemDesc.Name);
             mainInterface.printer.PrintLine(itemDesc.Name.Length);
             output.WriteLine($"Category description: {itemCategory.Description}");
@@ -70,7 +73,7 @@ namespace eve_market
         /// HAndles the "info" command. 
         /// </summary>
         /// <param name="tokens"></param>
-        public void HandleInfo(string[] tokens)
+        public async Task HandleInfo(string[] tokens)
         {
             // Extract item name
 
@@ -92,7 +95,7 @@ namespace eve_market
             }
 
             itemName = matches[0].Groups[1].Value;
-            PrintItemInfo(itemName);
+            await PrintItemInfo(itemName);
         }
 
         /// <summary>
@@ -101,11 +104,11 @@ namespace eve_market
         /// <param name="query"></param>
         /// <param name="category">Enum describing the category of the object</param>
         /// <returns>A list of ids of the matches</returns>
-        public long[] SearchName(string query, SearchCategory category)
+        public async Task<long[]> SearchName(string query, SearchCategory category)
         {
             if (mainInterface.IsAuthorized)
             {
-                var searchRes = mainInterface.Client.Search.Query(SearchType.Character, query, category).Result;
+                var searchRes = await mainInterface.Client.Search.Query(SearchType.Character, query, category);
                 if (searchRes.Data is null)
                 {
                     throw new ArgumentException("No result found");
@@ -127,7 +130,7 @@ namespace eve_market
                 }
             }
 
-            var idRes = mainInterface.Client.Universe.IDs(new List<string> { query }).Result;
+            var idRes = await mainInterface.Client.Universe.IDs(new List<string> { query });
             if (idRes.Data is null)
             {
                 throw new ArgumentException("No result found");
@@ -154,7 +157,7 @@ namespace eve_market
         /// <param name="id">ID of the object</param>
         /// <param name="type">Type of the object</param>
         /// <returns>ID of the region to which this object belongs</returns>
-        public long FindRegion(long id, SearchCategory type)
+        public async Task<long> FindRegion(long id, SearchCategory type)
         {
             int systemId = 0;
             try
@@ -162,23 +165,34 @@ namespace eve_market
                 switch (type)
                 {
                     case SearchCategory.Station:
-                        var stationInfo = mainInterface.Client.Universe.Station((int)id).Result.Data;
+                        var stationRes = await mainInterface.Client.Universe.Station((int)id);
+                        var stationInfo = stationRes.Data;
                         systemId = stationInfo.SystemId;
                         break;
+
                     case SearchCategory.Structure:
                         if (!mainInterface.IsAuthorized)
                         {
                             throw new ArgumentException("No character authorized, can't look for structures");
                         }
-                        var structInfo = mainInterface.Client.Universe.Structure(id).Result.Data;
+                        var structRes = await mainInterface.Client.Universe.Structure(id);
+                        var structInfo = structRes.Data;
                         systemId = structInfo.SolarSystemId;
                         break;
+
                     case SearchCategory.SolarSystem:
                         systemId = (int)id;
                         break;
                 }
-                var constellationId = mainInterface.Client.Universe.System(systemId).Result.Data.ConstellationId;
-                return mainInterface.Client.Universe.Constellation(constellationId).Result.Data.RegionId;
+                // Find the constellation of the system
+                var systemRes = await mainInterface.Client.Universe.System(systemId);
+                var constellationId = systemRes.Data.ConstellationId;
+
+                // Find the region of this constellation
+                var constellationRes = await mainInterface.Client.Universe.Constellation(constellationId);
+                var regionId = constellationRes.Data.RegionId;
+
+                return regionId;
             }
             catch (NullReferenceException)
             {
@@ -193,7 +207,7 @@ namespace eve_market
         /// <param name="name">Name of the object</param>
         /// <param name="category">Enum describing the category of the object</param>
         /// <returns>ID of the given query type/object</returns>
-        public long NameToId(string name, SearchCategory category)
+        public async Task<long> NameToId(string name, SearchCategory category)
         {
             if (nameToIdCache.ContainsKey(name))
             {
@@ -208,19 +222,20 @@ namespace eve_market
             // Search only for exact name matches for inventory types
             if (category == SearchCategory.InventoryType)
             {
-                var result = mainInterface.Client.Universe.IDs(new List<string> { name }).Result.Data;
+                var response = await mainInterface.Client.Universe.IDs(new List<string> { name });
+                var uniResult = response.Data;
 
-                if (result is null || result.InventoryTypes.Count == 0)
+                if (uniResult is null || uniResult.InventoryTypes.Count == 0)
                 {
                     return -1;
                 }
 
-                long typeId = result.InventoryTypes[0].Id;
+                long typeId = uniResult.InventoryTypes[0].Id;
 
                 // Save the result to cache
                 nameToIdCache[name] = typeId;
-                nameToIdCache[result.InventoryTypes[0].Name] = typeId;
-                idToNameCache[typeId] = result.InventoryTypes[0].Name;
+                nameToIdCache[uniResult.InventoryTypes[0].Name] = typeId;
+                idToNameCache[typeId] = uniResult.InventoryTypes[0].Name;
 
                 return typeId;
             }
@@ -229,7 +244,7 @@ namespace eve_market
 
             try
             {
-                var matches = SearchName(name, category);
+                var matches = await SearchName(name, category);
                 if (matches is null)
                 {
                     return -1;
@@ -237,7 +252,8 @@ namespace eve_market
                 var closestMatch = matches[0];
 
                 // Find the correct name for future reference
-                var matchName = mainInterface.Client.Universe.Names(new List<long> { closestMatch }).Result.Data[0].Name;
+                var nameRes = await mainInterface.Client.Universe.Names(new List<long> { closestMatch });
+                var matchName = nameRes.Data[0].Name;
 
                 // Save the result to cache
                 nameToIdCache[name] = closestMatch;
@@ -260,7 +276,7 @@ namespace eve_market
         /// </summary>
         /// <param name="ids">List of ids to resolve</param>
         /// <param name="fieldName">Name of the field to which these ids belong</param>
-        public void ContractIdToName(List<long> ids, string fieldName)
+        public async Task ContractIdToName(List<long> ids, string fieldName)
         {
             switch (fieldName)
             {
@@ -268,23 +284,23 @@ namespace eve_market
                 case "acceptor_id":
                 case "assignee_id":
                 case "issuer_id":
-                    ResolveContractIds(ids, SearchCategory.Character);
+                    await ResolveContractIds(ids, SearchCategory.Character);
                     break;
 
                 // Input ids are structure/station ids
                 case "start_location_id":
                 case "end_location_id":
-                    ResolveContractIds(ids, SearchCategory.Structure);
+                    await ResolveContractIds(ids, SearchCategory.Structure);
                     break;
 
                 // Input ids are inventory type ids
                 case "type_id":
-                    ResolveContractIds(ids, SearchCategory.InventoryType);
+                    await ResolveContractIds(ids, SearchCategory.InventoryType);
                     break;
                 
                 // Input ids are corporation ids
                 case "issuer_corporation_id":
-                    ResolveContractIds(ids, SearchCategory.Corporation);
+                    await ResolveContractIds(ids, SearchCategory.Corporation);
                     break;
                 default:
                     throw new ArgumentException("Field not implemented or invalid.");
@@ -297,7 +313,7 @@ namespace eve_market
         /// </summary>
         /// <param name="ids">List of ids to resolve</param>
         /// <param name="category">Enum denoting the category of the ids</param>
-        private void ResolveContractIds(List<long> ids, SearchCategory category)
+        private async Task ResolveContractIds(List<long> ids, SearchCategory category)
         {
             List<long> toResolve = new List<long>();
             List<long> longToResolve = new List<long>();
@@ -332,8 +348,8 @@ namespace eve_market
                     {
                         foreach (var id in toResolve)
                         {
-                            var result = mainInterface.Client.Corporation.Information((int)id).Result.Data;
-                            idToNameCache[id] = result.Name;
+                            var result = await mainInterface.Client.Corporation.Information((int)id);
+                            idToNameCache[id] = result.Data.Name;
                         }
                     }
                     
@@ -344,9 +360,10 @@ namespace eve_market
                     // Resolve stations
                     if(toResolve.Count > 0)
                     {
-                        var uniResult = mainInterface.Client.Universe.Names(toResolve).Result.Data;
+                        var uniResponse = await mainInterface.Client.Universe.Names(toResolve);
+                        var uniData = uniResponse.Data;
                         // Cache the station results
-                        foreach (var result in uniResult)
+                        foreach (var result in uniData)
                         {
                             idToNameCache[result.Id] = result.Name;
                             nameToIdCache[result.Name] = result.Id;
@@ -360,7 +377,16 @@ namespace eve_market
                             // Resolve structures (each has to be done one by one)
                             foreach (var id in longToResolve)
                             {
-                                var structResult = mainInterface.Client.Universe.Structure(id).Result.Data;
+                                var structResponse = await mainInterface.Client.Universe.Structure(id);
+                                var structResult = structResponse.Data;
+
+                                // No access to the structure
+                                if (structResult is null)
+                                {
+                                    idToNameCache[id] = "Unknown";
+                                    continue;
+                                }
+
                                 // Cache the result
                                 idToNameCache[id] = structResult.Name;
                                 nameToIdCache[structResult.Name] = id;
@@ -375,13 +401,13 @@ namespace eve_market
                         }
                     }
 
-
                     break;
 
                 case SearchCategory.Character:
                     if(toResolve.Count > 0)
                     {
-                        var charResult = mainInterface.Client.Universe.Names(toResolve).Result.Data;
+                        var charResponse = await mainInterface.Client.Universe.Names(toResolve);
+                        var charResult = charResponse.Data;
                         // Cache the station results
                         foreach (var result in charResult)
                         {
@@ -394,7 +420,8 @@ namespace eve_market
                 case SearchCategory.InventoryType:
                     if(toResolve.Count > 0)
                     {
-                        var typeResult = mainInterface.Client.Universe.Names(toResolve).Result.Data;
+                        var typeResponse = await mainInterface.Client.Universe.Names(toResolve);
+                        var typeResult = typeResponse.Data;
                         // Cache the station results
                         foreach (var result in typeResult)
                         {
@@ -416,7 +443,7 @@ namespace eve_market
         /// </summary>
         /// <param name = "ids">List of ids to resolve</param >
         /// <returns> Name corresponding to the given ID</returns>
-        public List<string> IdToName(List<long> ids)
+        public async Task<List<string>> IdToName(List<long> ids)
         {
             List<long> toResolve = new List<long>();
             List<long> longToResolve = new List<long>();
@@ -440,9 +467,9 @@ namespace eve_market
             if(toResolve.Count > 0)
             {
                 // Query the server
-                var uniResult = mainInterface.Client.Universe.Names(toResolve).Result.Data;
+                var uniResponse = await mainInterface.Client.Universe.Names(toResolve);
                 // Save the results to cache
-                foreach (var resolved in uniResult)
+                foreach (var resolved in uniResponse.Data)
                 {
                     idToNameCache[resolved.Id] = resolved.Name;
                     nameToIdCache[resolved.Name] = resolved.Id;
@@ -451,11 +478,11 @@ namespace eve_market
 
             if (longToResolve.Count > 0)
             {
-                var uniResult = mainInterface.Client.Universe.Names(longToResolve).Result.Data;
+                var uniResult = await mainInterface.Client.Universe.Names(longToResolve);
 
-                if (uniResult is not null)
+                if (uniResult.Data is not null)
                 {
-                    foreach (var resolved in uniResult)
+                    foreach (var resolved in uniResult.Data)
                     {
                         idToNameCache[resolved.Id] = resolved.Name;
                         nameToIdCache[resolved.Name] = resolved.Id;
@@ -466,23 +493,23 @@ namespace eve_market
                 else if (mainInterface.IsAuthorized)
                 {
                     // Check asset custom names
-                    var itemResult = mainInterface.Client.Assets.NamesForCharacter(longToResolve).Result.Data;
+                    var itemResult = await mainInterface.Client.Assets.NamesForCharacter(longToResolve);
                     // Check asset locations
-                    var locResult = mainInterface.Client.Assets.LocationsForCharacter(longToResolve).Result.Data;
+                    var locResult = await mainInterface.Client.Assets.LocationsForCharacter(longToResolve);
 
-                    if (itemResult is not null)
+                    if (itemResult.Data is not null)
                     {
                         // Save the results to cache
-                        foreach (var resolved in itemResult)
+                        foreach (var resolved in itemResult.Data)
                         {
                             idToNameCache[resolved.ItemId] = resolved.Name;
                             nameToIdCache[resolved.Name] = resolved.ItemId;
                         }
                     }
-                    else if (locResult is not null)
+                    else if (locResult.Data is not null)
                     {
                         // Save results to cache, if its (0,0,0), its in a station/hangar
-                        foreach (var location in locResult)
+                        foreach (var location in locResult.Data)
                         {
                             if (location.X == 0 && location.Y == 0 && location.Z == 0) idToNameCache[location.ItemId] = "In hangar or station";
                             else idToNameCache[location.ItemId] = $"({location.X}, {location.Y}, {location.Z})";
@@ -494,10 +521,10 @@ namespace eve_market
                         // Check structures
                         foreach (var id in longToResolve)
                         {
-                            var structResponse = mainInterface.Client.Universe.Structure(id).Result.Data;
-                            if (structResponse is not null)
+                            var structResult = await mainInterface.Client.Universe.Structure(id);
+                            if (structResult.Data is not null)
                             {
-                                idToNameCache[id] = structResponse.Name;
+                                idToNameCache[id] = structResult.Data.Name;
                             }
 
                             else
@@ -533,11 +560,13 @@ namespace eve_market
         /// </summary>
         /// <param name="id">Id to resolve</param>
         /// <returns>Resolved name</returns>
-        public string IdToName(long id)
+        public async Task<string> IdToName(long id)
         {
             // Check cache
             if (idToNameCache.ContainsKey(id)) return idToNameCache[id];
-            return IdToName(new List<long> { id })[0];
+
+            var nameList = await IdToName(new List<long> { id });
+            return nameList[0];
         }
     }
 }

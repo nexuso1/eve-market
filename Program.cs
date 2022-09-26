@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using System.IO;
 
 namespace eve_market
@@ -15,7 +16,7 @@ namespace eve_market
         /// <param name="streamReader">Input stream</param>
         /// <param name="writer">Output stream</param>
         /// <param name="apiInterface">MainEsiInterface instance</param>
-        public static void ParseInput(TextReader streamReader, TextWriter writer, MainEsiInterface apiInterface)
+        public static async Task ParseInput(TextReader streamReader, TextWriter writer, MainEsiInterface apiInterface)
         {
             string line = null;
             while ((line = streamReader.ReadLine()) != null)
@@ -25,51 +26,51 @@ namespace eve_market
                 switch (command)
                 {
                     case "authorize":
-                        apiInterface.HandleAuthorize(tokens);
+                        await apiInterface.HandleAuthorize(tokens);
                         break;
                     case "logout":
-                        apiInterface.HandleLogout(tokens);
+                        await apiInterface.HandleLogout(tokens);
                         break;
 
                     case "set":
-                        apiInterface.marketInterface.HandleDefaults(tokens);
+                        await apiInterface.marketInterface.HandleDefaults(tokens);
                         break;
 
                     case "wallet":
-                        apiInterface.marketInterface.HandleWallet(tokens);
+                        await apiInterface.marketInterface.HandleWallet(tokens);
                         break;
                     case "my_orders":
-                        apiInterface.marketInterface.HandleMyOrders(tokens);
+                        await apiInterface.marketInterface.HandleMyOrders(tokens);
                         break;
 
                     case "my_order_history":
-                        apiInterface.marketInterface.HandleOrderHistory(tokens);
+                        await apiInterface.marketInterface.HandleOrderHistory(tokens);
                         break;
 
                     case "info":
-                        apiInterface.universeInterface.HandleInfo(tokens);
+                        await apiInterface.universeInterface.HandleInfo(tokens);
                         break;
 
                     case "orders":
-                        apiInterface.marketInterface.HandleOrders(tokens);
+                        await apiInterface.marketInterface.HandleOrders(tokens);
                         break;
 
                     case "assets":
-                        apiInterface.marketInterface.HandleAssets(tokens);
+                        await apiInterface.marketInterface.HandleAssets(tokens);
                         break;
 
                     case "transactions":
-                        apiInterface.marketInterface.HandleTransactions(tokens);
+                        await apiInterface.marketInterface.HandleTransactions(tokens);
                         break;
                     case "history":
-                        apiInterface.marketInterface.HandleHistory(tokens);
+                        await apiInterface.marketInterface.HandleHistory(tokens);
                         break;
 
                     case "contracts":
-                        apiInterface.contractInterface.HandleContracts(tokens);
+                        await apiInterface.contractInterface.HandleContracts(tokens);
                         break;
                     case "my_contracts":
-                        apiInterface.contractInterface.HandleMyContracts(tokens);
+                        await apiInterface.contractInterface.HandleMyContracts(tokens);
                         break;
 
                     case "exit":
@@ -86,12 +87,12 @@ namespace eve_market
             }
         }
 
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
             Console.WriteLine("------------ ESI Market Interface ------------");
             Console.WriteLine("For a list of available commands type \"help\".");
             MainEsiInterface apiInterface = new MainEsiInterface(Console.Out);
-            ParseInput(Console.In, Console.Out, apiInterface);
+            await ParseInput(Console.In, Console.Out, apiInterface);
         }
     }
 }

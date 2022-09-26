@@ -291,18 +291,18 @@
             <summary>
             Helper function that resolves the location and type id and determines their type.
             </summary>
-            <param name="locationName"></param>
-            <param name="regionId"></param>
-            <param name="locationId"></param>
-            <param name="stationSpecified"></param>
-            <returns></returns>
+            <param name="locationName">Original location string</param>
+            <param name="regionId">Region ID of the location will be deposited here</param>
+            <param name="locationId">Location ID will be deposited here</param>
+            <param name="stationSpecified">If the location was a station/structure, this will be true</param>
+            <returns>Whether a location was succesfully resolved</returns>
         </member>
         <member name="M:eve_market.MarketInterface.HandleOrders(System.String[],eve_market.MarketInterface.SortBy,eve_market.MarketInterface.SortOrder)">
             <summary>
             Handles the "orders" command.
             Finds all orders of the given type in the given location. If not location is given, the default region will be used
             </summary>
-            <param name="tokens"></param>
+            <param name="tokens">Command line tokens</param>
             <param name="sortByType"></param>
             <param name="sortOrder"></param>
         </member>
@@ -396,6 +396,7 @@
             <param name="rows">Number of rows. If it's less than the length of "objList", prints only the first
             "rows" items.</param>
             <param name="fields">Keys of the fields to print.</param>
+            <param name="fieldDesc">Descriptions of fields to be printed.</param>
         </member>
         <member name="T:eve_market.Program">
             <summary>

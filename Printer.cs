@@ -1,6 +1,7 @@
 ﻿
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using System.IO;
 using Newtonsoft.Json.Linq;
 using ESI.NET.Enumerations;
@@ -91,7 +92,7 @@ namespace eve_market
         /// </summary>
         /// <param name="contracts">List of contracts to print</param>
         /// <param name="listPublic">Whether public contract is being printed</param>
-        public void PrintContracts(List<ESI.NET.Models.Contracts.Contract> contracts, bool listPublic = false)
+        public async Task PrintContracts(List<ESI.NET.Models.Contracts.Contract> contracts, bool listPublic = false)
         {
             // Prepare dict of id fields to resolve
             var idFields = new List<string> { "acceptor_id", "assignee_id", "issuer_corporation_id", "issuer_id", "end_location_id", "start_location_id" };
@@ -124,7 +125,7 @@ namespace eve_market
                 pair.Value.CopyTo(temp);
 
                 // This will cache the results, and they can later be accessed by IdToName(long id)
-                mainEsiInterface.universeInterface.ContractIdToName(new List<long>(temp), pair.Key);
+                await mainEsiInterface.universeInterface.ContractIdToName(new List<long>(temp), pair.Key);
             }
             var buffer = new StringBuilder();
             var contractTypeNames = new Dictionary<ContractType, string>
@@ -151,25 +152,25 @@ namespace eve_market
                 if(contract.Status != "outstanding" || contract.Status != "in_progress")
                 {
                     buffer.AppendLine($"Date Completed: {contract.DateCompleted}");
-                    buffer.AppendLine($"Acceptor: {mainEsiInterface.universeInterface.IdToName(contract.AcceptorId)}");
+                    buffer.AppendLine($"Acceptor: {await mainEsiInterface.universeInterface.IdToName(contract.AcceptorId)}");
                 }
 
                 // Print issuer info
-                buffer.AppendLine($"Issuer: {mainEsiInterface.universeInterface.IdToName(contract.IssuerId)}");
-                buffer.AppendLine($"Issuer Corp: {mainEsiInterface.universeInterface.IdToName(contract.IssuerCorporationId)}");
+                buffer.AppendLine($"Issuer: {await mainEsiInterface.universeInterface.IdToName(contract.IssuerId)}");
+                buffer.AppendLine($"Issuer Corp: {await mainEsiInterface.universeInterface.IdToName(contract.IssuerCorporationId)}");
 
                 // If it's a courier contract, print start and destination
                 if (contract.Type == ContractType.Courier)
                 {
-                    buffer.AppendLine($"Start Location: {mainEsiInterface.universeInterface.IdToName(contract.StartLocationId)}");
-                    buffer.AppendLine($"Destination: {mainEsiInterface.universeInterface.IdToName(contract.EndLocationId)}");
+                    buffer.AppendLine($"Start Location: {await mainEsiInterface.universeInterface.IdToName(contract.StartLocationId)}");
+                    buffer.AppendLine($"Destination: {await mainEsiInterface.universeInterface.IdToName(contract.EndLocationId)}");
                 }
 
                 // If items are involved, print them
                 if (contract.Type != ContractType.Loan)
                 {
                     buffer.AppendLine("Items:");
-                    var items = mainEsiInterface.contractInterface.getContractItemString(contract.ContractId, listPublic);
+                    var items = await mainEsiInterface.contractInterface.getContractItemString(contract.ContractId, listPublic);
                     buffer.AppendLine("\tOffering:");
 
                     if (items[0].Count == 0)
@@ -231,7 +232,7 @@ namespace eve_market
                 if(contract.Type == ContractType.Auction)
                 {
                     buffer.AppendLine("Bids:");
-                    var bids = mainEsiInterface.contractInterface.GetBidStrings(contract.ContractId);
+                    var bids = await mainEsiInterface.contractInterface.GetBidStrings(contract.ContractId);
                     if (bids.Count == 0) buffer.AppendLine("\t\tNo bids to show");
                     else
                     {
@@ -258,7 +259,8 @@ namespace eve_market
         /// <param name="rows">Number of rows. If it's less than the length of "objList", prints only the first
         /// "rows" items.</param>
         /// <param name="fields">Keys of the fields to print.</param>
-        public void PrintObjList<T>(List<T> objList, int width, int rows, List<string> fields, List<string> fieldDesc)
+        /// <param name="fieldDesc">Descriptions of fields to be printed.</param>
+        public async Task PrintObjList<T>(List<T> objList, int width, int rows, List<string> fields, List<string> fieldDesc)
         {
             int counter = 0;
             var buffer = new StringBuilder();
@@ -294,7 +296,7 @@ namespace eve_market
                 pair.Value.CopyTo(temp);
 
                 // This will cache the results, and they can later be accessed by IdToName(long id)
-                mainEsiInterface.universeInterface.IdToName(new List<long>(temp));
+                await mainEsiInterface.universeInterface.IdToName(new List<long>(temp));
             }
 
             // Print the header
@@ -317,7 +319,7 @@ namespace eve_market
                     if (mainEsiInterface.IsIdField(key))
                     {
                         // Ids are now cached, so this is just dictionary lookup
-                        fieldString = mainEsiInterface.universeInterface.IdToName(json[key].ToObject<long>());
+                        fieldString = await mainEsiInterface.universeInterface.IdToName(json[key].ToObject<long>());
                     }
 
                     else

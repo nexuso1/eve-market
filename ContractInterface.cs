@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
 using System.Text;
 using System.Text.RegularExpressions;
 using ESI.NET.Enumerations;
@@ -39,7 +40,7 @@ namespace eve_market
         /// region is used.
         /// </summary>
         /// <param name="tokens">Command line tokens</param>
-        public void HandleContracts(string[] tokens)
+        public async Task HandleContracts(string[] tokens)
         {
             long regionId = mainInterface.marketInterface.defaultRegionId;
             if (tokens.Length == 1)
@@ -52,7 +53,7 @@ namespace eve_market
                 var pattern = '"' + @"([\w ]+)" + '"';
                 var matches = Regex.Matches(String.Join(' ', tokens), pattern);
                 var regionName = matches[0].Groups[1].Value;
-                regionId = mainInterface.universeInterface.NameToId(regionName, SearchCategory.Region);
+                regionId = await mainInterface.universeInterface.NameToId(regionName, SearchCategory.Region);
                 if (regionId == -1)
                 {
                     output.WriteLine("Invalid region name specified.");
@@ -68,7 +69,7 @@ namespace eve_market
                 return;
             }
 
-            var response = mainInterface.Client.Contracts.Contracts((int)regionId, page).Result;
+            var response = await mainInterface.Client.Contracts.Contracts((int)regionId, page);
             var contracts = response.Data;
 
             if (contracts.Count == 0)
@@ -77,14 +78,14 @@ namespace eve_market
                 return;
             }
 
-            mainInterface.printer.PrintContracts(contracts, true);
+            await mainInterface.printer.PrintContracts(contracts, true);
         }
 
         /// <summary>
         /// Handles the "my_contracts" command. Displays all contracts of the authorized character.
         /// </summary>
         /// <param name="tokens">Command line tokens (included for uniformity of API, not used)</param>
-        public void HandleMyContracts(string[] tokens)
+        public async Task HandleMyContracts(string[] tokens)
         {
             if (!mainInterface.CheckAuthorization()) return;
 
@@ -94,7 +95,7 @@ namespace eve_market
             {
                 try
                 {
-                    var response = mainInterface.Client.Contracts.CharacterContracts(page).Result;
+                    var response = await mainInterface.Client.Contracts.CharacterContracts(page);
                     var data = response.Data;
                     if (data is null || data.Count == 0)
                     {
@@ -116,7 +117,7 @@ namespace eve_market
                 output.WriteLine("No contracts to display.");
                 return;
             }
-            mainInterface.printer.PrintContracts(contracts);
+            await mainInterface.printer.PrintContracts(contracts);
         }
 
         /// <summary>
@@ -128,11 +129,19 @@ namespace eve_market
         /// <param name="contractId">ID of the contract</param>
         /// <param name="isPublic">Whether the contract is a public or character one</param>
         /// <returns>List of item info strings</returns>
-        public List<List<string>> getContractItemString(long contractId, bool isPublic = false)
+        public async Task<List<List<string>>> getContractItemString(long contractId, bool isPublic = false)
         {
             var contractItems = new List<ESI.NET.Models.Contracts.ContractItem>();
-            if (isPublic) contractItems = mainInterface.Client.Contracts.ContractItems((int)contractId).Result.Data;
-            else contractItems = mainInterface.Client.Contracts.CharacterContractItems((int)contractId).Result.Data;
+            if (isPublic)
+            {
+                var itemRes = await mainInterface.Client.Contracts.ContractItems((int)contractId);
+                contractItems = itemRes.Data;
+            }
+            else
+            {
+                var itemRes = await mainInterface.Client.Contracts.CharacterContractItems((int)contractId);
+                contractItems = itemRes.Data;
+            }
 
             // No items in this contract
             if (contractItems is null || contractItems.Count == 0) return new List<List<string>> { new List<string>(), new List<string>() };
@@ -151,13 +160,13 @@ namespace eve_market
             idsToResolve.CopyTo(idBuffer);
 
             // Resolve them all at once
-            mainInterface.universeInterface.ContractIdToName(new List<long>(idBuffer), "type_id");
+            await mainInterface.universeInterface.ContractIdToName(new List<long>(idBuffer), "type_id");
 
             // Create item strings
             var buffer = new StringBuilder();
             foreach (var contractItem in contractItems)
             {
-                buffer.Append(mainInterface.universeInterface.IdToName(contractItem.TypeId));
+                buffer.Append(await mainInterface .universeInterface.IdToName(contractItem.TypeId));
                 buffer.Append(' ');
                 if (contractItem.IsBlueprintCopy)
                 {
@@ -189,9 +198,10 @@ namespace eve_market
         /// </summary>
         /// <param name="contractId">Auction contract ID</param>
         /// <returns>List of bid strings</returns>
-        public List<string> GetBidStrings(int contractId)
+        public async Task<List<string>> GetBidStrings(int contractId)
         {
-            var bids = mainInterface.Client.Contracts.ContractBids(contractId).Result.Data;
+            var bidResponse = await mainInterface.Client.Contracts.ContractBids(contractId);
+            var bids = bidResponse.Data;
             if (bids is null) return new List<string>();
             var res = new List<string>();
 
